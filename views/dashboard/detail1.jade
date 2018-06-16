@@ -1,0 +1,76 @@
+extends layout
+block content
+  .panel.panel-default.update-order-info-panel(style='display:none;')
+    .panel-heading #{__('Update')} #{__('Order')}
+    .panel-body
+      form.update-order-info-form
+        input(type="hidden", value='#{order.id}').order-id                
+        .form-group.clearfix.col-md-6
+          label.display-block #{__('Product')}
+          input.form-control.order-product(type='text')
+        .form-group.clearfix.col-md-6
+          label.display-block #{__('Season')}
+          input.form-control.order-season(type='text')
+        .form-group.clearfix.col-md-6
+          label.display-block #{__('Qty')}
+          input.form-control.order-qty(type='text')
+        .form-group.clearfix.col-md-6
+          label.display-block #{__('Amount')}
+          input.form-control.order-amount(type='text')
+        .form-group.clearfix.col-md-6
+          label.display-block #{__('Unit')} #{__('Price')}
+          input.form-control.order-unit(type='text')
+        .form-group.clearfix.col-md-6
+          label.display-block ##{__('Style')}
+          input.form-control.order-style(type='text')
+        .form-group.clearfix.col-md-6
+          label.display-block #{__('Complete')}
+          select.select-bar.order-complete(style='width: 100%;')
+            option(value='1') Complete
+            option(value='0') Incomplete
+        .form-group.col-md-12
+          button.btn.btn-sm.btn-success.pull-right(type='submit') #{__('Update')}
+  .panel.panel-default
+    .panel-heading
+      | #{__("Order Information")}
+    .panel-body(style='min-height: 400px;')
+      .align-justify
+        table.table.table-bordered.order-info-table
+          tbody
+            tr
+              td(style='width:30%;') #{__("# File")}
+              td #{order.name}
+            tr
+              td #{__("Date")}
+              td #{new Date(order.date).getFullYear()+'-'+(new Date(order.date).getMonth()+1)+'-'+new Date(order.date).getDate()}
+            tr
+              td #{__("Handler")}
+              td #{order.handlername}
+            tr
+              td #{__("Buyer")}
+              td #{order.buyername}
+            tr
+              td #{__("# Style")}
+              td.td-style #{order.style}
+            tr
+              td #{__("Product")}
+              td.td-product #{order.product}
+            tr
+              td #{__("Season")}
+              td.td-season #{order.season}
+            tr
+              td #{__("Q'ty")}
+              td.td-quantity #{order.quantity}
+            tr
+              td #{__("Amount")}
+              td.td-amount #{order.amount}
+            tr
+              td #{__("Unit Price")}
+              td.td-unit #{order.price}
+            tr
+              td #{__("Complete")}
+              td.td-complete #{order.complete == 1? 'Complete': 'Incomplete'}
+      form(action='/dashboard/order/order_remove' method='post' onsubmit='return validateForm()').remove-order-form
+        input(type="hidden", name = 'id', value = '#{order.id}')
+        button(type='submit').btn.btn-sm.btn-success.pull-right.remove-order #{__("Delete Order")}
+        .btn.btn-sm.btn-success.pull-right.update-order-info(style='margin-right: 20px;') #{__("Update Order")}

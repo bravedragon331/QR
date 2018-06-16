@@ -1,0 +1,260 @@
+extends layout
+block link
+  style.
+    table tr th {
+      text-align: center
+    }
+    table tr td {
+      text-align: center;
+    }
+block content
+  section.content.dashboard(style='padding: 15px;')
+    .panel.panel-default.add-qr-panel(style='display: none;')
+      .panel-heading #{__("Add QR")}
+      .panel-body
+        form.add-form(action='/dashboard/manage/add_warehouse' method='post')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("idx")}
+            input.form-control.new-idx(type='text', placeholder='idx', required='')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Factoryidx")}
+            input.form-control.new-factoryidx(type='text', placeholder='Factoryidx')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("WorkOrderidx")}
+            input.form-control.new-workorderidx(type='text', placeholder='WorkOrderidx')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("OutPlace")}
+            input.form-control.new-outplace(type='text', placeholder='OutPlace')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Delivered")}
+            input.form-control.new-delivered(type='text', placeholder='Delivered')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("ReceivePlace")}
+            input.form-control.new-receiveplace(type='text', placeholder='ReceivePlace')          
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("OutDate")}
+            input.form-control.date.new-outdate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("RcvdDate")}
+            input.form-control.date.new-rcvddate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Remarks")}
+            input.form-control.new-remarks(type='text', placeholder='Remarks')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("OutType")}
+            select.select-bar.new-outtype(style='width: 100%;', name='handler')
+              option(value='T') #{__("Fabric")}
+              option(value='F') #{__("Garment")}
+              option(value='O') #{__("Others")}
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Location")}
+            input.form-control.new-location(type='text', placeholder='Location')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("RefNo")}
+            input.form-control.new-refno(type='text', placeholder='RefNo')          
+          .form-group.col-md-12
+            button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top: 25px;') #{__("Add QR")}
+    .panel.panel-default.update-qr-panel(style='display: none;')
+      .panel-heading #{__("Update QR")}
+      .panel-body
+        form.update-form(action='/dashboard/manage/update_warehouse' method='post')
+          //- .form-group.clearfix.col-md-2
+          //-   label.display-block #{__("idx")}
+          input.form-control.update-idx(type='hidden', placeholder='idx', required='')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Factoryidx")}
+            input.form-control.update-factoryidx(type='text', placeholder='Factoryidx')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("WorkOrderidx")}
+            input.form-control.update-workorderidx(type='text', placeholder='WorkOrderidx')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("OutPlace")}
+            input.form-control.update-outplace(type='text', placeholder='OutPlace')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Delivered")}
+            input.form-control.update-delivered(type='text', placeholder='Delivered')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("ReceivePlace")}
+            input.form-control.update-receiveplace(type='text', placeholder='ReceivePlace')          
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("OutDate")}
+            input.form-control.date.update-outdate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("OutDate")}
+            input.form-control.date.update-rcvddate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Remarks")}
+            input.form-control.update-remarks(type='text', placeholder='Remarks')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("OutType")}
+            select.select-bar.update-outtype(style='width: 100%;', name='handler')
+              option(value='1') #{__("Fabric")}
+              option(value='2') #{__("Garment")}
+              option(value='3') #{__("Others")}
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("Location")}
+            input.form-control.update-location(type='text', placeholder='Location')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__("RefNo")}
+            input.form-control.update-refno(type='text', placeholder='RefNo')          
+          .form-group.col-md-12
+            button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top: 25px;') #{__("Update")}
+    .panel.panel-default      
+      .panel-heading  #{__("QR LIST")}
+        //- a.btn.btn-sm.btn-success.new-button
+        //-   i.fa.fa-plus.m-r-5
+        //-   | #{__("Add New QR")}
+      .panel-body
+        div(style="overflow:auto")
+          table.table.table-striped.table-hover.js-exportable.dataTable.qr-table
+            thead
+              tr
+                th #{__("idx")}
+                th #{__("Factoryidx")}
+                th #{__("WorkOrderidx#")}
+                th #{__("OutPlace")}
+                th #{__("Delivered")}
+                th #{__("ReceivePlace")}
+                th #{__("OutDate")}
+                th #{__("RcvdDate")}
+                th #{__("Remarks")}
+                th #{__("OutType")}
+                th #{__("Location")}
+                th #{__("RefNo")}
+            tbody            
+block script
+  script(src='/assets/plugins/moment/moment.js')
+  script(src='/assets/plugins/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')
+  script.
+    var list;
+    var loadQR = function() {
+      $.ajax({
+        url: '/dashboard/manage/load_warehouse',
+        type:'POST',
+        data: {          
+        },
+        success: function(res) {
+          $('.lds-spinner').fadeOut();
+          if(res.status) {
+            var tableData = [];
+            list = res.list;
+            for(var i = 0; i < res.list.length; i++) {
+              tableData.push([
+                `<a href="/dashboard/manage/detail?id=`+res.list[i].Idx+`">`+res.list[i].Idx+`</a>`, res.list[i].FactoryIdx, res.list[i].WorkOrderIdx, res.list[i].OutPlace,
+                res.list[i].Delivered, res.list[i].ReceivePlace, res.list[i].OutDate.split('T')[0], res.list[i].RcvdDate.split('T')[0],
+                res.list[i].Remarks, res.list[i].OutType, res.list[i].Location, res.list[i].RefNo
+              ])
+            }
+            $('.qr-table').dataTable().fnClearTable();
+            if(tableData.length > 0){
+              $('.qr-table').dataTable().fnAddData(tableData);
+              $('.qr-table').dataTable().fnDraw();
+            }
+            refreshEvent();
+          } else {
+            alert('Cannot load QR list. Please contact support team.')
+          }
+        }
+      })
+    };
+    var init = function() {
+      $('.select-bar').select2();
+      $(".date").datetimepicker({
+        format: 'YYYY-MM-DD',
+        showClear: true
+      });
+      $('.qr-table').DataTable({
+        "pageLength": 25,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      });
+
+      $('.new-button').on('click', function() {
+        $('.add-qr-panel').fadeIn();
+      })
+
+      $('.add-qr-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.add-qr-panel').fadeOut();
+      });
+      $('.update-qr-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.update-qr-panel').fadeOut();
+      });
+      $('.new-button').on('click', function(){
+        $('.add-qr-panel').fadeIn();
+        $('.update-qr-panel').fadeOut();
+      })
+
+      $('.lds-spinner').fadeIn();
+      loadQR();
+
+      $('.qr-table').on( 'page.dt', function () {
+        setTimeout(function(){
+          refreshEvent();
+        }, 500)
+      });
+
+      $('.qr-table').on( 'search.dt', function () {
+        setTimeout(function(){
+          refreshEvent();
+        }, 500)
+    });
+    }
+    init();
+
+    var refreshEvent = function() {
+      $('.qr-table').off();
+      $('.qr-table tbody tr').on('click', function() {
+        $('.add-qr-panel').fadeOut();
+        $('.update-qr-panel').fadeIn();
+        for(var i = 0; i < list.length; i++) {
+          if(list[i].Idx = $($(this).find('td')[0]).html()) {
+            $('.update-idx').val(list[i].Idx);
+            $('.update-factoryidx').val(list[i].FactoryIdx);
+            $('.update-workorderidx').val(list[i].WorkOrderIdx);
+            $('.update-outplace').val(list[i].OutPlace);
+            $('.update-delivered').val(list[i].Delivered);
+            $('.update-receiveplace').val(list[i].ReceivePlace);
+            $('.update-outdate').val(list[i].OutDate.split('T')[0]);
+            $('.update-rcvddate').val(list[i].RcvdDate.split('T')[0]);
+            $('.update-remarks').val(list[i].Remarks);
+            $('.update-outtype').val(list[i].OutType);
+            $('.update-location').val(list[i].Location);
+            $('.update-refno').val(list[i].RefNo)
+            break;
+          }
+        }
+      })
+
+    }
+
+    $('.update-form').submit(function(e) {
+      $('.lds-spinner').fadeIn();
+      e.preventDefault();
+      $.ajax({
+        url: '/dashboard/manage/update_warehouse',
+        type: 'POST',
+        data: {
+          Idx: $('.update-idx').val(),
+          FactoryIdx: $('.update-factoryidx').val(),
+          WorkOrderIdx: $('.update-workorderidx').val(),
+          OutPlace: $('.update-outplace').val(),
+          Delivered: $('.update-delivered').val(),
+          ReceivePlace: $('.update-receiveplace').val(),
+          OutDate: $('.update-outdate').val(),
+          RcvdDate: $('.update-rcvddate').val(),
+          Remarks: $('.update-remarks').val(),
+          OutType: $('.update-outtype').val(),
+          Location: $('.update-location').val(),
+          RefNo: $('.update-refno').val()
+        },
+        success: function(res) {
+          $('.lds-spinner').fadeOut();
+          if(res.status == 1) {
+            loadQR();
+          } else {
+            alert('Cannot change data. Please contact support team.')
+          }          
+        }
+      })
+    })
