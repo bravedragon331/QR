@@ -250,5 +250,21 @@
 	"Update QR": "Update QR",
 	"Add New QR": "Add New QR",
 	"WorkOrderidx#": "WorkOrderidx#",
-	"QR LIST": "QR LIST"
+	"QR LIST": "QR LIST",
+	"UPDATE": "UPDATE",
+	"DETAIL": "DETAIL",
+	"Pidx": "Pidx",
+	"Fabric Type": "Fabric Type",
+	"Fabric Idx": "Fabric Idx",
+	"Lote": "Lote",
+	"Rack": "Rack",
+	"QtyYds": "QtyYds",
+	"QtyRoll": "QtyRoll",
+	"Fileno": "Fileno",
+	"FACTORY LIST": "FACTORY LIST",
+	"Idx": "Idx",
+	"Delete Data": "Delete Data",
+	"Update Data": "Update Data",
+	"WAREHOUSE": "WAREHOUSE",
+	"Detail": "Detail"
 }

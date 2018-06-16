@@ -16,6 +16,86 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`qr` /*!40100 DEFAULT CHARACTER SET utf8
 
 USE `qr`;
 
+/*Table structure for table `buyer` */
+
+DROP TABLE IF EXISTS `buyer`;
+
+CREATE TABLE `buyer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Data for the table `buyer` */
+
+insert  into `buyer`(`id`,`Name`) values 
+(1,'Buyer1'),
+(2,'Buyer2');
+
+/*Table structure for table `fabrictype` */
+
+DROP TABLE IF EXISTS `fabrictype`;
+
+CREATE TABLE `fabrictype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Data for the table `fabrictype` */
+
+insert  into `fabrictype`(`id`,`Name`) values 
+(1,'Type1'),
+(2,'Type2');
+
+/*Table structure for table `factoryidx` */
+
+DROP TABLE IF EXISTS `factoryidx`;
+
+CREATE TABLE `factoryidx` (
+  `Idx` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Idx`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Data for the table `factoryidx` */
+
+insert  into `factoryidx`(`Idx`,`Name`) values 
+(1,'First'),
+(2,'Second');
+
+/*Table structure for table `outplace` */
+
+DROP TABLE IF EXISTS `outplace`;
+
+CREATE TABLE `outplace` (
+  `Idx` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Idx`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Data for the table `outplace` */
+
+insert  into `outplace`(`Idx`,`Name`) values 
+(1,'OutPlace1'),
+(2,'OutPlace2');
+
+/*Table structure for table `receiveplace` */
+
+DROP TABLE IF EXISTS `receiveplace`;
+
+CREATE TABLE `receiveplace` (
+  `Idx` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(50) NOT NULL,
+  PRIMARY KEY (`Idx`,`Name`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Data for the table `receiveplace` */
+
+insert  into `receiveplace`(`Idx`,`Name`) values 
+(1,'ReceivePlace1'),
+(2,'ReceivePlace2');
+
 /*Table structure for table `resettoken` */
 
 DROP TABLE IF EXISTS `resettoken`;
@@ -82,10 +162,14 @@ CREATE TABLE `whfabricd` (
   `Weight` varchar(20) DEFAULT NULL,
   `Fileno` varchar(50) DEFAULT NULL,
   `Remarks` varchar(100) DEFAULT NULL,
+  `MoveStatus` int(11) DEFAULT NULL,
   PRIMARY KEY (`Idx`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `whfabricd` */
+
+insert  into `whfabricd`(`Idx`,`Pidx`,`FabricType`,`FabricIdx`,`Buyer`,`Color`,`Lote`,`Rack`,`QtyYds`,`QtyRoll`,`Width`,`Weight`,`Fileno`,`Remarks`,`MoveStatus`) values 
+(1,1,2,'1',1,'1','1','2',2,1,'1','1','1','1',1);
 
 /*Table structure for table `whfinishd` */
 
@@ -102,10 +186,14 @@ CREATE TABLE `whfinishd` (
   `Size` varchar(15) DEFAULT NULL,
   `Qty` int(11) DEFAULT '0',
   `Status` varchar(5) DEFAULT NULL,
+  `MoveStatus` int(11) DEFAULT NULL,
   PRIMARY KEY (`Idx`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `whfinishd` */
+
+insert  into `whfinishd`(`Idx`,`Pidx`,`Buyer`,`Fileno`,`Styleno`,`Pono`,`Color`,`Size`,`Qty`,`Status`,`MoveStatus`) values 
+(1,1,1,'1','1','1','1','1',2,'1',1);
 
 /*Table structure for table `whotherd` */
 
@@ -113,15 +201,19 @@ DROP TABLE IF EXISTS `whotherd`;
 
 CREATE TABLE `whotherd` (
   `Idx` int(11) NOT NULL AUTO_INCREMENT,
-  `Oudx` int(11) DEFAULT NULL,
+  `Pidx` int(11) DEFAULT NULL,
   `ItemType` varchar(30) DEFAULT NULL,
   `Description` varchar(80) DEFAULT NULL,
   `Qty` decimal(10,0) DEFAULT NULL,
   `Status` char(1) DEFAULT NULL,
+  `MoveStatus` int(11) DEFAULT NULL,
   PRIMARY KEY (`Idx`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `whotherd` */
+
+insert  into `whotherd`(`Idx`,`Pidx`,`ItemType`,`Description`,`Qty`,`Status`,`MoveStatus`) values 
+(1,1,'1','1',1,'1',0);
 
 /*Table structure for table `whwarehouse` */
 
@@ -141,12 +233,14 @@ CREATE TABLE `whwarehouse` (
   `Location` char(3) DEFAULT NULL,
   `RefNo` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`Idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `whwarehouse` */
 
 insert  into `whwarehouse`(`Idx`,`FactoryIdx`,`WorkOrderIdx`,`OutPlace`,`Delivered`,`ReceivePlace`,`OutDate`,`RcvdDate`,`Remarks`,`OutType`,`Location`,`RefNo`) values 
-(1,1,'2',0,'1',1,'2018-06-15 00:00:00','2018-06-15 00:00:00','1','1','1','1');
+(1,1,'2',1,'1',1,'2018-06-14 00:00:00','2018-06-14 00:00:00','1','T','1','1'),
+(2,1,'1',2,'1',1,'2018-06-10 00:00:00','2018-06-10 00:00:00','1','F','1','1'),
+(3,1,'1',1,'1',1,'2018-06-16 23:02:51','2018-06-16 23:02:53','1','O','1','1');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

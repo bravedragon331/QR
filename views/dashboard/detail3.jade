@@ -1,0 +1,128 @@
+extends layout
+block content  
+  section.content.dashboard(style='padding: 15px;')
+    .panel.panel-default.update-data-panel(style='display:none;')
+      .panel-heading #{__('UPDATE')} #{__('DETAIL')}
+      .panel-body
+        form.update-form
+          input(type="hidden", value='#{data.Idx}').idx
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Pidx')}
+            input.form-control.pidx(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('ItemType')}
+            input.form-control.itemtype(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Description')}
+            input.form-control.description(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Qty')}
+            input.form-control.qty(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Status')}
+            input.form-control.status(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('MoveStatus')}
+            select.select-bar.movestatus(style='width: 100%;')
+              - for (var i = 0; i < l_movestatus.length; ++i) {
+                  option(value='#{i}') #{l_movestatus[i]}
+              - }
+          .form-group.col-md-12
+            button.btn.btn-sm.btn-success.pull-right(type='submit') #{__('Update Data')}
+    .panel.panel-default
+      .panel-heading
+        | #{__("OTHERS LIST")}
+      .panel-body(style='min-height: 400px;')
+        .align-justify
+          table.table.table-bordered
+            tbody
+              tr
+                td(style='width:30%;') #{__("Idx")}
+                td.t-idx #{data.Idx}
+              tr
+                td #{__("Pidx")}
+                td.t-pidx #{data.Pidx}
+              tr
+                td #{__("ItemType")}
+                td.t-itemtype #{data.ItemType}
+              tr
+                td #{__("Description")}
+                td.t-description #{data.Description}
+              tr
+                td #{__("Qty")}
+                td.t-qty #{data.Qty}
+              tr
+                td #{__("Status")}
+                td.t-status #{data.Status}
+              tr
+                td #{__("Move Status")}
+                - var i;
+                - for (i = 0; i < l_movestatus.length; ++i) {
+                  - if(i == data.MoveStatus) {
+                      td.t-movestatus #{l_movestatus[i]}
+                      - break;
+                  - }
+                - }
+                - if(i == l_movestatus.length) {
+                    td.t-movestatus
+                - }
+        form(action='/dashboard/manage/detail_remove' method='post' onsubmit='return validateForm()').remove-order-form
+          input(type="hidden", name = 'id', value = '#{data.Idx}')
+          input(type="hidden", name = 'type', value = 'O')
+          //- button(type='submit').btn.btn-sm.btn-success.pull-right.remove-data #{__("Delete Data")}
+          .btn.btn-sm.btn-success.pull-right.update-data(style='margin-right: 20px;') #{__("Update Data")}
+
+block script
+  script.
+    var data = (!{JSON.stringify(data)});
+    var l_movestatus = (!{JSON.stringify(l_movestatus)});
+    var getMoveStatusName = function(id) {
+      if(l_movestatus.length > id) {
+        return l_movestatus[id];
+      } else {
+        return '';
+      }      
+    }
+    $('.update-form').submit(function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: '/dashboard/manage/detail/update',
+        type: 'POST',
+        data: {
+          type: 'O',
+          idx: $('.idx').val(),
+          pidx: $('.pidx').val(),
+          itemtype: $('.itemtype').val(),
+          description: $('.description').val(),
+          qty: $('.qty').val(),
+          status: $('.status').val(),
+          movestatus: $('.movestatus').val()
+        },
+        success: function(res) {
+          if(res.status == 1) {
+            data.Idx = $('.idx').val(); data.Pidx = $('.pidx').val(); data.ItemType = $('.itemtype').val(), data.Description = $('.description').val(),
+            data.Qty = $('.qty').val(); data.Status = $('.status').val(); data.MoveStatus = $('.movestatus').val();
+            $('.update-data-panel').fadeOut();
+            $('.t-idx').html(data.Idx); $('.t-pidx').html(data.Pidx); $('.t-itemtype').html(data.ItemType);
+            $('.t-description').html(data.description); $('.t-qty').html(data.Qty); $('.t-status').html(data.Status);
+            $('.t-movestatus').html(getMoveStatusName(data.MoveStatus));
+          } else {
+            alert('Cannot update data.');
+          }
+        }
+      })
+    })
+    var init = function() {
+      $('.select-bar').select2();
+      $('.update-data-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.update-data-panel').fadeOut();
+      });
+      $('.update-data-panel').fadeOut();
+      $('.update-data').on('click', function() {
+        $('.update-data-panel').fadeIn();
+        $('.idx').val(data.Idx); $('.pidx').val(data.Pidx); $('.itemtype').val(data.ItemType);
+        $('.description').val(data.Description); $('.qty').val(data.Qty); $('.status').val(data.Status);
+        $('.movestatus').val(data.MoveStatus).trigger('change');
+      })
+    }
+    init();

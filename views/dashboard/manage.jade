@@ -63,19 +63,31 @@ block content
           input.form-control.update-idx(type='hidden', placeholder='idx', required='')
           .form-group.clearfix.col-md-2
             label.display-block #{__("Factoryidx")}
-            input.form-control.update-factoryidx(type='text', placeholder='Factoryidx')
+            select.select-bar.update-factoryidx(style='width: 100%;')
+              - for (var i = 0; i < l_factory.length; ++i) {
+                  option(value='#{l_factory[i].Idx}') #{l_factory[i].Name}
+              - }
+            //- input.form-control.update-factoryidx(type='text', placeholder='Factoryidx')
           .form-group.clearfix.col-md-2
             label.display-block #{__("WorkOrderidx")}
             input.form-control.update-workorderidx(type='text', placeholder='WorkOrderidx')
           .form-group.clearfix.col-md-2
             label.display-block #{__("OutPlace")}
-            input.form-control.update-outplace(type='text', placeholder='OutPlace')
+            select.select-bar.update-outplace(style='width: 100%;')
+              - for (var i = 0; i < l_outplace.length; ++i) {
+                  option(value='#{l_outplace[i].Idx}') #{l_outplace[i].Name}
+              - }
+            //- input.form-control.update-outplace(type='text', placeholder='OutPlace')
           .form-group.clearfix.col-md-2
             label.display-block #{__("Delivered")}
             input.form-control.update-delivered(type='text', placeholder='Delivered')
           .form-group.clearfix.col-md-2
             label.display-block #{__("ReceivePlace")}
-            input.form-control.update-receiveplace(type='text', placeholder='ReceivePlace')          
+            select.select-bar.update-receiveplace(style='width: 100%;')
+              - for (var i = 0; i < l_receiveplace.length; ++i) {
+                  option(value='#{l_receiveplace[i].Idx}') #{l_receiveplace[i].Name}
+              - }
+            //- input.form-control.update-receiveplace(type='text', placeholder='ReceivePlace')
           .form-group.clearfix.col-md-2
             label.display-block #{__("OutDate")}
             input.form-control.date.update-outdate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
@@ -88,19 +100,20 @@ block content
           .form-group.clearfix.col-md-2
             label.display-block #{__("OutType")}
             select.select-bar.update-outtype(style='width: 100%;', name='handler')
-              option(value='1') #{__("Fabric")}
-              option(value='2') #{__("Garment")}
-              option(value='3') #{__("Others")}
+              option(value='T') #{__("Fabric")}
+              option(value='F') #{__("Garment")}
+              option(value='O') #{__("Others")}
           .form-group.clearfix.col-md-2
             label.display-block #{__("Location")}
             input.form-control.update-location(type='text', placeholder='Location')
           .form-group.clearfix.col-md-2
             label.display-block #{__("RefNo")}
             input.form-control.update-refno(type='text', placeholder='RefNo')          
-          .form-group.col-md-12
-            button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top: 25px;') #{__("Update")}
+          .form-group.col-md-12            
+            button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-left: 25px;') #{__("Update Data")}
+            .btn.btn-sm.btn-success.pull-right.remove-data #{__("Delete Data")}
     .panel.panel-default      
-      .panel-heading  #{__("QR LIST")}
+      .panel-heading  #{__("WAREHOUSE")}
         //- a.btn.btn-sm.btn-success.new-button
         //-   i.fa.fa-plus.m-r-5
         //-   | #{__("Add New QR")}
@@ -121,12 +134,34 @@ block content
                 th #{__("OutType")}
                 th #{__("Location")}
                 th #{__("RefNo")}
+                th #{__("Detail")}
             tbody            
 block script
   script(src='/assets/plugins/moment/moment.js')
   script(src='/assets/plugins/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')
   script.
     var list;
+    var l_factory = (!{JSON.stringify(l_factory)});
+    var getFactoryName = function(id) {
+      for(var i = 0; i < l_factory.length; i++) {
+        if(l_factory[i].Idx == id) return l_factory[i].Name;
+      }
+      return '';
+    }
+    var l_outplace = (!{JSON.stringify(l_outplace)});
+    var getOutPlaceName = function(id) {
+      for(var i = 0; i < l_outplace.length; i++) {
+        if(l_outplace[i].Idx == id) return l_outplace[i].Name;
+      }
+      return '';
+    }
+    var l_receiveplace = (!{JSON.stringify(l_receiveplace)});
+    var getReceivePlaceName = function(id) {
+      for(var i = 0; i < l_receiveplace.length; i++) {
+        if(l_receiveplace[i].Idx == id) return l_receiveplace[i].Name;
+      }
+      return '';
+    }
     var loadQR = function() {
       $.ajax({
         url: '/dashboard/manage/load_warehouse',
@@ -135,14 +170,16 @@ block script
         },
         success: function(res) {
           $('.lds-spinner').fadeOut();
+          $('.update-qr-panel').fadeOut();
           if(res.status) {
             var tableData = [];
             list = res.list;
             for(var i = 0; i < res.list.length; i++) {
               tableData.push([
-                `<a href="/dashboard/manage/detail?id=`+res.list[i].Idx+`">`+res.list[i].Idx+`</a>`, res.list[i].FactoryIdx, res.list[i].WorkOrderIdx, res.list[i].OutPlace,
-                res.list[i].Delivered, res.list[i].ReceivePlace, res.list[i].OutDate.split('T')[0], res.list[i].RcvdDate.split('T')[0],
-                res.list[i].Remarks, res.list[i].OutType, res.list[i].Location, res.list[i].RefNo
+                res.list[i].Idx, getFactoryName(res.list[i].FactoryIdx), res.list[i].WorkOrderIdx, getOutPlaceName(res.list[i].OutPlace), res.list[i].Delivered,
+                getReceivePlaceName(res.list[i].ReceivePlace), res.list[i].OutDate.split('T')[0], res.list[i].RcvdDate.split('T')[0], res.list[i].Remarks,
+                res.list[i].OutType, res.list[i].Location, res.list[i].RefNo,
+                `<a href="/dashboard/manage/detail?id=`+res.list[i].RefNo+`&type=`+res.list[i].OutType+`">Detail</a>`
               ])
             }
             $('.qr-table').dataTable().fnClearTable();
@@ -208,24 +245,23 @@ block script
         $('.add-qr-panel').fadeOut();
         $('.update-qr-panel').fadeIn();
         for(var i = 0; i < list.length; i++) {
-          if(list[i].Idx = $($(this).find('td')[0]).html()) {
+          if(list[i].Idx == $($(this).find('td')[0]).html()) {
             $('.update-idx').val(list[i].Idx);
-            $('.update-factoryidx').val(list[i].FactoryIdx);
+            $('.update-factoryidx').val(list[i].FactoryIdx).trigger('change');
             $('.update-workorderidx').val(list[i].WorkOrderIdx);
-            $('.update-outplace').val(list[i].OutPlace);
+            $('.update-outplace').val(list[i].OutPlace).trigger('change');
             $('.update-delivered').val(list[i].Delivered);
-            $('.update-receiveplace').val(list[i].ReceivePlace);
+            $('.update-receiveplace').val(list[i].ReceivePlace).trigger('change');
             $('.update-outdate').val(list[i].OutDate.split('T')[0]);
             $('.update-rcvddate').val(list[i].RcvdDate.split('T')[0]);
             $('.update-remarks').val(list[i].Remarks);
-            $('.update-outtype').val(list[i].OutType);
+            $('.update-outtype').val(list[i].OutType).trigger('change');
             $('.update-location').val(list[i].Location);
             $('.update-refno').val(list[i].RefNo)
             break;
           }
         }
       })
-
     }
 
     $('.update-form').submit(function(e) {
@@ -251,10 +287,39 @@ block script
         success: function(res) {
           $('.lds-spinner').fadeOut();
           if(res.status == 1) {
+            $(this).parents('.update-qr-panel').fadeOut();
             loadQR();
           } else {
             alert('Cannot change data. Please contact support team.')
           }          
+        }
+      })
+    })
+
+    $('.remove-data').on('click', function() {
+      $('.lds-spinner').fadeIn();
+      var tmp;
+      for(var i = 0; i < list.length; i++) {
+        if($('.update-idx').val() == list[i].Idx) {
+          tmp = list[i];
+        }
+      }
+      $.ajax({
+        url: '/dashboard/manage/delete_warehouse',
+        type: 'POST',
+        data: {
+          idx: tmp.Idx,
+          type: tmp.OutType,
+          refno: tmp.RefNo
+        },
+        success: function(res) {
+          $('.lds-spinner').fadeOut();
+          if(res.status != 0) {
+            $(this).parents('.update-qr-panel').fadeOut();
+            loadQR();
+          } else {
+            alert('Cannot Delete. Please contact support team.')
+          }
         }
       })
     })

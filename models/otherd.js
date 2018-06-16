@@ -1,7 +1,7 @@
 var db = require('./db');
 
 var get = function(id, callback) {
-  db.query('SELECT * FROM whotherd', [], function(err, result) {
+  db.query('SELECT * FROM whotherd WHERE Pidx = ?', [id], function(err, result) {
     if(err) {
       callback(err);
     } else {
@@ -10,4 +10,27 @@ var get = function(id, callback) {
   })
 }
 
+var update = function(body, callback) {
+  db.query('UPDATE whotherd SET ? WHERE Idx = ?', [{
+    Idx: body.idx, Pidx: body.pidx, ItemType: body.itemtype, Description: body.description,
+    Qty: body.qty, Status: body.status, MoveStatus: body.movestatus
+  }, body.idx], function(err) {
+    if(err) {
+      callback(err) ;
+    } else {
+      callback(null);
+    }
+  })
+}
+
+var remove = function(id, callback) {
+  db.query(
+    `DELETE FROM whotherd WHERE Idx = ?`, [id], function(err) {
+      callback(err);
+    }
+  )
+}
+
 exports.get = get;
+exports.update = update;
+exports.remove = remove;

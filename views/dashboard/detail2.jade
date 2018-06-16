@@ -1,0 +1,158 @@
+extends layout
+block content  
+  section.content.dashboard(style='padding: 15px;')
+    .panel.panel-default.update-data-panel(style='display:none;')
+      .panel-heading #{__('UPDATE')} #{__('DETAIL')}
+      .panel-body
+        form.update-form
+          input(type="hidden", value='#{data.Idx}').idx
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Pidx')}
+            input.form-control.pidx(type='text')          
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Buyer')}
+            input.form-control.buyer(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Pono')}
+            input.form-control.pono(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Fileno')}
+            input.form-control.fileno(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Styleno')}
+            input.form-control.styleno(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Color')}
+            input.form-control.color(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Size')}
+            input.form-control.size(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Qty')}
+            input.form-control.qty(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Status')}
+            input.form-control.status(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('MoveStatus')}
+            select.select-bar.movestatus(style='width: 100%;')
+              - for (var i = 0; i < l_movestatus.length; ++i) {
+                  option(value='#{i}') #{l_movestatus[i]}
+              - }
+          .form-group.col-md-12
+            button.btn.btn-sm.btn-success.pull-right(type='submit') #{__('Update Data')}
+    .panel.panel-default
+      .panel-heading
+        | #{__("GARMENT LIST")}
+      .panel-body(style='min-height: 400px;')
+        .align-justify
+          table.table.table-bordered.order-info-table
+            tbody
+              tr
+                td(style='width:30%;') #{__("Idx")}
+                td.t-idx #{data.Idx}
+              tr
+                td #{__("Pidx")}
+                td.t-pidx #{data.Pidx}              
+              tr
+                td #{__("Buyer")}
+                td.t-buyer #{data.Buyer}
+              tr
+                td #{__("Fileno")}
+                td.t-fileno #{data.Fileno}
+              tr
+                td #{__("Styleno")}
+                td.t-styleno #{data.Styleno}
+              tr
+                td #{__("Pono")}
+                td.t-pono #{data.Pono}
+              tr
+                td #{__("Color")}
+                td.t-color #{data.Color}
+              tr
+                td #{__("Size")}
+                td.t-size #{data.Size}
+              tr
+                td #{__("Qty")}
+                td.t-qty #{data.Qty}
+              tr
+                td #{__("Status")}
+                td.t-status #{data.Status}
+              tr
+                td #{__("Move Status")}
+                - var i;
+                - for (i = 0; i < l_movestatus.length; ++i) {
+                  - if(i == data.MoveStatus) {
+                      td.t-movestatus #{l_movestatus[i]}
+                      - break;
+                  - }
+                - }
+                - if(i == l_movestatus.length) {
+                    td.t-movestatus
+                - }
+        form(action='/dashboard/manage/detail_remove' method='post' onsubmit='return validateForm()').remove-order-form
+          input(type="hidden", name = 'id', value = '#{data.Idx}')
+          input(type="hidden", name = 'type', value = 'F')
+          //- button(type='submit').btn.btn-sm.btn-success.pull-right.remove-data #{__("Delete Data")}
+          .btn.btn-sm.btn-success.pull-right.update-data(style='margin-right: 20px;') #{__("Update Data")}
+
+block script
+  script.
+    var data = (!{JSON.stringify(data)});
+    var l_movestatus = (!{JSON.stringify(l_movestatus)});
+    var getMoveStatusName = function(id) {
+      if(l_movestatus.length > id) {
+        return l_movestatus[id];
+      } else {
+        return '';
+      }      
+    }
+    $('.update-form').submit(function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: '/dashboard/manage/detail/update',
+        type: 'POST',
+        data: {
+          type: 'F',
+          idx: $('.idx').val(),
+          pidx: $('.pidx').val(),
+          buyer: $('.buyer').val(),
+          fileno: $('.fileno').val(),
+          styleno: $('.styleno').val(),
+          pono: $('.pono').val(),
+          color: $('.color').val(),
+          size: $('.size').val(),
+          qty: $('.qty').val(),
+          status: $('.status').val(),
+          movestatus: $('.movestatus').val()
+        },
+        success: function(res) {
+          if(res.status == 1) {
+            data.Idx = $('.idx').val(); data.Pidx = $('.pidx').val(); data.Buyer = $('.buyer').val(); data.Fileno = $('.fileno').val();
+            data.Styleno = $('.styleno').val(); data.Pono = $('.pono').val(); data.Color = $('.color').val(); data.Size = $('.size').val();
+            data.Qty = $('.qty').val(); data.Status = $('.status').val(); data.MoveStatus = $('.movestatus').val();
+            $('.update-data-panel').fadeOut();
+            $('.t-idx').html(data.Idx); $('.t-pidx').html(data.Pidx); $('.t-buyer').html(data.Buyer); $('.t-fileno').html(data.Fileno);
+            $('.t-styleno').html(data.Styleno); $('.t-pono').html(data.Pono); $('.t-color').html(data.Color); $('.t-size').html(data.Size);
+            $('.t-qty').html(data.Qty); $('.t-status').html(data.Status); $('.t-movestatus').html(getMoveStatusName(data.MoveStatus));
+          } else {
+            alert('Cannot update data.');
+          }
+        }
+      })
+    })
+    var init = function() {
+      $('.select-bar').select2();
+      $('.update-data-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.update-data-panel').fadeOut();
+      });
+      $('.update-data-panel').fadeOut();
+      $('.update-data').on('click', function() {
+        $('.update-data-panel').fadeIn();
+        $('.idx').val(data.Idx); $('.pidx').val(data.Pidx); $('.buyer').val(data.Buyer); $('.fileno').val(data.Fileno);
+        $('.styleno').val(data.Styleno); $('.pono').val(data.Pono); $('.color').val(data.Color); $('.size').val(data.Size);
+        $('.qty').val(data.Qty); $('.status').val(data.Status); $('.movestatus').val(data.MoveStatus).trigger('change');
+      })
+    }
+    init();
+    

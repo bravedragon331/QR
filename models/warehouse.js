@@ -54,9 +54,9 @@ var updateWarehouse = function(body, callback) {
   )
 }
 
-var deleteWarehouse = function(body, callback) {
+var removeWarehouse = function(id, callback) {
   db.query(
-    `DELETE FROM whwarehouse WHERE idx = ?`, [body.idx], function(err, result) {
+    `DELETE FROM whwarehouse WHERE Idx = ?`, [id], function(err) {      
       callback(err);
     }
   )
@@ -65,4 +65,4 @@ var deleteWarehouse = function(body, callback) {
 exports.addWarehouse = addWarehouse;
 exports.allWarehouse = allWarehouse;
 exports.updateWarehouse = updateWarehouse;
-exports.deleteWarehouse = deleteWarehouse;
+exports.removeWarehouse = removeWarehouse;
