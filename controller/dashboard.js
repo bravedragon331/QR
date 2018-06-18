@@ -232,3 +232,7 @@ exports.detail_update = function(req, res) {
       break;
   }
 }
+
+exports.read_qr = function(req, res) {
+  res.render('dashboard/read');
+}

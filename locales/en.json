@@ -266,5 +266,16 @@
 	"Delete Data": "Delete Data",
 	"Update Data": "Update Data",
 	"WAREHOUSE": "WAREHOUSE",
-	"Detail": "Detail"
+	"Detail": "Detail",
+	"DASHBOARD": "DASHBOARD",
+	"MANAGE INPUT": "MANAGE INPUT",
+	"Scan from File:": "Scan from File:",
+	"Choose File": "Choose File",
+	"MoveStatus": "MoveStatus",
+	"Move Status": "Move Status",
+	"Send Output": "Send Output",
+	"Clear List": "Clear List",
+	"WorkOrderIdx": "WorkOrderIdx",
+	"InIdx": "InIdx",
+	"Qty": "Qty"
 }

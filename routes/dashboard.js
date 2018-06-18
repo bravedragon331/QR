@@ -4,13 +4,18 @@ var router = express.Router();
 var dashboard = require('../controller/dashboard');
 
 // Main routes for app
-router.get('/', auth.requireLogin, dashboard.index);
-router.get('/manage', auth.requireLogin, dashboard.manage);
-router.post('/manage/add_warehouse', auth.requireLogin, dashboard.add_warehouse);
-router.post('/manage/load_warehouse', auth.requireLogin, dashboard.load_warehouse);
-router.post('/manage/update_warehouse', auth.requireLogin, dashboard.update_warehouse);
-router.post('/manage/delete_warehouse', auth.requireLogin, dashboard.delete_warehouse);
+router.use('/', auth.requireLogin, function(req, res, next) {
+  next();
+})
+router.get('/', dashboard.index);
+router.get('/manage',  dashboard.manage);
+router.post('/manage/add_warehouse', dashboard.add_warehouse);
+router.post('/manage/load_warehouse', dashboard.load_warehouse);
+router.post('/manage/update_warehouse', dashboard.update_warehouse);
+router.post('/manage/delete_warehouse', dashboard.delete_warehouse);
 
-router.get('/manage/detail', auth.requireLogin, dashboard.detail);
-router.post('/manage/detail/update', auth.requireLogin, dashboard.detail_update);
+router.get('/manage/detail', dashboard.detail);
+router.post('/manage/detail/update', dashboard.detail_update);
+
+router.get('/read', dashboard.read_qr);
 module.exports = router;

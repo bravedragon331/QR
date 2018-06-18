@@ -61,5 +61,13 @@
 	"OTHERS LIST": "OTHERS LIST",
 	"Detail": "Detail",
 	"MoveStatus": "MoveStatus",
-	"Move Status": "Move Status"
+	"Move Status": "Move Status",
+	"MANAGE INPUT": "MANAGE INPUT",
+	"DASHBOARD": "DASHBOARD",
+	"Scan from File:": "Scan from File:",
+	"Choose File": "Choose File",
+	"WorkOrderIdx": "WorkOrderIdx",
+	"InIdx": "InIdx",
+	"Send Output": "Send Output",
+	"Clear List": "Clear List"
 }
