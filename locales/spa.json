@@ -69,5 +69,7 @@
 	"WorkOrderIdx": "WorkOrderIdx",
 	"InIdx": "InIdx",
 	"Send Output": "Send Output",
-	"Clear List": "Clear List"
+	"Clear List": "Clear List",
+	"LIST": "LIST",
+	"© 2017-2018 Inventory": "© 2017-2018 Inventory"
 }

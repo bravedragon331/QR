@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 block link
   style.
     table tr th {
@@ -92,7 +92,7 @@ block content
             label.display-block #{__("OutDate")}
             input.form-control.date.update-outdate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
           .form-group.clearfix.col-md-2
-            label.display-block #{__("OutDate")}
+            label.display-block #{__("RcvdDate")}
             input.form-control.date.update-rcvddate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
           .form-group.clearfix.col-md-2
             label.display-block #{__("Remarks")}

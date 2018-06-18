@@ -1,0 +1,203 @@
+extends ../layout
+block content  
+  section.content.dashboard(style='padding: 15px;')
+    .panel.panel-default.update-data-panel(style='display:none;')
+      .panel-heading #{__('UPDATE')} #{__('DETAIL')}
+      .panel-body
+        form.update-form
+          input(type="hidden", value='#{data.Idx}').idx
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Pidx')}
+            input.form-control.pidx(type='text')          
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Buyer')}
+            select.select-bar.buyer(style='width: 100%;')
+              - for (var i = 0; i < l_buyer.length; ++i) {
+                  option(value='#{l_buyer[i].id}') #{l_buyer[i].Name}
+              - }
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Pono')}
+            input.form-control.pono(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Fileno')}
+            input.form-control.fileno(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Styleno')}
+            input.form-control.styleno(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Color')}
+            input.form-control.color(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Size')}
+            input.form-control.size(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Qty')}
+            input.form-control.qty(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Status')}
+            input.form-control.status(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('MoveStatus')}
+            select.select-bar.movestatus(style='width: 100%;')
+              - for (var i = 0; i < l_movestatus.length; ++i) {
+                  option(value='#{i}') #{l_movestatus[i]}
+              - }
+          .form-group.col-md-12
+            button.btn.btn-sm.btn-success.pull-right(type='submit') #{__('Update Data')}
+    .panel.panel-default
+      .panel-heading
+        | #{__("GARMENT LIST")}
+      .panel-body
+        .align-justify
+          table.table.table-bordered.info-table
+            thead
+              tr
+                th #{__("Idx")}
+                td #{__("Pidx")}
+                td #{__("Buyer")}
+                td #{__("Fileno")}
+                td #{__("Styleno")}
+                td #{__("Pono")}
+                td #{__("Color")}
+                td #{__("Size")}
+                td #{__("Qty")}
+                td #{__("Status")}
+                td #{__("Move Status")}
+            tbody
+              - for(var j = 0; j < data.length; j++) {
+                tr
+                  td.t-idx #{data[j].Idx}
+                  td.t-pidx #{data[j].Pidx}
+                  - var i;
+                  - for (i = 0; i < l_buyer.length; ++i) {
+                    - if(l_buyer[i].id == data[j].Buyer) {
+                        td.t-buyer #{l_buyer[i].Name}
+                        - break;                      
+                    - }
+                  - }
+                  - if(i == l_buyer.length) {
+                      td.t-buyer
+                  - }
+                  td.t-fileno #{data[j].Fileno}
+                  td.t-styleno #{data[j].Styleno}
+                  td.t-pono #{data[j].Pono}
+                  td.t-color #{data[j].Color}
+                  td.t-size #{data[j].Size}
+                  td.t-qty #{data[j].Qty}
+                  td.t-status #{data[j].Status}
+                  - var i;
+                  - for (i = 0; i < l_movestatus.length; ++i) {
+                    - if(i == data[j].MoveStatus) {
+                        td.t-movestatus #{l_movestatus[i]}
+                        - break;
+                    - }
+                  - }
+                  - if(i == l_movestatus.length) {
+                      td.t-movestatus
+                  - }
+              - }
+        form(action='/dashboard/manage/detail_remove' method='post' onsubmit='return validateForm()').remove-order-form
+          input(type="hidden", name = 'id', value = '#{data.Idx}')
+          input(type="hidden", name = 'type', value = 'F')
+          //- button(type='submit').btn.btn-sm.btn-success.pull-right.remove-data #{__("Delete Data")}
+          .btn.btn-sm.btn-success.pull-right.update-data(style='margin-right: 20px;') #{__("Update Data")}
+
+block script
+  script.
+    var data = (!{JSON.stringify(data)});
+    var l_movestatus = (!{JSON.stringify(l_movestatus)});
+    var getMoveStatusName = function(id) {
+      if(l_movestatus.length > id) {
+        return l_movestatus[id];
+      } else {
+        return '';
+      }      
+    }
+    var getMoveStatusID = function(name) {
+      for(var i = 0; i < l_movestatus.length; i++) {
+        if(l_movestatus[i] == name){ 
+          return i;
+        }
+      }
+    }
+    var l_buyer = (!{JSON.stringify(l_buyer)});
+    var getBuyerName = function(id) {
+      for(var i = 0; i < l_buyer.length; i++) {
+        if(l_buyer[i].id == id) return l_buyer[i].Name;
+      }
+      return '';
+    }
+    var getBuyerID = function(name) {
+      for(var i = 0; i < l_buyer.length; i++) {
+        if(l_buyer[i].Name == name) return l_buyer[i].id;
+      }
+    }
+
+    var init = function() {
+      $('.select-bar').select2();
+      $('.update-data-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.update-data-panel').fadeOut();
+      });
+      $('.update-data-panel').fadeOut();      
+      $('.info-table').DataTable({
+        "pageLength": 25,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      });
+      refreshEvent();
+    }
+    var row;
+    var refreshEvent = function() {
+      $('.info-table tbody tr').off();
+      $('.info-table tbody tr').on('click', function(){
+        row = $(".info-table").DataTable().row($(this));
+        $('.update-data-panel').fadeIn();
+        $('.idx').val($($(this).find('td')[0]).html()); $('.pidx').val($($(this).find('td')[1]).html());
+        $('.buyer').val(getBuyerID($($(this).find('td')[2]).html())).trigger('change'); $('.fileno').val($($(this).find('td')[3]).html());
+        $('.styleno').val($($(this).find('td')[4]).html()); $('.pono').val($($(this).find('td')[5]).html()); 
+        $('.color').val($($(this).find('td')[6]).html()); $('.size').val($($(this).find('td')[7]).html());
+        $('.qty').val($($(this).find('td')[8]).html()); $('.status').val($($(this).find('td')[9]).html());
+        $('.movestatus').val(getMoveStatusID($($(this).find('td')[10]).html())).trigger('change');
+      });
+    }    
+    init();
+    $('.update-form').submit(function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: '/dashboard/manage/detail/update',
+        type: 'POST',
+        data: {
+          type: 'F',
+          idx: $('.idx').val(),
+          pidx: $('.pidx').val(),
+          buyer: $('.buyer').val(),
+          fileno: $('.fileno').val(),
+          styleno: $('.styleno').val(),
+          pono: $('.pono').val(),
+          color: $('.color').val(),
+          size: $('.size').val(),
+          qty: $('.qty').val(),
+          status: $('.status').val(),
+          movestatus: $('.movestatus').val()
+        },
+        success: function(res) {
+          if(res.status == 1) {
+            for(var i = 0; i < data.length; i++) {
+              if(data[i].Idx == $('.idx').val()) {
+                data[i].Idx = $('.idx').val(); data[i].Pidx = $('.pidx').val(); data[i].Buyer = $('.buyer').val(); data[i].Fileno = $('.fileno').val();
+                data[i].Styleno = $('.styleno').val(); data[i].Pono = $('.pono').val(); data[i].Color = $('.color').val(); data[i].Size = $('.size').val();
+                data[i].Qty = $('.qty').val(); data[i].Status = $('.status').val(); data[i].MoveStatus = $('.movestatus').val();
+                $('.update-data-panel').fadeOut();
+                row.data([data[i].Idx, data[i].Pidx, getBuyerName(data[i].Buyer), data[i].Fileno, data[i].Styleno, data[i].Pono,
+                          data[i].Color, data[i].Size, data[i].Qty, data[i].Status, getMoveStatusName(data[i].MoveStatus)
+                        ]).draw();
+                refreshEvent();
+              }
+            }
+          } else {
+            alert('Cannot update data.');
+          }
+        }
+      })
+    })

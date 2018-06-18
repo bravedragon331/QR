@@ -1,0 +1,258 @@
+extends ../layout
+block content  
+  section.content.dashboard(style='padding: 15px;')
+    .panel.panel-default.update-data-panel(style='display:none;')
+      .panel-heading #{__('UPDATE')} #{__('DETAIL')}
+      .panel-body
+        form.update-form
+          input(type="hidden", value='#{data.Idx}').idx
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Pidx')}
+            input.form-control.pidx(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Fabric Type')}
+            select.select-bar.fabrictype(style='width: 100%;')
+              - for (var i = 0; i < l_fabrictype.length; ++i) {
+                  option(value='#{l_fabrictype[i].id}') #{l_fabrictype[i].Name}
+              - }
+            //- input.form-control.fabrictype(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Fabric Idx')}
+            input.form-control.fabricidx(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Buyer')}
+            select.select-bar.buyer(style='width: 100%;')
+              - for (var i = 0; i < l_buyer.length; ++i) {
+                  option(value='#{l_buyer[i].id}') #{l_buyer[i].Name}
+              - }
+            //- input.form-control.buyer(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Color')}
+            input.form-control.color(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Lote')}
+            input.form-control.lote(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Rack')}
+            input.form-control.rack(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('QtyYds')}
+            input.form-control.qtyyds(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('QtyRoll')}
+            input.form-control.qtyroll(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Width')}
+            input.form-control.width(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Weight')}
+            input.form-control.weight(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Fileno')}
+            input.form-control.fileno(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('Remarks')}
+            input.form-control.remarks(type='text')
+          .form-group.clearfix.col-md-2
+            label.display-block #{__('MoveStatus')}
+            select.select-bar.movestatus(style='width: 100%;')
+              - for (var i = 0; i < l_movestatus.length; ++i) {
+                  option(value='#{i}') #{l_movestatus[i]}
+              - }
+          .form-group.col-md-12
+            button.btn.btn-sm.btn-success.pull-right(type='submit') #{__('Update Data')}
+    .panel.panel-default
+      .panel-heading
+        | #{__("LIST")}
+      .panel-body
+        .align-justify
+          table.table.table-bordered.info-table
+            thead
+              tr
+                th #{__("Idx")}
+                th #{__("Pidx")}
+                th #{__("Fabric Type")}
+                th #{__("Fabric Idx")}
+                th #{__("Buyer")}
+                th #{__("Color")}
+                th #{__("Lote")}
+                th #{__("Rack")}
+                th #{__("QtyYds")}
+                th #{__("QtyRoll")}
+                th #{__("Width")}
+                th #{__("Weight")}
+                th #{__("Fileno")}
+                th #{__("Remarks")}
+                th #{__("MoveStatus")}
+            tbody
+              - for(var j = 0; j < data.length; j++) {
+                tr
+                  td.t-idx #{data[j].Idx}
+                  td.t-pidx #{data[j].Pidx}
+                  - var i;
+                  - for (i = 0; i < l_fabrictype.length; ++i) {
+                    - if(l_fabrictype[i].id == data[j].FabricType) {
+                        td.t-fabrictype #{l_fabrictype[i].Name}
+                        - break;                      
+                    - }
+                  - }
+                  - if(i == l_fabrictype.length) {
+                      td.t-fabrictype
+                  - }
+                  td.t-fabricidx #{data[j].FabricIdx}
+                  - var i;
+                  - for (i = 0; i < l_buyer.length; ++i) {
+                    - if(l_buyer[i].id == data[j].Buyer) {
+                        td.t-buyer #{l_buyer[i].Name}
+                        - break;                      
+                    - }
+                  - }
+                  - if(i == l_buyer.length) {
+                      td.t-buyer
+                  - }
+                  td.t-color #{data[j].Color}
+                  td.t-lote #{data[j].Lote}
+                  td.t-rack #{data[j].Rack}
+                  td.t-qtyyds #{data[j].QtyYds}
+                  td.t-qtyroll #{data[j].QtyRoll}
+                  td.t-width #{data[j].Width}
+                  td.t-weight #{data[j].Weight}
+                  td.t-fileno #{data[j].Fileno}
+                  td.t-remarks #{data[j].Remarks}
+                  - var i;
+                  - for (i = 0; i < l_movestatus.length; ++i) {
+                    - if(i == data[j].MoveStatus) {
+                        td.t-movestatus #{l_movestatus[i]}
+                        - break;
+                    - }
+                  - }
+                  - if(i == l_movestatus.length) {
+                      td.t-movestatus
+                  - }
+              - }
+              
+        form(action='/dashboard/manage/detail_remove' method='post' onsubmit='return validateForm()').remove-order-form
+          input(type="hidden", name = 'id', value = '#{data.Idx}')
+          input(type="hidden", name = 'type', value = 'T')
+          //- button(type='submit').btn.btn-sm.btn-success.pull-right.remove-data #{__("Delete Data")}
+          .btn.btn-sm.btn-success.pull-right.update-data(style='margin-right: 20px;') #{__("Update Data")}
+
+block script
+  script.
+    var data = (!{JSON.stringify(data)});
+    var l_fabrictype = (!{JSON.stringify(l_fabrictype)});
+    var getFabricTypeName = function(id) {
+      for(var i = 0; i < l_fabrictype.length; i++) {
+        if(l_fabrictype[i].id == id) return l_fabrictype[i].Name;
+      }
+      return '';
+    }
+    var getFabricTypeID = function(name) {
+      for(var i = 0; i < l_fabrictype.length; i++) {
+        if(l_fabrictype[i].Name == name) return l_fabrictype[i].id;
+      }
+    }
+    var l_buyer = (!{JSON.stringify(l_buyer)});
+    var getBuyerName = function(id) {
+      for(var i = 0; i < l_buyer.length; i++) {
+        if(l_buyer[i].id == id) return l_buyer[i].Name;
+      }
+      return '';
+    }
+    var getBuyerID = function(name) {
+      for(var i = 0; i < l_buyer.length; i++) {
+        if(l_buyer[i].Name == name) return l_buyer[i].id;
+      }
+    }
+    var l_movestatus = (!{JSON.stringify(l_movestatus)});
+    var getMoveStatusName = function(id) {
+      if(l_movestatus.length > id) {
+        return l_movestatus[id];
+      } else {
+        return '';
+      }      
+    }
+    var getMoveStatusID = function(name) {
+      for(var i = 0; i < l_movestatus.length; i++) {
+        if(l_movestatus[i] == name) {
+          return i;
+        }
+      }
+    }    
+    var init = function() {
+      $('.select-bar').select2();
+      $('.update-data-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.update-data-panel').fadeOut();
+      });
+      $('.update-data-panel').fadeOut();      
+      $('.info-table').DataTable({
+        "pageLength": 25,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      });
+      refreshEvent();
+    }
+    var row;
+    var refreshEvent = function() {
+      $('.info-table tbody tr').off();
+      $('.info-table tbody tr').on('click', function(){
+        row = $(".info-table").DataTable().row($(this));
+        $('.update-data-panel').fadeIn();
+        $('.idx').val($($(this).find('td')[0]).html()); $('.pidx').val($($(this).find('td')[1]).html());
+        $('.fabrictype').val(getFabricTypeID($($(this).find('td')[2]).html())).trigger('change');
+        $('.fabricidx').val($($(this).find('td')[3]).html());
+        $('.buyer').val(getBuyerID($($(this).find('td')[4]).html())).trigger('change'); $('.color').val($($(this).find('td')[5]).html());
+        $('.lote').val($($(this).find('td')[6]).html()); $('.rack').val($($(this).find('td')[7]).html());
+        $('.qtyyds').val($($(this).find('td')[8]).html()); $('.qtyroll').val($($(this).find('td')[9]).html());
+        $('.width').val($($(this).find('td')[10]).html()); $('.weight').val($($(this).find('td')[11]).html());
+        $('.fileno').val($($(this).find('td')[12]).html()); $('.remarks').val($($(this).find('td')[13]).html());
+        $('.movestatus').val(getMoveStatusID($($(this).find('td')[14]).html())).trigger('change');
+      });
+    }    
+    init();
+    $('.update-form').submit(function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: '/dashboard/manage/detail/update',
+        type: 'POST',
+        data: {
+          type: 'T',
+          idx: $('.idx').val(),
+          pidx: $('.pidx').val(),
+          fabrictype: $('.fabrictype').val(),
+          fabricidx: $('.fabricidx').val(),
+          buyer: $('.buyer').val(),
+          color: $('.color').val(),
+          lote: $('.lote').val(),
+          rack: $('.rack').val(),
+          qtyyds: $('.qtyyds').val(),
+          qtyroll: $('.qtyroll').val(),
+          width: $('.width').val(),
+          weight: $('.weight').val(),
+          fileno: $('.fileno').val(),
+          remarks: $('.remarks').val(),
+          movestatus: $('.movestatus').val()
+        },
+        success: function(res) {
+          if(res.status == 1) {
+            for(var i = 0; i < data.length; i++) {
+              if(data[i].Idx == $('.idx').val()) {
+                data[i].Idx = $('.idx').val(); data[i].Pidx = $('.pidx').val(); data[i].FabricType = $('.fabrictype').val(); data[i].FabricIdx = $('.fabricidx').val();
+                data[i].Buyer = $('.buyer').val(); data[i].Color = $('.color').val(); data[i].Lote = $('.lote').val(); data[i].Rack = $('.rack').val();
+                data[i].QtyYds = $('.qtyyds').val(); data[i].QtyRoll = $('.qtyroll').val(); data[i].Width = $('.width').val(); data[i].Weight = $('.weight').val();
+                data[i].Fileno = $('.fileno').val(); data[i].Remarks = $('.remarks').val(); data[i].MoveStatus = $('.movestatus').val();
+
+                row.data([data[i].Idx, data[i].Pidx, getFabricTypeName(data[i].FabricType), data[i].FabricIdx, getBuyerName(data[i].Buyer),
+                          data[i].Color, data[i].Lote, data[i].Rack, data[i].QtyYds, data[i].QtyRoll, data[i].Width, data[i].Weight,
+                          data[i].Fileno, data[i].Remarks, getMoveStatusName(data[i].MoveStatus) ]).draw();
+                refreshEvent();
+              }
+            }            
+            $('.update-data-panel').fadeOut();            
+          } else {
+            alert('Cannot update data.');
+          }
+        }
+      })
+    })

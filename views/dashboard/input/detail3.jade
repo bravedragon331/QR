@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 block content  
   section.content.dashboard(style='padding: 15px;')
     .panel.panel-default.update-data-panel(style='display:none;')
@@ -32,40 +32,38 @@ block content
     .panel.panel-default
       .panel-heading
         | #{__("OTHERS LIST")}
-      .panel-body(style='min-height: 400px;')
+      .panel-body
         .align-justify
-          table.table.table-bordered
-            tbody
+          table.table.table-bordered.info-table
+            thead
               tr
-                td(style='width:30%;') #{__("Idx")}
-                td.t-idx #{data.Idx}
-              tr
+                th #{__("Idx")}
                 td #{__("Pidx")}
-                td.t-pidx #{data.Pidx}
-              tr
                 td #{__("ItemType")}
-                td.t-itemtype #{data.ItemType}
-              tr
                 td #{__("Description")}
-                td.t-description #{data.Description}
-              tr
                 td #{__("Qty")}
-                td.t-qty #{data.Qty}
-              tr
                 td #{__("Status")}
-                td.t-status #{data.Status}
-              tr
                 td #{__("Move Status")}
-                - var i;
-                - for (i = 0; i < l_movestatus.length; ++i) {
-                  - if(i == data.MoveStatus) {
-                      td.t-movestatus #{l_movestatus[i]}
-                      - break;
+            tbody
+              - for(var j = 0; j < data.length; j++) {
+                tr
+                  td.t-idx #{data[j].Idx}
+                  td.t-pidx #{data[j].Pidx}
+                  td.t-itemtype #{data[j].ItemType}
+                  td.t-description #{data[j].Description}
+                  td.t-qty #{data[j].Qty}
+                  td.t-status #{data[j].Status}
+                  - var i;
+                  - for (i = 0; i < l_movestatus.length; ++i) {
+                    - if(i == data[j].MoveStatus) {
+                        td.t-movestatus #{l_movestatus[i]}
+                        - break;
+                    - }
                   - }
-                - }
-                - if(i == l_movestatus.length) {
-                    td.t-movestatus
-                - }
+                  - if(i == l_movestatus.length) {
+                      td.t-movestatus
+                  - }
+              - }            
         form(action='/dashboard/manage/detail_remove' method='post' onsubmit='return validateForm()').remove-order-form
           input(type="hidden", name = 'id', value = '#{data.Idx}')
           input(type="hidden", name = 'type', value = 'O')
@@ -82,6 +80,13 @@ block script
       } else {
         return '';
       }      
+    }
+    var getMoveStatusID = function(name) {
+      for(var i = 0; i < l_movestatus.length; i++) {
+        if(l_movestatus[i] == name){ 
+          return i;
+        }
+      }
     }
     $('.update-form').submit(function(e) {
       e.preventDefault();
@@ -100,12 +105,18 @@ block script
         },
         success: function(res) {
           if(res.status == 1) {
+            for(var i = 0; i < data.length; i++) {
+              if(data[i].Idx == $('.idx').val()) {
+                data[i].Idx = $('.idx').val(); data[i].Pidx = $('.pidx').val(); data[i].ItemType = $('.itemtype').val(); data[i].Description = $('.description').val();
+                data[i].Qty = $('.qty').val(); data[i].Status = $('.status').val(); data[i].MoveStatus = $('.movestatus').val();
+                $('.update-data-panel').fadeOut();
+                row.data([data[i].Idx, data[i].Pidx, data[i].ItemType, data[i].Description, data[i].Qty, data[i].Status, getMoveStatusName(data[i].MoveStatus)]).draw();
+                refreshEvent();
+              }
+            }
             data.Idx = $('.idx').val(); data.Pidx = $('.pidx').val(); data.ItemType = $('.itemtype').val(), data.Description = $('.description').val(),
             data.Qty = $('.qty').val(); data.Status = $('.status').val(); data.MoveStatus = $('.movestatus').val();
-            $('.update-data-panel').fadeOut();
-            $('.t-idx').html(data.Idx); $('.t-pidx').html(data.Pidx); $('.t-itemtype').html(data.ItemType);
-            $('.t-description').html(data.description); $('.t-qty').html(data.Qty); $('.t-status').html(data.Status);
-            $('.t-movestatus').html(getMoveStatusName(data.MoveStatus));
+            $('.update-data-panel').fadeOut();            
           } else {
             alert('Cannot update data.');
           }
@@ -117,12 +128,23 @@ block script
       $('.update-data-panel').on('click', 'a.panel-close', function () {
         $(this).parents('.update-data-panel').fadeOut();
       });
-      $('.update-data-panel').fadeOut();
-      $('.update-data').on('click', function() {
+      $('.update-data-panel').fadeOut();      
+      $('.info-table').DataTable({
+        "pageLength": 25,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      });
+      refreshEvent();
+    }
+    var refreshEvent = function() {
+      $('.info-table tbody tr').off();
+      $('.info-table tbody tr').on('click', function(){
+        row = $(".info-table").DataTable().row($(this));
         $('.update-data-panel').fadeIn();
-        $('.idx').val(data.Idx); $('.pidx').val(data.Pidx); $('.itemtype').val(data.ItemType);
-        $('.description').val(data.Description); $('.qty').val(data.Qty); $('.status').val(data.Status);
-        $('.movestatus').val(data.MoveStatus).trigger('change');
-      })
+        $('.idx').val($($(this).find('td')[0]).html()); $('.pidx').val($($(this).find('td')[1]).html()); $('.itemtype').val($($(this).find('td')[2]).html());
+        $('.description').val($($(this).find('td')[3]).html()); $('.qty').val($($(this).find('td')[4]).html()); $('.status').val($($(this).find('td')[5]).html());
+        $('.movestatus').val(getMoveStatusID($($(this).find('td')[6]).html())).trigger('change');
+      });
     }
     init();

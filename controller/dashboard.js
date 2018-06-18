@@ -53,7 +53,7 @@ exports.manage = function(req, res) {
     })
   );
   Promise.all(all_promises).then(()=> {
-    res.render('dashboard/manage', {l_factory: l_factory, l_outplace: l_outplace, l_receiveplace: l_receiveplace});
+    res.render('dashboard/input/manage', {l_factory: l_factory, l_outplace: l_outplace, l_receiveplace: l_receiveplace});
   })  
 }
 
@@ -161,27 +161,35 @@ exports.detail = function(req, res) {
           if(err) {
             res.redirect('/dashboard');
           } else {
-            if(result.length == 0) {
-              res.render('dashboard/empty');
-            } else {
-              res.render('dashboard/detail1', {data: result[0], l_fabrictype: l_fabrictype, l_buyer: l_buyer, l_movestatus: Const.movestatus});
-            }
+            res.render('dashboard/input/detail1', {data: result, l_fabrictype: l_fabrictype, l_buyer: l_buyer, l_movestatus: Const.movestatus});
           }
         })
       })
       
       break;
     case 'F':
-      FinishD.get(id, function(err, result) {
-        if(err) {
-          res.redirect('/dashboard');
-        } else {
-          if(result.length == 0) {
-            res.render('dashboard/empty');
+      var l_buyer;
+      var all_promises = [];    
+      all_promises.push(
+        new Promise((resolve, reject) => {
+          BuyerD.getA(function(err, result) {
+            if(err) {
+              l_buyer = [];
+            } else {
+              l_buyer = result;
+            }
+            resolve();
+          })
+        })
+      )
+      Promise.all(all_promises).then(() => {
+        FinishD.get(id, function(err, result) {
+          if(err) {
+            res.redirect('/dashboard');
           } else {
-            res.render('dashboard/detail2', {data: result[0], l_movestatus: Const.movestatus});
+            res.render('dashboard/input/detail2', {data: result, l_movestatus: Const.movestatus, l_buyer: l_buyer});
           }
-        }
+        })
       })
       break;
     case 'O':
@@ -189,11 +197,7 @@ exports.detail = function(req, res) {
         if(err){
           res.redirect('/dashboard');
         } else {
-          if(result.length == 0) {
-            res.render('dashboard/empty');
-          } else {
-            res.render('dashboard/detail3', {data: result[0], l_movestatus: Const.movestatus});
-          }
+          res.render('dashboard/input/detail3', {data: result, l_movestatus: Const.movestatus, l_buyer: l_buyer});
         }
       })
       break;
