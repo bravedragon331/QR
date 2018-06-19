@@ -64,6 +64,28 @@ insert  into `factoryidx`(`Idx`,`Name`) values
 (1,'First'),
 (2,'Second');
 
+/*Table structure for table `outhouse` */
+
+DROP TABLE IF EXISTS `outhouse`;
+
+CREATE TABLE `outhouse` (
+  `Idx` int(10) NOT NULL AUTO_INCREMENT,
+  `OutDate` datetime DEFAULT NULL,
+  `OutPlace` int(11) DEFAULT NULL,
+  `Delivered` varchar(30) DEFAULT NULL,
+  `ReceivePlace` int(11) DEFAULT NULL,
+  `RcvdDate` datetime DEFAULT NULL,
+  `Remark` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`Idx`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Data for the table `outhouse` */
+
+insert  into `outhouse`(`Idx`,`OutDate`,`OutPlace`,`Delivered`,`ReceivePlace`,`RcvdDate`,`Remark`) values 
+(1,'2018-06-13 00:00:00',2,'2',2,'2018-06-13 00:00:00','123'),
+(2,'2018-06-18 00:00:00',1,'123',1,'2018-06-18 00:00:00','123'),
+(3,'2018-06-19 00:00:00',2,'123',2,'2018-06-19 00:00:00','123');
+
 /*Table structure for table `outplace` */
 
 DROP TABLE IF EXISTS `outplace`;
@@ -169,7 +191,7 @@ CREATE TABLE `whfabricd` (
 /*Data for the table `whfabricd` */
 
 insert  into `whfabricd`(`Idx`,`Pidx`,`FabricType`,`FabricIdx`,`Buyer`,`Color`,`Lote`,`Rack`,`QtyYds`,`QtyRoll`,`Width`,`Weight`,`Fileno`,`Remarks`,`MoveStatus`) values 
-(1,1,2,'1',1,'1','1','2',2,1,'1','1','1','1',1);
+(1,1,2,'1',2,'1','1','2',2,1,'1','1','1','1',0);
 
 /*Table structure for table `whfinishd` */
 
@@ -193,7 +215,7 @@ CREATE TABLE `whfinishd` (
 /*Data for the table `whfinishd` */
 
 insert  into `whfinishd`(`Idx`,`Pidx`,`Buyer`,`Fileno`,`Styleno`,`Pono`,`Color`,`Size`,`Qty`,`Status`,`MoveStatus`) values 
-(1,1,1,'1','1','1','1','1',2,'1',1);
+(1,1,1,'1','1','1','1','1',2,'1',0);
 
 /*Table structure for table `whotherd` */
 
@@ -213,7 +235,7 @@ CREATE TABLE `whotherd` (
 /*Data for the table `whotherd` */
 
 insert  into `whotherd`(`Idx`,`Pidx`,`ItemType`,`Description`,`Qty`,`Status`,`MoveStatus`) values 
-(1,1,'1','1',1,'1',0);
+(1,1,'1','1',1,'1',5);
 
 /*Table structure for table `whwarehouse` */
 
@@ -238,7 +260,7 @@ CREATE TABLE `whwarehouse` (
 /*Data for the table `whwarehouse` */
 
 insert  into `whwarehouse`(`Idx`,`FactoryIdx`,`WorkOrderIdx`,`OutPlace`,`Delivered`,`ReceivePlace`,`OutDate`,`RcvdDate`,`Remarks`,`OutType`,`Location`,`RefNo`) values 
-(1,1,'2',1,'1',1,'2018-06-14 00:00:00','2018-06-14 00:00:00','1','T','1','1'),
+(1,1,'2',1,'1',1,'2018-06-14 00:00:00','2018-06-12 00:00:00','1','T','1','1'),
 (2,1,'1',2,'1',1,'2018-06-10 00:00:00','2018-06-10 00:00:00','1','F','1','1'),
 (3,1,'1',1,'1',1,'2018-06-16 23:02:51','2018-06-16 23:02:53','1','O','1','1');
 
