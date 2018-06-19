@@ -131,11 +131,11 @@ block content
                   - }
               - }
               
-        form(action='/dashboard/manage/detail_remove' method='post' onsubmit='return validateForm()').remove-order-form
-          input(type="hidden", name = 'id', value = '#{data.Idx}')
-          input(type="hidden", name = 'type', value = 'T')
-          //- button(type='submit').btn.btn-sm.btn-success.pull-right.remove-data #{__("Delete Data")}
-          .btn.btn-sm.btn-success.pull-right.update-data(style='margin-right: 20px;') #{__("Update Data")}
+        //- form(action='/dashboard/manage/detail_remove' method='post' onsubmit='return validateForm()').remove-order-form
+        //-   input(type="hidden", name = 'id', value = '#{data.Idx}')
+        //-   input(type="hidden", name = 'type', value = 'T')
+        //-   //- button(type='submit').btn.btn-sm.btn-success.pull-right.remove-data #{__("Delete Data")}
+        //-   .btn.btn-sm.btn-success.pull-right.update-data(style='margin-right: 20px;') #{__("Update Data")}
 
 block script
   script.
@@ -214,7 +214,7 @@ block script
     $('.update-form').submit(function(e) {
       e.preventDefault();
       $.ajax({
-        url: '/dashboard/manage/detail/update',
+        url: '/dashboard/input/manage/detail/update',
         type: 'POST',
         data: {
           type: 'T',

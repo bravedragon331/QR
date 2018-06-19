@@ -284,5 +284,12 @@
 	"GARMENT LIST": "GARMENT LIST",
 	"ItemType": "ItemType",
 	"Description": "Description",
-	"OTHERS LIST": "OTHERS LIST"
+	"OTHERS LIST": "OTHERS LIST",
+	"MANAGE OUTPUT": "MANAGE OUTPUT",
+	"OUT LIST": "OUT LIST",
+	"Add OUT": "Add OUT",
+	"Update OUT": "Update OUT",
+	"Update Out": "Update Out",
+	"Delete Out": "Delete Out",
+	"Add New OUT": "Add New OUT"
 }

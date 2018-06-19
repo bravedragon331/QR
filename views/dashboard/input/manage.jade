@@ -164,7 +164,7 @@ block script
     }
     var loadQR = function() {
       $.ajax({
-        url: '/dashboard/manage/load_warehouse',
+        url: '/dashboard/input/manage/load_warehouse',
         type:'POST',
         data: {          
         },
@@ -179,7 +179,7 @@ block script
                 res.list[i].Idx, getFactoryName(res.list[i].FactoryIdx), res.list[i].WorkOrderIdx, getOutPlaceName(res.list[i].OutPlace), res.list[i].Delivered,
                 getReceivePlaceName(res.list[i].ReceivePlace), res.list[i].OutDate.split('T')[0], res.list[i].RcvdDate.split('T')[0], res.list[i].Remarks,
                 res.list[i].OutType, res.list[i].Location, res.list[i].RefNo,
-                `<a href="/dashboard/manage/detail?id=`+res.list[i].RefNo+`&type=`+res.list[i].OutType+`">Detail</a>`
+                `<a href="/dashboard/input/manage/detail?id=`+res.list[i].RefNo+`&type=`+res.list[i].OutType+`">Detail</a>`
               ])
             }
             $('.qr-table').dataTable().fnClearTable();
@@ -206,10 +206,6 @@ block script
         dom: '<"html5buttons"B>lTfgtip',
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
       });
-
-      $('.new-button').on('click', function() {
-        $('.add-qr-panel').fadeIn();
-      })
 
       $('.add-qr-panel').on('click', 'a.panel-close', function () {
         $(this).parents('.add-qr-panel').fadeOut();
@@ -268,7 +264,7 @@ block script
       $('.lds-spinner').fadeIn();
       e.preventDefault();
       $.ajax({
-        url: '/dashboard/manage/update_warehouse',
+        url: '/dashboard/input/manage/update_warehouse',
         type: 'POST',
         data: {
           Idx: $('.update-idx').val(),
@@ -305,7 +301,7 @@ block script
         }
       }
       $.ajax({
-        url: '/dashboard/manage/delete_warehouse',
+        url: '/dashboard/input/manage/input/delete_warehouse',
         type: 'POST',
         data: {
           idx: tmp.Idx,

@@ -8,14 +8,18 @@ router.use('/', auth.requireLogin, function(req, res, next) {
   next();
 })
 router.get('/', dashboard.index);
-router.get('/manage',  dashboard.manage);
-router.post('/manage/add_warehouse', dashboard.add_warehouse);
-router.post('/manage/load_warehouse', dashboard.load_warehouse);
-router.post('/manage/update_warehouse', dashboard.update_warehouse);
-router.post('/manage/delete_warehouse', dashboard.delete_warehouse);
+router.get('/input/manage',  dashboard.manage);
+router.post('/input/manage/add_warehouse', dashboard.add_warehouse);
+router.post('/input/manage/load_warehouse', dashboard.load_warehouse);
+router.post('/input/manage/update_warehouse', dashboard.update_warehouse);
+router.post('/input/manage/delete_warehouse', dashboard.delete_warehouse);
 
-router.get('/manage/detail', dashboard.detail);
-router.post('/manage/detail/update', dashboard.detail_update);
+router.get('/input/manage/detail', dashboard.detail);
+router.post('/input/manage/detail/update', dashboard.detail_update);
 
+router.get('/output/manage', dashboard.output);
+router.post('/output/manage/load_output', dashboard.load_output);
+router.post('/output/manage/update_output', dashboard.update_output);
+router.post('/output/manage/add_output', dashboard.add_output);
 router.get('/read', dashboard.read_qr);
 module.exports = router;

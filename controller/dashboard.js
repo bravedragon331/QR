@@ -8,6 +8,7 @@ var ReceivePlaceD = require('../models/receiveplace');
 var FabricTypeD = require('../models/fabrictype');
 var BuyerD = require('../models/buyer');
 var Const = require('../config/const');
+var Outhouse = require('../models/outhouse');
 
 exports.index = function(req, res){
   res.render('dashboard/index');
@@ -239,4 +240,64 @@ exports.detail_update = function(req, res) {
 
 exports.read_qr = function(req, res) {
   res.render('dashboard/read');
+}
+
+exports.output = function(req, res) {
+  var l_outplace, l_receiveplace;
+  var all_promises = []; 
+  all_promises.push(
+    new Promise((resolve, reject) => {
+      OutPlaceD.getA(function(err, result) {
+        if(err) {
+          l_outplace = [];
+        } else {
+          l_outplace = result;
+        }
+        resolve();
+      })
+    })
+  );
+  all_promises.push(
+    new Promise((resolve, reject) => {
+      ReceivePlaceD.getA(function(err, result) {
+        if(err) {
+          l_receiveplace = [];
+        } else {
+          l_receiveplace = result;
+        }
+        resolve();
+      })
+    })
+  );
+  Promise.all(all_promises).then(()=> {
+    res.render('dashboard/output/manage', {l_outplace: l_outplace, l_receiveplace: l_receiveplace});
+  })
+}
+
+exports.load_output = function(req, res) {
+  Outhouse.allout(function(err, list) {
+    if(err) {
+      res.json({status: 0});
+    } else {
+      res.json({status: 1, list: list});
+    }
+  })
+}
+exports.update_output = function(req, res) {
+  Outhouse.updateout(req.body, function(err, list) {
+    if(err) {
+      res.json({status: 0});
+    } else {
+      res.json({status: 1});
+    }
+  })
+}
+exports.add_output = function(req, res) {
+  Outhouse.addOutput(req.body, function(err) {
+    if(err) {
+      res.json({status: 0});
+    } else {      
+      res.json({status: 1});
+    }
+  })
 }

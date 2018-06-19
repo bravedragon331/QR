@@ -1,0 +1,271 @@
+extends ../layout
+block link
+  style.
+  
+block content
+  section.content.dashboard
+    .page-heading
+      h1 #{__("OUT LIST")}
+    .page-body
+      .panel.panel-default.add-out-panel(style='display: none;')
+        .panel-heading #{__("Add OUT")}
+        .panel-body
+          form.add-form(action='/dashboard/output/manage/add_output' method='post')
+            //- .form-group.clearfix.col-md-2
+            //-   label.display-block #{__("idx")}
+            //-   input.form-control.new-idx(type='text', placeholder='idx', required='')
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("OutDate")}
+              input.form-control.new-outdate(type='text', placeholder='OutDate')
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("OutPlace")}
+              select.select-bar.new-outplace(style='width: 100%;')
+                - for (var i = 0; i < l_outplace.length; ++i) {
+                    option(value='#{l_outplace[i].Idx}') #{l_outplace[i].Name}
+                - }
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("Delivered")}
+              input.form-control.new-delivered(type='text', placeholder='Delivered')
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("ReceivePlace")}
+              select.select-bar.new-receiveplace(style='width: 100%;')
+                - for (var i = 0; i < l_receiveplace.length; ++i) {
+                    option(value='#{l_receiveplace[i].Idx}') #{l_receiveplace[i].Name}
+                - }
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("RcvdDate")}
+              input.form-control.date.new-rcvddate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("Remarks")}
+              input.form-control.new-remarks(type='text', placeholder='Remarks')          
+            .form-group.col-md-12
+              button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top: 25px;') #{__("Add OUT")}
+      .panel.panel-default.update-out-panel(style='display: none;')
+        .panel-heading #{__("Update OUT")}
+        .panel-body
+          form.update-form(action='/dashboard/manage/update_warehouse' method='post')
+            //- .form-group.clearfix.col-md-2
+            //-   label.display-block #{__("idx")}
+            input.form-control.update-idx(type='hidden', placeholder='idx', required='')
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("OutDate")}
+              input.form-control.update-outdate(type='text', placeholder='OutDate')
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("OutPlace")}
+              select.select-bar.update-outplace(style='width: 100%;')
+                - for (var i = 0; i < l_outplace.length; ++i) {
+                    option(value='#{l_outplace[i].Idx}') #{l_outplace[i].Name}
+                - }
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("Delivered")}
+              input.form-control.update-delivered(type='text', placeholder='Delivered')
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("ReceivePlace")}
+              select.select-bar.update-receiveplace(style='width: 100%;')
+                - for (var i = 0; i < l_receiveplace.length; ++i) {
+                    option(value='#{l_receiveplace[i].Idx}') #{l_receiveplace[i].Name}
+                - }
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("RcvdDate")}
+              input.form-control.date.update-rcvddate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+            .form-group.clearfix.col-md-2
+              label.display-block #{__("Remarks")}
+              input.form-control.update-remarks(type='text', placeholder='Remarks')          
+            .form-group.col-md-12            
+              button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-left: 25px;') #{__("Update Out")}
+              .btn.btn-sm.btn-success.pull-right.remove-data #{__("Delete Out")}
+      .panel.panel-default      
+        .panel-heading
+          a.btn.btn-sm.btn-success.new-button
+            i.fa.fa-plus.m-r-5
+            | #{__("Add New OUT")}
+        .panel-body
+          div(style="overflow:auto")
+            table.table.table-striped.table-hover.js-exportable.dataTable.out-table
+              thead
+                tr
+                  th #{__("idx")}
+                  th #{__("OutDate")}
+                  th #{__("OutPlace")}
+                  th #{__("Delivered")}
+                  th #{__("ReceivePlace")}                
+                  th #{__("RcvdDate")}
+                  th #{__("Remarks")}
+                  th #{__("Detail")}
+              tbody
+block script
+  script(src='/assets/plugins/moment/moment.js')
+  script(src='/assets/plugins/bootstrap-daterangepicker/daterangepicker.js')
+  script(src='/assets/plugins/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js')
+  script(src='/assets/plugins/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')
+  script.
+    var l_outplace = (!{JSON.stringify(l_outplace)});
+    var getOutPlaceName = function(id) {
+      for(var i = 0; i < l_outplace.length; i++) {
+        if(l_outplace[i].Idx == id) return l_outplace[i].Name;
+      }
+      return '';
+    }
+    var l_receiveplace = (!{JSON.stringify(l_receiveplace)});
+    var getReceivePlaceName = function(id) {
+      for(var i = 0; i < l_receiveplace.length; i++) {
+        if(l_receiveplace[i].Idx == id) return l_receiveplace[i].Name;
+      }
+      return '';
+    }
+
+    var loadOut = function() {
+      $('.lds-spinner').fadeIn();
+      $.ajax({
+        url: '/dashboard/output/manage/load_output',
+        type: 'POST',
+        data: {},
+        success: function(res) {
+          $('.lds-spinner').fadeOut();
+          if(res.status) {
+            var tableData = [];
+            list = res.list;
+            for(var i = 0; i < res.list.length; i++) {
+              tableData.push([
+                res.list[i].Idx, res.list[i].OutDate.split('T')[0], getOutPlaceName(res.list[i].OutPlace), res.list[i].Delivered,
+                getReceivePlaceName(res.list[i].ReceivePlace), res.list[i].RcvdDate.split('T')[0], res.list[i].Remark,
+                `<a href="/dashboard/output/manage/detail?id=`+res.list[i].Idx+`">Detail</a>`
+              ])
+            }
+            $('.out-table').dataTable().fnClearTable();
+            if(tableData.length > 0){
+              $('.out-table').dataTable().fnAddData(tableData);
+              $('.out-table').dataTable().fnDraw();
+            }
+            refreshEvent();
+          } else {
+            alert('Cannot load OUT list. Please contact support team.')
+          }
+        }
+      })
+    }
+
+    var init = function() {
+      $('.out-table').DataTable({
+        "pageLength": 25,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      });
+      $('.add-out-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.add-out-panel').fadeOut();
+      });
+      $('.update-out-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.update-out-panel').fadeOut();
+      });
+      $('.new-button').on('click', function(){
+        $('.add-out-panel').fadeIn();
+        $('.update-out-panel').fadeOut();
+      })
+      $('.lds-spinner').fadeIn();
+      $('.out-table').on( 'page.dt', function () {
+        setTimeout(function(){
+          refreshEvent();
+        }, 500)
+      });
+      $('.out-table').on( 'search.dt', function () {
+        setTimeout(function(){
+          refreshEvent();
+        }, 500)
+      });
+      $('.update-receiveplace').select2();
+      $('.new-receiveplace').select2();
+      $('.update-outplace').select2();
+      $('.new-outplace').select2();
+
+      $(".new-outdate").datetimepicker({
+        format: 'YYYY-MM-DD',
+        showClear: true
+      });
+      $(".update-outdate").datetimepicker({
+        format: 'YYYY-MM-DD',
+        showClear: true
+      });
+      $(".new-rcvddate").datetimepicker({
+        format: 'YYYY-MM-DD',
+        showClear: true
+      });
+      $(".update-rcvddate").datetimepicker({
+        format: 'YYYY-MM-DD',
+        showClear: true
+      });
+      loadOut();
+    }
+    init();
+    var refreshEvent = function() {
+      $('.out-table').off();
+      $('.out-table tbody tr').on('click', function() {
+        $('.add-out-panel').fadeOut();
+        $('.update-out-panel').fadeIn();
+        for(var i = 0; i < list.length; i++) {
+          if(list[i].Idx == $($(this).find('td')[0]).html()) {
+            $('.update-idx').val(list[i].Idx);
+            $('.update-outdate').val(list[i].OutDate.split('T')[0]);
+            $('.update-outplace').val(list[i].OutPlace).trigger('change');
+            $('.update-delivered').val(list[i].Delivered);
+            $('.update-receiveplace').val(list[i].ReceivePlace).trigger('change');
+            $('.update-rcvddate').val(list[i].RcvdDate.split('T')[0]);
+            $('.update-remarks').val(list[i].Remark);
+            break;
+          }
+        }
+      })
+    }
+
+    $('.update-form').submit(function(e) {
+      $('.lds-spinner').fadeIn();
+      e.preventDefault();
+      $.ajax({
+        url: '/dashboard/output/manage/update_output',
+        type: 'POST',
+        data: {
+          Idx: $('.update-idx').val(),
+          OutDate: $('.update-outdate').val(),
+          OutPlace: $('.update-outplace').val(),
+          Delivered: $('.update-delivered').val(),
+          ReceivePlace: $('.update-receiveplace').val(),          
+          RcvdDate: $('.update-rcvddate').val(),
+          Remarks: $('.update-remarks').val()          
+        },
+        success: function(res) {
+          $('.lds-spinner').fadeOut();
+          if(res.status == 1) {
+            $(this).parents('.update-out-panel').fadeOut();
+            loadOut();
+          } else {
+            alert('Cannot change data. Please contact support team.')
+          }          
+        }
+      })
+    })
+
+    $('.add-form').submit(function(e) {
+      $('.lds-spinner').fadeIn();
+      e.preventDefault();
+      $.ajax({
+        url: '/dashboard/output/manage/add_output',
+        type: 'POST',
+        data: {
+          OutDate: $('.new-outdate').val(),
+          OutPlace: $('.new-outplace').val(),
+          Delivered: $('.new-delivered').val(),
+          ReceivePlace: $('.new-receiveplace').val(),          
+          RcvdDate: $('.new-rcvddate').val(),
+          Remarks: $('.new-remarks').val()          
+        },
+        success: function(res) {
+          $('.lds-spinner').fadeOut();
+          if(res.status == 1) {
+            $(this).parents('.add-out-panel').fadeOut();
+            loadOut();
+          } else {
+            alert('Cannot add data. Please contact support team.')
+          }          
+        }
+      })
+    })
