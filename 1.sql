@@ -170,7 +170,7 @@ insert  into `users`(`id`,`email`,`password`,`status`,`created_at`) values
 DROP TABLE IF EXISTS `whfabricd`;
 
 CREATE TABLE `whfabricd` (
-  `Idx` int(11) NOT NULL AUTO_INCREMENT,
+  `Idx` int(11) NOT NULL,
   `Pidx` int(11) DEFAULT NULL,
   `FabricType` int(11) DEFAULT NULL,
   `FabricIdx` varchar(120) DEFAULT NULL,
@@ -186,7 +186,7 @@ CREATE TABLE `whfabricd` (
   `Remarks` varchar(100) DEFAULT NULL,
   `MoveStatus` int(11) DEFAULT NULL,
   PRIMARY KEY (`Idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `whfabricd` */
 
@@ -198,7 +198,7 @@ insert  into `whfabricd`(`Idx`,`Pidx`,`FabricType`,`FabricIdx`,`Buyer`,`Color`,`
 DROP TABLE IF EXISTS `whfinishd`;
 
 CREATE TABLE `whfinishd` (
-  `Idx` int(11) NOT NULL AUTO_INCREMENT,
+  `Idx` int(11) NOT NULL,
   `Pidx` int(11) DEFAULT '0',
   `Buyer` int(11) DEFAULT NULL,
   `Fileno` varchar(11) DEFAULT NULL,
@@ -210,7 +210,7 @@ CREATE TABLE `whfinishd` (
   `Status` varchar(5) DEFAULT NULL,
   `MoveStatus` int(11) DEFAULT NULL,
   PRIMARY KEY (`Idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `whfinishd` */
 
@@ -222,7 +222,7 @@ insert  into `whfinishd`(`Idx`,`Pidx`,`Buyer`,`Fileno`,`Styleno`,`Pono`,`Color`,
 DROP TABLE IF EXISTS `whotherd`;
 
 CREATE TABLE `whotherd` (
-  `Idx` int(11) NOT NULL AUTO_INCREMENT,
+  `Idx` int(11) NOT NULL,
   `Pidx` int(11) DEFAULT NULL,
   `ItemType` varchar(30) DEFAULT NULL,
   `Description` varchar(80) DEFAULT NULL,
@@ -230,7 +230,7 @@ CREATE TABLE `whotherd` (
   `Status` char(1) DEFAULT NULL,
   `MoveStatus` int(11) DEFAULT NULL,
   PRIMARY KEY (`Idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `whotherd` */
 
@@ -242,7 +242,7 @@ insert  into `whotherd`(`Idx`,`Pidx`,`ItemType`,`Description`,`Qty`,`Status`,`Mo
 DROP TABLE IF EXISTS `whwarehouse`;
 
 CREATE TABLE `whwarehouse` (
-  `Idx` int(11) NOT NULL AUTO_INCREMENT,
+  `Idx` int(11) NOT NULL,
   `FactoryIdx` int(11) DEFAULT NULL,
   `WorkOrderIdx` varchar(13) DEFAULT NULL,
   `OutPlace` int(11) DEFAULT '0',
@@ -255,7 +255,7 @@ CREATE TABLE `whwarehouse` (
   `Location` char(3) DEFAULT NULL,
   `RefNo` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`Idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `whwarehouse` */
 
