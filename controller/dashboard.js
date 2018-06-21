@@ -3,8 +3,8 @@ var OtherD = require('../models/otherd');
 var FabricD = require('../models/fabricd');
 var FinishD = require('../models/finishd');
 var FactoryD = require('../models/factoryd');
-var OutPlaceD = require('../models/outplaced');
-var ReceivePlaceD = require('../models/receiveplace');
+// var OutPlaceD = require('../models/outplaced');
+// var ReceivePlaceD = require('../models/receiveplace');
 var FabricTypeD = require('../models/fabrictype');
 var BuyerD = require('../models/buyer');
 var Const = require('../config/const');
@@ -32,7 +32,7 @@ exports.manage = function(req, res) {
   );
   all_promises.push(
     new Promise((resolve, reject) => {
-      OutPlaceD.getA(function(err, result) {
+      FactoryD.getA(function(err, result) {
         if(err) {
           l_outplace = [];
         } else {
@@ -44,7 +44,7 @@ exports.manage = function(req, res) {
   );
   all_promises.push(
     new Promise((resolve, reject) => {
-      ReceivePlaceD.getA(function(err, result) {
+      FactoryD.getA(function(err, result) {
         if(err) {
           l_receiveplace = [];
         } else {
@@ -281,7 +281,7 @@ exports.output = function(req, res) {
   var all_promises = []; 
   all_promises.push(
     new Promise((resolve, reject) => {
-      OutPlaceD.getA(function(err, result) {
+      FactoryD.getA(function(err, result) {
         if(err) {
           l_outplace = [];
         } else {
@@ -293,7 +293,7 @@ exports.output = function(req, res) {
   );
   all_promises.push(
     new Promise((resolve, reject) => {
-      ReceivePlaceD.getA(function(err, result) {
+      FactoryD.getA(function(err, result) {
         if(err) {
           l_receiveplace = [];
         } else {
