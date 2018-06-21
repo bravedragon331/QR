@@ -158,8 +158,9 @@ CREATE TABLE `outhouse` (
   `ReceivePlace` int(11) DEFAULT NULL,
   `RcvdDate` datetime DEFAULT NULL,
   `Remark` varchar(30) DEFAULT NULL,
+  `OutType` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`Idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `outhouse` */
 
