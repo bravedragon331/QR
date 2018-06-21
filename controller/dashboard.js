@@ -329,6 +329,7 @@ exports.update_output = function(req, res) {
 exports.add_output = function(req, res) {
   Outhouse.addOutput(req.body, function(err) {
     if(err) {
+      console.log(err);
       res.json({status: 0});
     } else {      
       res.json({status: 1});

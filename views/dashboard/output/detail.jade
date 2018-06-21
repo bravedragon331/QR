@@ -248,8 +248,10 @@ block script
                 ])
               }
             }
-            $('.qr-table').dataTable().fnAddData(tabledata);
-            $('.qr-table').dataTable().fnDraw();
+            if(tabledata.length > 0) {
+              $('.qr-table').dataTable().fnAddData(tabledata);
+              $('.qr-table').dataTable().fnDraw();
+            }            
             refreshEvent();
           } else {
             alert('Warehouse data of this QR code is not exist.');
