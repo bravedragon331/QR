@@ -1,0 +1,418 @@
+extends ../layout
+block link
+  style.
+    canvas {
+      display: block;
+      width: 200px;
+      margin: auto;
+    }
+    video {
+      height: 200px;
+      min-height: 200px;
+    }
+    hr {
+      margin-top: 32px;
+    }
+    input[type="file"] {
+      display: block;
+      margin-bottom: 16px;
+    }
+    .row {
+      margin: 20px;
+    }
+    .col-md-4 {
+      margin: 20px;
+      text-align: center;
+    }
+    .content {
+      padding: 15px;
+    }
+block content
+  section.content
+    .row
+      .col-md-3(style='text-align: center;')
+        video#qr-video(muted='', autoplay='', playsinline='')
+      .col-md-3(style='text-align: center;')
+        canvas#debug-canvas
+      .col-md-6(style='text-align: center;')
+        h2(style='display:inline-block;') #{__('Scan from File')}
+        button.btn.btn-sm.btn-success(onclick="$('#file-selector').click();", style='display:block; margin-top:-10px; margin: auto;') #{__('Choose File')}
+        input#file-selector.hide(type='file')
+    .row(style='text-align: center;')
+      b Detected QR code: 
+      span#cam-qr-result None
+    .panel.panel-default.update-qr-panel-1(style='display: none;')
+      .panel-heading #{__("Update OUT")}
+      .panel-body
+        .form-group.clearfix.col-md-2
+          label.display-block #{__("Qty 1")}
+          input.form-control.update-qty-1(type='text', placeholder='Qty')
+        .form-group.clearfix.col-md-2
+          label.display-block #{__("Qty 2")}
+          input.form-control.update-qty-2(type='text', placeholder='Qty')
+        .form-group.clearfix.col-md-6
+        .form-group.clearfix.col-md-1
+          .btn.btn-sm.btn-success.pull-right.remove-qty-btn(style="width: 100%; margin-top: 30px;") #{__("Delete Out")}
+        .form-group.clearfix.col-md-1
+          button.btn.btn-sm.btn-success.pull-right.update-qty-btn(type='submit', style='margin-left: 25px; width: 100%; margin-top: 30px;') #{__("Update Out")}        
+    .panel.panel-default
+      .panel-heading
+        | #{__("QR LIST")}
+      .panel-body
+        .row
+          button.btn.btn-sm.btn-success.pull-right.send-output  #{__("Send Output")}
+          button.btn.btn-sm.btn-success.pull-right.clear(style='margin-right: 15px;')  #{__("Clear List")}
+        .row
+          div(style="overflow:auto")
+            table.table.table-striped.table-hover.js-exportable.dataTable.qr-table
+              thead
+                tr                
+                  th #{__("Check")}
+                  th #{__("OutType")}
+                  th #{__("WorkOrderIdx")}
+                  th #{__("RefNo")}
+                  th #{__("InIdx")}
+                  th #{__("Qty 1")}
+                  th #{__("Qty 2")}
+              tbody
+    .panel.panel-default.detail-table-wrapper-1
+      .panel-heading
+        | #{__("Out Detail")}
+      .panel-body
+        div(style="overflow:auto")
+          table.table.table-striped.table-hover.js-exportable.dataTable.detail-table-1
+            thead
+              tr                
+                th #{__("Idx")}
+                th #{__("OutPidx")}
+                th #{__("InIdx")}
+                th #{__("QtyYds")}
+                th #{__("QtyRoll")}
+                th #{__("MoveStatus")}                
+                th #{__("FabricType")}
+                th #{__("FabricIdx")}
+                th #{__("Buyer")}                
+                th #{__("Color")}
+                th #{__("Lote")}
+                th #{__("Rack")}
+                th #{__("Width")}
+                th #{__("Weight")}
+                th #{__("Fileno")}
+                th #{__("Remarks")}
+            tbody
+    .panel.panel-default.detail-table-wrapper-2
+      .panel-heading
+        | #{__("Out Detail")}
+      .panel-body
+        div(style="overflow:auto")
+          table.table.table-striped.table-hover.js-exportable.dataTable.detail-table-2
+            thead
+              tr                
+                th #{__("Idx")}
+                th #{__("OutPidx")}
+                th #{__("InIdx")}
+                th #{__("Qty")}
+                th #{__("MoveStatus")}
+                th #{__("Buyer")}
+                th #{__("Fileno")}
+                th #{__("Styleno")}
+                th #{__("Pono")}
+                th #{__("Color")}
+                th #{__("Size")}
+                th #{__("Status")}
+            tbody
+    .panel.panel-default.detail-table-wrapper-3
+      .panel-heading
+        | #{__("Out Detail")}
+      .panel-body
+        div(style="overflow:auto")
+          table.table.table-striped.table-hover.js-exportable.dataTable.detail-table-3
+            thead
+              tr                
+                th #{__("Idx")}
+                th #{__("OutPidx")}
+                th #{__("InIdx")}
+                th #{__("Qty")}
+                th #{__("MoveStatus")}
+                th #{__("ItemType")}
+                th #{__("Description")}
+                th #{__("Status")}
+            tbody   
+block script
+  script(type='module').
+    import QrScanner from "/qr-scanner.min.js";  
+    const video = document.getElementById('qr-video');
+    const debugCheckbox = document.getElementById('debug-checkbox');
+    const debugCanvas = document.getElementById('debug-canvas');
+    const debugCanvasContext = debugCanvas.getContext('2d');
+    const camQrResult = document.getElementById('cam-qr-result');
+    const fileSelector = document.getElementById('file-selector');
+    const fileQrResult = document.getElementById('cam-qr-result');
+    function setResult(label, result) {
+      label.textContent = result;
+      label.style.color = 'teal';
+      clearTimeout(label.highlightTimeout);
+      label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
+      addTable(result);
+    }
+    // ####### Web Cam Scanning #######
+    const scanner = new QrScanner(video, result => setResult(camQrResult, result));
+    scanner.start();
+    // ####### File Scanning #######
+    fileSelector.addEventListener('change', event => {
+      const file = fileSelector.files[0];
+      if (!file) {
+        return;
+      }
+      QrScanner.scanImage(file)
+        .then(result => setResult(fileQrResult, result))
+        .catch(e => setResult(fileQrResult, e || 'No QR code found.'));
+    });
+    // ####### debug mode related code #######
+    // debugCheckbox.addEventListener('change', () => setDebugMode(debugCheckbox.checked));
+    setDebugMode(true);
+    function setDebugMode(isDebug) {
+      const worker = scanner._qrWorker;
+      worker.postMessage({
+        type: 'setDebug',
+        data: isDebug
+      });
+      if (isDebug) {
+        debugCanvas.style.display = 'block';
+        worker.addEventListener('message', handleDebugImage);
+      } else {
+        debugCanvas.style.display = 'block';
+        worker.removeEventListener('message', handleDebugImage);
+      }
+    }
+    let b = true;
+    function handleDebugImage(event) {
+      const type = event.data.type;
+      if (type === 'debugImage') {
+        const imageData = event.data.data;
+        if (debugCanvas.width !== imageData.width || debugCanvas.height !== imageData.height) {
+          debugCanvas.width = imageData.width;
+          debugCanvas.height = imageData.height;
+        }
+        debugCanvasContext.putImageData(imageData, 0, 0);
+        if(b) {
+          console.log(imageData);
+          b = false;
+        }
+      }
+    }    
+  script.
+    var data = (!{JSON.stringify(data)});
+    var init = function() {
+      $('.qr-table').DataTable({
+        "pageLength": 25,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+      });
+      $('.update-qr-panel-1').on('click', 'a.panel-close', function () {
+        $(this).parents('.update-qr-panel-1').fadeOut();
+      });
+    }
+    init();
+    var tabledata = [];
+    var pre_data = '';
+    var addTable = function(data) {
+      if(pre_data == data) return;
+      pre_data = data;
+      $.ajax({
+        url: '/dashboard/input/manage/detail_read',
+        type: 'POST',
+        data: {
+          type: data.split('|')[0],
+          idx: data.split('|')[3]
+        },
+        success: function(res) {
+          if(res.status) {
+            tabledata = [];
+            for(var i = 0; i < res.list.length; i++) {
+              if(data.split('|')[0] == 'T') {
+                tabledata.push([
+                  '<input type="checkbox" class="c_box" data-id="'+res.list[i].Idx+'"',
+                  data.split('|')[0], data.split('|')[1], data.split('|')[2], res.list[i].Idx, res.list[i].QtyYds, res.list[i].QtyRoll
+                ])
+              } else if(data.split('|')[0] == 'F') {
+                tabledata.push([
+                  '<input type="checkbox" class="c_box" data-id="'+res.list[i].Idx+'">',
+                  data.split('|')[0], data.split('|')[1], data.split('|')[2], res.list[i].Idx, res.list[i].Qty, ''
+                ])
+              } else if(data.split('|')[0] == 'O'){
+                tabledata.push([
+                  '<input type="checkbox" class="c_box" data-id="'+res.list[i].Idx+'">',
+                  data.split('|')[0], data.split('|')[1], data.split('|')[2], res.list[i].Idx, res.list[i].Qty, ''
+                ])
+              }
+            }
+            $('.qr-table').dataTable().fnAddData(tabledata);
+            $('.qr-table').dataTable().fnDraw();
+            refreshEvent();
+          } else {
+            alert('Warehouse data of this QR code is not exist.');
+          }
+        }
+      })      
+    }
+    var s_value, s_row;
+    var refreshEvent = function() {
+      $('.qr-table').off();
+      $('.qr-table tbody tr').on('dblclick', function() {
+        $('.update-qr-panel-1').fadeIn();
+        $('.update-qty-1').val($($(this).find('td')[5]).html());
+        $('.update-qty-2').val($($(this).find('td')[6]).html());
+        s_row = $(".qr-table").DataTable().row($(this));
+        s_value = [
+          $($(this).find('td')[0]).html(), $($(this).find('td')[1]).html(), $($(this).find('td')[2]).html(),
+          $($(this).find('td')[3]).html(), $($(this).find('td')[4]).html(), $($(this).find('td')[5]).html(), $($(this).find('td')[6]).html()
+        ];
+      });      
+    }
+    $('.remove-qty-btn').on('click', function() {
+      for(var i = 0; i < tabledata.length; i++) {
+        if((tabledata[i][0] == s_value[0]) && (tabledata[i][1] == s_value[1]) &&
+          (tabledata[i][2] == s_value[2]) && (tabledata[i][3] == s_value[3]) && (tabledata[i][4] == s_value[4]) &&
+          (tabledata[i][5] == s_value[5]) && (tabledata[i][6] == s_value[6]) ) {
+            s_row.remove();
+        }
+      }
+      $('.qr-table').dataTable().fnDraw();
+      $('.update-qr-panel-1').fadeOut();
+      refreshEvent();
+    })
+    $('.update-qty-btn').on('click', function() {
+      for(var i = 0; i < tabledata.length; i++) {
+        if((tabledata[i][0] == s_value[0]) && (tabledata[i][1] == s_value[1]) &&
+          (tabledata[i][2] == s_value[2]) && (tabledata[i][3] == s_value[3]) && (tabledata[i][4] == s_value[4]) &&
+          (tabledata[i][5] == s_value[5]) && (tabledata[i][6] == s_value[6]) ) {
+            s_value[5] = $('.update-qty-1').val();
+            tabledata[i][5] = s_value[5];
+            s_value[6] = $('.update-qty-2').val();
+            tabledata[i][6] = s_value[6];
+            s_row.data([s_value[0], s_value[1], s_value[2], s_value[3], s_value[4], s_value[5], s_value[6]]).draw();
+            $('.qr-table').dataTable().fnDraw();
+            $('.update-qr-panel-1').fadeOut();
+            refreshEvent();
+        }
+      }
+    })
+    $('.clear').on('click', function() {
+      tabledata = [];
+      $('.qr-table').dataTable().fnClearTable();
+    })
+    $('.send-output').on('click', function() {
+      tabledata = [];
+      var tmp = $('.qr-table').DataTable().rows().data();
+      for(var i = 0; i < tmp.length; tmp++) {
+        tabledata.push(tmp[i]);
+      }
+      console.log(tabledata);
+      tabledata = tabledata.filter(v => {
+        var checklist = $("body").find('.c_box');
+        for(var i = 0; i < checklist.length; i++) {
+          if($(checklist[i]).prop('checked')) {
+            if($(checklist[i]).data('id') == v[4]) return true;
+          };
+        }
+        return false;
+      })
+      if(tabledata.length == 0) return;
+
+      $.ajax({
+        url: '/dashboard/output/manage/add_detail',
+        type: 'POST',
+        data: {
+          outPidx: data.Idx,
+          data: JSON.stringify(tabledata)
+        },
+        success: function(res) {
+          if(res.status) {
+            loadDetail();
+            $('.clear').click();
+          } else {
+            alert('Cannot save below data.' + res.fail);
+          }
+        }
+      })
+    })
+    
+
+    var detailData = [];
+    var loadDetail = function() {
+      let url;
+      if(data.OutType == 'T') {
+        url = '/dashboard/output/manage/load_detail1';
+      } else if(data.OutType == 'F') {
+        url = '/dashboard/output/manage/load_detail2';
+      } else {
+        url = '/dashboard/output/manage/load_detail3';
+      }
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: {
+          outPidx: data.Idx
+        },
+        success: function(res) {
+          if(res.status) {
+            if(data.OutType == 'T') {
+              $('.detail-table-wrapper-1').fadeIn();
+              $('.detail-table-wrapper-3').fadeOut();
+              $('.detail-table-wrapper-2').fadeOut();
+              detailData = [];
+              for(var i = 0; i < res.data.length; i++) {
+                detailData.push([
+                  res.data[i].idx, res.data[i].outPidx, res.data[i].inIdx, res.data[i].Qty1, res.data[i].Qty2,
+                  res.data[i].moveStatus, res.data[i].FabricType, res.data[i].FabricIdx, res.data[i].Buyer, res.data[i].Color,
+                  res.data[i].Lote, res.data[i].Rack, res.data[i].Width, res.data[i].Weight, res.data[i].Fileno, res.data[i].Remarks
+                ])
+              }
+              $('.detail-table-1').dataTable().fnClearTable();
+              if(detailData.length > 0) {
+                $('.detail-table-1').dataTable().fnAddData(detailData);
+                $('.detail-table-1').dataTable().fnDraw();
+              }
+            } else if(data.OutType == 'F') {
+              $('.detail-table-wrapper-1').fadeOut();
+              $('.detail-table-wrapper-3').fadeOut();
+              $('.detail-table-wrapper-2').fadeIn();
+              detailData = [];
+              for(var i = 0; i < res.data.length; i++) {
+                detailData.push([
+                  res.data[i].idx, res.data[i].outPidx, res.data[i].inIdx, res.data[i].Qty1,
+                  res.data[i].moveStatus, res.data[i].Buyer, res.data[i].Fileno, res.data[i].Styleno, res.data[i].Pono,
+                  res.data[i].Color, res.data[i].Size, res.data[i].Status
+                ])
+              }              
+              $('.detail-table-2').dataTable().fnClearTable();
+              if(detailData.length > 0) {
+                $('.detail-table-2').dataTable().fnAddData(detailData);
+                $('.detail-table-2').dataTable().fnDraw();
+              }
+            } else if(data.OutType == 'O') {
+              $('.detail-table-wrapper-1').fadeOut();
+              $('.detail-table-wrapper-2').fadeOut();
+              $('.detail-table-wrapper-3').fadeIn();
+              detailData = [];
+              for(var i = 0; i < res.data.length; i++) {
+                detailData.push([
+                  res.data[i].idx, res.data[i].outPidx, res.data[i].inIdx, res.data[i].Qty1,
+                  res.data[i].moveStatus, res.data[i].ItemType, res.data[i].Description, res.data[i].Status
+                ])
+              }
+              $('.detail-table-3').dataTable().fnClearTable();
+              if(detailData.length > 0) {
+                $('.detail-table-3').dataTable().fnAddData(detailData);
+                $('.detail-table-3').dataTable().fnDraw();
+              }
+            }            
+          } else {
+            alert('Cannot load details. Please contact support team.');
+          }
+        }
+      })
+    }
+    loadDetail();

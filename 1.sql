@@ -24,13 +24,51 @@ CREATE TABLE `buyer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2942 DEFAULT CHARSET=utf8;
 
 /*Data for the table `buyer` */
 
 insert  into `buyer`(`id`,`Name`) values 
-(1,'Buyer1'),
-(2,'Buyer2');
+(1,'Catherines'),
+(2,'Bella+Canvas'),
+(3,'Li&Fung (Express)'),
+(14,'Chico\'s FAS'),
+(15,'Destination Maternity'),
+(16,'Hybrid (Evy)'),
+(17,'I-Mar'),
+(18,'JCPenney'),
+(19,'Jerry Leigh'),
+(20,'Li&Fung (Kohl\'s)'),
+(21,'Lane Bryant'),
+(22,'Li&Fung (Lucky Brand)'),
+(24,'TSF (Guess)'),
+(25,'Walmart Mexico'),
+(26,'OJG (William Rast)'),
+(27,'Bella+Canvas (Ch98)'),
+(28,'JCrew'),
+(29,'Justice'),
+(77,'Abercrombie&Fitch'),
+(78,'Fanastics'),
+(79,'Maurices'),
+(88,'Bimini Bay Outfitters'),
+(89,'Southern Shirts'),
+(92,'Li&Fung (American Eagle)'),
+(97,'Belk'),
+(99,'B&Y Global (Delta)'),
+(104,'Dress Barn'),
+(105,'Li&Fung (Torrid)'),
+(106,'Sleepwear'),
+(109,'Li&Fung/GBG (Kenneth Cole)'),
+(110,'Li&Fung (Under Amour)'),
+(111,'Golden Touch Imports'),
+(112,'Sanmar'),
+(193,'Homage'),
+(2910,'Li&Fung (GBG)'),
+(2911,'Banana Republic'),
+(2912,'Li&Fung (Aerie)'),
+(2924,'Carter\'s'),
+(2926,'Lucky Brand (Costco)'),
+(2941,'Li&Fung (Lucky Brand Mens)');
 
 /*Table structure for table `fabrictype` */
 
@@ -40,13 +78,35 @@ CREATE TABLE `fabrictype` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=904 DEFAULT CHARSET=utf8;
 
 /*Data for the table `fabrictype` */
 
 insert  into `fabrictype`(`id`,`Name`) values 
-(1,'Type1'),
-(2,'Type2');
+(117,'Single Jersey'),
+(118,'Rib'),
+(147,'Slub Single'),
+(156,'Rib 1x1'),
+(157,'Rib 2x2'),
+(243,'French Terry'),
+(244,'Pique'),
+(265,'Thermal'),
+(266,'Mini Zurry'),
+(267,'Rib 2x1'),
+(268,'Rib 4x2'),
+(269,'Yoko'),
+(270,'Interlock'),
+(271,'Baby Pointel'),
+(272,'Fleece'),
+(275,'Rib 3x3'),
+(276,'Burnout'),
+(277,'Drop Needle'),
+(615,'Waffle'),
+(871,'Damboru'),
+(873,'Sakariba'),
+(901,'Retazo'),
+(902,'Stripe Slub Single'),
+(903,'Stripe Single Jersey');
 
 /*Table structure for table `factoryidx` */
 
@@ -56,13 +116,35 @@ CREATE TABLE `factoryidx` (
   `Idx` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`Idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 /*Data for the table `factoryidx` */
 
 insert  into `factoryidx`(`Idx`,`Name`) values 
-(1,'First'),
-(2,'Second');
+(1,'Head Office'),
+(3,'JS International, S.A.'),
+(4,'Development'),
+(5,'Sewing Factory 1'),
+(7,'People & Arts, S.A.'),
+(8,'INT Bodega'),
+(9,'Recepsa'),
+(10,'Recepsa Bodega');
+
+/*Table structure for table `outdetail` */
+
+DROP TABLE IF EXISTS `outdetail`;
+
+CREATE TABLE `outdetail` (
+  `idx` int(10) NOT NULL AUTO_INCREMENT,
+  `outPidx` int(11) DEFAULT NULL,
+  `inIdx` int(11) DEFAULT NULL,
+  `Qty1` int(11) DEFAULT NULL,
+  `Qty2` int(11) DEFAULT NULL,
+  `moveStatus` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idx`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+
+/*Data for the table `outdetail` */
 
 /*Table structure for table `outhouse` */
 
@@ -80,11 +162,6 @@ CREATE TABLE `outhouse` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `outhouse` */
-
-insert  into `outhouse`(`Idx`,`OutDate`,`OutPlace`,`Delivered`,`ReceivePlace`,`RcvdDate`,`Remark`) values 
-(1,'2018-06-13 00:00:00',2,'2',2,'2018-06-13 00:00:00','123'),
-(2,'2018-06-18 00:00:00',1,'123',1,'2018-06-18 00:00:00','123'),
-(3,'2018-06-19 00:00:00',2,'123',2,'2018-06-19 00:00:00','123');
 
 /*Table structure for table `outplace` */
 
@@ -163,7 +240,7 @@ CREATE TABLE `users` (
 /*Data for the table `users` */
 
 insert  into `users`(`id`,`email`,`password`,`status`,`created_at`) values 
-(7,'monitor@admin.com','$2a$08$Xy/.qTnjObx2f83PpvkXtOD4BINjchN4xeBu7/5b0uT.7h2NuccCK',1,'2018-06-15 13:43:20');
+(7,'monitor@admin.com','$2a$08$Xy/.qTnjObx2f83PpvkXtOD4BINjchN4xeBu7/5b0uT.7h2NuccCK',1,'2018-06-15 16:43:20');
 
 /*Table structure for table `whfabricd` */
 
@@ -178,8 +255,8 @@ CREATE TABLE `whfabricd` (
   `Color` varchar(30) DEFAULT NULL,
   `Lote` varchar(15) DEFAULT NULL,
   `Rack` varchar(5) DEFAULT NULL,
-  `QtyYds` decimal(10,0) DEFAULT NULL,
-  `QtyRoll` decimal(10,0) DEFAULT NULL,
+  `QtyYds` decimal(12,3) DEFAULT NULL,
+  `QtyRoll` decimal(12,3) DEFAULT NULL,
   `Width` varchar(20) DEFAULT NULL,
   `Weight` varchar(20) DEFAULT NULL,
   `Fileno` varchar(50) DEFAULT NULL,
@@ -191,7 +268,7 @@ CREATE TABLE `whfabricd` (
 /*Data for the table `whfabricd` */
 
 insert  into `whfabricd`(`Idx`,`Pidx`,`FabricType`,`FabricIdx`,`Buyer`,`Color`,`Lote`,`Rack`,`QtyYds`,`QtyRoll`,`Width`,`Weight`,`Fileno`,`Remarks`,`MoveStatus`) values 
-(1,1,2,'1',2,'1','1','2',2,1,'1','1','1','1',0);
+(1,1,2,'1',2,'1','1','2',2.000,1.000,'1','1','1','1',0);
 
 /*Table structure for table `whfinishd` */
 
@@ -215,7 +292,65 @@ CREATE TABLE `whfinishd` (
 /*Data for the table `whfinishd` */
 
 insert  into `whfinishd`(`Idx`,`Pidx`,`Buyer`,`Fileno`,`Styleno`,`Pono`,`Color`,`Size`,`Qty`,`Status`,`MoveStatus`) values 
-(1,1,1,'1','1','1','1','1',2,'1',0);
+(1,1,1,'1','1','1','1','1',2,'1',0),
+(2,19,3,'','2303376','','CASUAL NEW OLIVE','XL',8,'1',1),
+(3,19,3,'','2303376','','CASUAL NEW OLIVE','2XL',6,'1',1),
+(4,19,3,'','2303376','','MED. HTHR GREY','XS',1,'1',1),
+(5,19,3,'','2303376','','MED. HTHR GREY','L',5,'1',1),
+(6,19,3,'','2303376','','MED. HTHR GREY','XL',3,'1',1),
+(7,19,3,'','2303376','','MED. HTHR GREY','2XL',8,'1',1),
+(8,20,3,'','28800051','','PITCH BLACK','XS',16,'1',1),
+(9,20,3,'','28800051','','PITCH BLACK','S',16,'1',1),
+(10,20,3,'','28800051','','PITCH BLACK','M',7,'1',1),
+(11,20,3,'','28800051','','PITCH BLACK','L',21,'1',1),
+(12,20,3,'','28800051','','PITCH BLACK','XL',10,'1',1),
+(13,20,3,'','8800225A','','PITCH BLACK','XS',16,'1',1),
+(14,20,3,'','8800225A','','PITCH BLACK','S',16,'1',1),
+(15,20,3,'','8800225A','','PITCH BLACK','M',8,'1',1),
+(16,20,3,'','8800225A','','PITCH BLACK','L',21,'1',1),
+(17,20,3,'','8800225A','','PITCH BLACK','XL',10,'1',1),
+(18,20,3,'','8800225A','','TRUE WHITE','S',8,'1',1),
+(19,20,3,'','8800225A','','TRUE WHITE','M',1,'1',1),
+(20,21,3,'','86H3460','','PALE SNOW HTHR','XS',18,'1',1),
+(21,21,3,'','86H3460','','PALE SNOW HTHR','S',8,'1',1),
+(22,21,3,'','86H3460','','PALE SNOW HTHR','M',12,'1',1),
+(23,21,3,'','86H3460','','PALE SNOW HTHR','L',18,'1',1),
+(24,21,3,'','28800034','','GREEN','XS',2,'1',1),
+(25,21,3,'','28800034','','GREEN','M',3,'1',1),
+(26,21,3,'','8800102D','','CLOUD','XS',2,'1',1),
+(27,21,3,'','8800102D','','CLOUD','S',1,'1',1),
+(28,21,3,'','8800102D','','CLOUD','M',1,'1',1),
+(29,21,3,'','8800102D','','CLOUD','L',2,'1',1),
+(30,22,3,'','70T3969','','BLACK CURRANT','XS',10,'1',1),
+(31,22,3,'','70T3969','','BLACK CURRANT','S',5,'1',1),
+(32,22,3,'','70T3969','','BLACK CURRANT','M',11,'1',1),
+(33,22,3,'','70T3969','','BLACK CURRANT','L',9,'1',1),
+(34,22,3,'','70T3969','','BLACK CURRANT','XL',6,'1',1),
+(35,23,3,'','8604509','','NEW VINTAGE PINK','XXS',4,'1',1),
+(36,23,3,'','8604509','','NEW VINTAGE PINK','XS',1,'1',1),
+(37,23,3,'','8604509','','NEW VINTAGE PINK','M',7,'1',1),
+(38,23,3,'','8604509','','NEW VINTAGE PINK','L',14,'1',1),
+(39,23,3,'','8604509','','NEW VINTAGE PINK','XL',6,'1',1),
+(40,23,3,'','8604509','','PURPLE VEIL','XXS',4,'1',1),
+(41,23,3,'','8604509','','PURPLE VEIL','XS',14,'1',1),
+(42,23,3,'','8604509','','PURPLE VEIL','S',7,'1',1),
+(43,23,3,'','8604509','','PURPLE VEIL','L',10,'1',1),
+(44,23,3,'','8800201','','NEW VINTAGE PINK/TRUE WHITE','XXS',3,'1',1),
+(45,23,3,'','8800201','','NEW VINTAGE PINK/TRUE WHITE','XS',1,'1',1),
+(46,23,3,'','8800201','','NEW VINTAGE PINK/TRUE WHITE','S',2,'1',1),
+(47,23,3,'','8800201','','NEW VINTAGE PINK/TRUE WHITE','M',1,'1',1),
+(48,23,3,'','8800201','','NEW VINTAGE PINK/TRUE WHITE','L',4,'1',1),
+(49,23,3,'','8800201','','NEW VINTAGE PINK/TRUE WHITE','XL',5,'1',1),
+(50,24,3,'','8604786A','','CAMO GREEN','XXS',4,'1',1),
+(51,24,3,'','8604786A','','CAMO GREEN','XS',2,'1',1),
+(52,24,3,'','8604786A','','CAMO GREEN','S',15,'1',1),
+(53,24,3,'','8604786A','','CAMO GREEN','M',10,'1',1),
+(54,24,3,'','8604786A','','CAMO GREEN','L',6,'1',1),
+(55,24,3,'','22300125','','SHARK GREY','XS',5,'1',1),
+(56,24,3,'','22300125','','SHARK GREY','S',5,'1',1),
+(57,24,3,'','2303309','','PITCH BLACK','XS',1,'1',1),
+(58,24,3,'','2303309','','PITCH BLACK','L',1,'1',1),
+(59,24,3,'','2303309','','PATRIOT','S',1,'1',1);
 
 /*Table structure for table `whotherd` */
 
@@ -226,7 +361,7 @@ CREATE TABLE `whotherd` (
   `Pidx` int(11) DEFAULT NULL,
   `ItemType` varchar(30) DEFAULT NULL,
   `Description` varchar(80) DEFAULT NULL,
-  `Qty` decimal(10,0) DEFAULT NULL,
+  `Qty` decimal(12,3) DEFAULT NULL,
   `Status` char(1) DEFAULT NULL,
   `MoveStatus` int(11) DEFAULT NULL,
   PRIMARY KEY (`Idx`)
@@ -235,7 +370,7 @@ CREATE TABLE `whotherd` (
 /*Data for the table `whotherd` */
 
 insert  into `whotherd`(`Idx`,`Pidx`,`ItemType`,`Description`,`Qty`,`Status`,`MoveStatus`) values 
-(1,1,'1','1',1,'1',5);
+(1,1,'1','1',1.000,'1',5);
 
 /*Table structure for table `whwarehouse` */
 
@@ -262,7 +397,13 @@ CREATE TABLE `whwarehouse` (
 insert  into `whwarehouse`(`Idx`,`FactoryIdx`,`WorkOrderIdx`,`OutPlace`,`Delivered`,`ReceivePlace`,`OutDate`,`RcvdDate`,`Remarks`,`OutType`,`Location`,`RefNo`) values 
 (1,1,'2',1,'1',1,'2018-06-14 00:00:00','2018-06-12 00:00:00','1','T','1','1'),
 (2,1,'1',2,'1',1,'2018-06-10 00:00:00','2018-06-10 00:00:00','1','F','1','1'),
-(3,1,'1',1,'1',1,'2018-06-16 23:02:51','2018-06-16 23:02:53','1','O','1','1');
+(3,1,'1',1,'1',1,'2018-06-16 23:02:51','2018-06-16 23:02:53','1','O','1','1'),
+(19,5,'WBS-18529001',5,'',8,'2018-05-29 00:00:00','2000-01-01 00:00:00','','F','','1'),
+(20,5,'WBS-18529002',5,'',8,'2018-05-29 00:00:00','2000-01-01 00:00:00','','F','','2'),
+(21,5,'WBS-18529003',5,'',8,'2018-05-29 00:00:00','2000-01-01 00:00:00','','F','','3'),
+(22,5,'WBS-18529004',5,'',8,'2018-05-29 00:00:00','2000-01-01 00:00:00','','F','','4'),
+(23,5,'WBS-18529005',5,'',8,'2018-05-29 00:00:00','2000-01-01 00:00:00','','F','','5'),
+(24,5,'WBS-18529006',5,'',8,'2018-05-29 00:00:00','2000-01-01 00:00:00','','F','','6');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

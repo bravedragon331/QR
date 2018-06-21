@@ -9,6 +9,7 @@ var FabricTypeD = require('../models/fabrictype');
 var BuyerD = require('../models/buyer');
 var Const = require('../config/const');
 var Outhouse = require('../models/outhouse');
+var Outdetail = require('../models/outdetail');
 
 exports.index = function(req, res){
   res.render('dashboard/index');
@@ -238,6 +239,39 @@ exports.detail_update = function(req, res) {
   }
 }
 
+exports.detail_read = function(req, res) {
+  var type = req.body.type;
+  switch(type) {
+    case 'T':
+      FabricD.get(req.body.idx, function(err, rows) {
+        if(err) {
+          res.json({status: 0});
+        } else {
+          res.json({status: 1, list: rows});
+        }
+      })
+      break;
+    case 'F':
+      FinishD.get(req.body.idx, function(err, rows) {
+        if(err) {
+          res.json({status: 0});
+        } else {
+          res.json({status: 1, list: rows});
+        }
+      })
+      break;
+    case 'O':
+      OtherD.get(req.body.idx, function(err, rows) {
+        if(err) {
+          res.json({status: 0});
+        } else {
+          res.json({status: 1, list: rows});
+        }
+      })
+      break;
+  }
+}
+
 exports.read_qr = function(req, res) {
   res.render('dashboard/read');
 }
@@ -284,7 +318,7 @@ exports.load_output = function(req, res) {
   })
 }
 exports.update_output = function(req, res) {
-  Outhouse.updateout(req.body, function(err, list) {
+  Outhouse.updateOutPut(req.body, function(err, list) {
     if(err) {
       res.json({status: 0});
     } else {
@@ -298,6 +332,72 @@ exports.add_output = function(req, res) {
       res.json({status: 0});
     } else {      
       res.json({status: 1});
+    }
+  })
+}
+
+exports.detail_output = function(req, res) {
+  var id = req.query.id;
+  var type = req.query.type;
+  Outhouse.getOutput(id, function(err, rows) {
+    if(err || (rows.length === 0)) {
+      res.redirect('/');
+    } else {
+      res.render('dashboard/output/detail', {data: rows[0]});
+    }
+  })  
+}
+exports.add_output_detail = function(req, res) {
+  var outPidx = req.body.outPidx;
+  var data = JSON.parse(req.body.data);
+  var all_promises = [];
+  var errors = [];  
+  for(var i = 0; i < data.length; i++) {
+    console.log(data[i]);
+    all_promises.push(
+      new Promise((resolve, reject) => {
+        Outdetail.addDetail({outPidx: outPidx, inIdx: data[i][4], Qty1: data[i][5], Qty2: data[i][6]}, function(err, result) {
+          if(err) {
+            errors.push(i);
+            resolve();
+          } else {
+            resolve();
+          }
+        })
+      })
+    )
+    Promise.all(all_promises).then(() => {
+      res.json({status: 1, fail: errors});
+    })
+  }
+}
+exports.load_output_detail1 = function(req, res) {
+  var outPidx = req.body.outPidx;
+  Outdetail.getDetails1(outPidx, function(err, rows) {
+    if(err){
+      res.json({status: 0});
+    } else {
+      res.json({status: 1, data: rows});
+    }
+  })
+}
+exports.load_output_detail2 = function(req, res) {
+  var outPidx = req.body.outPidx;
+  Outdetail.getDetails2(outPidx, function(err, rows) {
+    if(err){
+      res.json({status: 0});
+    } else {
+      res.json({status: 1, data: rows});
+    }
+  })
+}
+exports.load_output_detail3 = function(req, res) {
+  var outPidx = req.body.outPidx;
+  Outdetail.getDetails3(outPidx, function(err, rows) {
+    if(err){
+      res.json({status: 0});
+    } else {
+      res.json({status: 1, data: rows});
     }
   })
 }

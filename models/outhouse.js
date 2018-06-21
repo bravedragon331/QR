@@ -1,9 +1,9 @@
 var db = require('./db');
 var createOutput = function(body, callback){
   db.query(
-    `INSERT INTO outhouse (OutDate, OutPlace, Delivered, ReceivePlace, RcvdDate, Remark)
-    values (?,?,?,?,?,?)`,
-    [body.OutDate, body.OutPlace, body.Delivered, body.ReceivePlace, body.RcvdDate, body.Remarks],
+    `INSERT INTO outhouse (OutDate, OutPlace, Delivered, ReceivePlace, RcvdDate, Remark, OutType)
+    values (?,?,?,?,?,?,?)`,
+    [body.OutDate, body.OutPlace, body.Delivered, body.ReceivePlace, body.RcvdDate, body.Remarks, body.OutType],
     function(err){
       console.log(err);
       if(err){
@@ -19,8 +19,8 @@ var createOutput = function(body, callback){
 
 var addOutput = function(body, callback) {
   db.query(
-    `SELECT * FROM outhouse WHERE OutDate=? AND OutPlace=? AND Delivered=? AND ReceivePlace=? AND RcvdDate=? AND Remark=?`, 
-    [body.OutDate, body.OutPlace, body.Delivered, body.ReceivePlace, body.RcvdDate, body.Remarks], function(err, rows) {
+    `SELECT * FROM outhouse WHERE OutDate=? AND OutPlace=? AND Delivered=? AND ReceivePlace=? AND RcvdDate=? AND Remark=? AND OutType=?`, 
+    [body.OutDate, body.OutPlace, body.Delivered, body.ReceivePlace, body.RcvdDate, body.Remarks, body.OutType], function(err, rows) {
     if(err) {
       return callback(err);
     }
@@ -39,11 +39,11 @@ var allout = function(callback) {
     return callback(null, rows);
   })
 }
-var updateout = function(body, callback) {
+var updateOutPut = function(body, callback) {
   db.query(
     `UPDATE outhouse SET ? WHERE Idx = ?`, [{
       OutDate:body.OutDate, OutPlace:body.OutPlace, Delivered:body.Delivered, ReceivePlace:body.ReceivePlace,
-      RcvdDate:body.RcvdDate, Remark:body.Remarks
+      RcvdDate:body.RcvdDate, Remark:body.Remarks, OutType: body.OutType
     }, body.Idx],
     function(err, result) {
       console.log(err);
@@ -51,7 +51,16 @@ var updateout = function(body, callback) {
     }
   )
 }
+var getOutput = function(id, callback) {
+  db.query('SELECT * FROM outhouse WHERE Idx = ?', [id], function(err, rows) {
+    if(err) {
+      return callback(err);
+    }
+    return callback(null, rows);
+  })
+}
 
 exports.allout = allout;
-exports.updateout = updateout;
+exports.updateOutPut = updateOutPut;
 exports.addOutput = addOutput;
+exports.getOutput = getOutput;

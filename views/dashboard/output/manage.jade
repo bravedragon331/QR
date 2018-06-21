@@ -14,32 +14,41 @@ block content
             //- .form-group.clearfix.col-md-2
             //-   label.display-block #{__("idx")}
             //-   input.form-control.new-idx(type='text', placeholder='idx', required='')
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("OutDate")}
-              input.form-control.new-outdate(type='text', placeholder='OutDate')
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("OutPlace")}
-              select.select-bar.new-outplace(style='width: 100%;')
-                - for (var i = 0; i < l_outplace.length; ++i) {
-                    option(value='#{l_outplace[i].Idx}') #{l_outplace[i].Name}
-                - }
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("Delivered")}
-              input.form-control.new-delivered(type='text', placeholder='Delivered')
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("ReceivePlace")}
-              select.select-bar.new-receiveplace(style='width: 100%;')
-                - for (var i = 0; i < l_receiveplace.length; ++i) {
-                    option(value='#{l_receiveplace[i].Idx}') #{l_receiveplace[i].Name}
-                - }
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("RcvdDate")}
-              input.form-control.date.new-rcvddate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("Remarks")}
-              input.form-control.new-remarks(type='text', placeholder='Remarks')          
-            .form-group.col-md-12
-              button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top: 25px;') #{__("Add OUT")}
+            .row
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("OutDate")}
+                input.form-control.new-outdate(type='text', placeholder='OutDate')
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("OutPlace")}
+                select.select-bar.new-outplace(style='width: 100%;')
+                  - for (var i = 0; i < l_outplace.length; ++i) {
+                      option(value='#{l_outplace[i].Idx}') #{l_outplace[i].Name}
+                  - }
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("Delivered")}
+                input.form-control.new-delivered(type='text', placeholder='Delivered')            
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("ReceivePlace")}
+                select.select-bar.new-receiveplace(style='width: 100%;')
+                  - for (var i = 0; i < l_receiveplace.length; ++i) {
+                      option(value='#{l_receiveplace[i].Idx}') #{l_receiveplace[i].Name}
+                  - }
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("RcvdDate")}
+                input.form-control.date.new-rcvddate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("OutType")}
+                select.select-bar.new-outtype(style='width: 100%;')
+                  option(value='T') #{__("Fabric")}
+                  option(value='F') #{__("Garment")}
+                  option(value='O') #{__("Others")}
+            .row
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("Remarks")}
+                input.form-control.new-remarks(type='text', placeholder='Remarks')          
+              .form-group.clearfix.col-md-8
+              .form-group.clearfix.col-md-2
+                button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-top: 10px; width: 100%;') #{__("Add OUT")}
       .panel.panel-default.update-out-panel(style='display: none;')
         .panel-heading #{__("Update OUT")}
         .panel-body
@@ -47,33 +56,43 @@ block content
             //- .form-group.clearfix.col-md-2
             //-   label.display-block #{__("idx")}
             input.form-control.update-idx(type='hidden', placeholder='idx', required='')
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("OutDate")}
-              input.form-control.update-outdate(type='text', placeholder='OutDate')
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("OutPlace")}
-              select.select-bar.update-outplace(style='width: 100%;')
-                - for (var i = 0; i < l_outplace.length; ++i) {
-                    option(value='#{l_outplace[i].Idx}') #{l_outplace[i].Name}
-                - }
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("Delivered")}
-              input.form-control.update-delivered(type='text', placeholder='Delivered')
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("ReceivePlace")}
-              select.select-bar.update-receiveplace(style='width: 100%;')
-                - for (var i = 0; i < l_receiveplace.length; ++i) {
-                    option(value='#{l_receiveplace[i].Idx}') #{l_receiveplace[i].Name}
-                - }
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("RcvdDate")}
-              input.form-control.date.update-rcvddate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')
-            .form-group.clearfix.col-md-2
-              label.display-block #{__("Remarks")}
-              input.form-control.update-remarks(type='text', placeholder='Remarks')          
-            .form-group.col-md-12            
-              button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-left: 25px;') #{__("Update Out")}
-              .btn.btn-sm.btn-success.pull-right.remove-data #{__("Delete Out")}
+            .row
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("OutDate")}
+                input.form-control.update-outdate(type='text', placeholder='OutDate')
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("OutPlace")}
+                select.select-bar.update-outplace(style='width: 100%;')
+                  - for (var i = 0; i < l_outplace.length; ++i) {
+                      option(value='#{l_outplace[i].Idx}') #{l_outplace[i].Name}
+                  - }
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("Delivered")}
+                input.form-control.update-delivered(type='text', placeholder='Delivered')
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("ReceivePlace")}
+                select.select-bar.update-receiveplace(style='width: 100%;')
+                  - for (var i = 0; i < l_receiveplace.length; ++i) {
+                      option(value='#{l_receiveplace[i].Idx}') #{l_receiveplace[i].Name}
+                  - }
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("RcvdDate")}
+                input.form-control.date.update-rcvddate(type='text', placeholder='Please choose a date...', data-format='YYYY-MM-DD')            
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("OutType")}
+                select.select-bar.update-outtype(style='width: 100%;', name='handler')
+                  option(value='T') #{__("Fabric")}
+                  option(value='F') #{__("Garment")}
+                  option(value='O') #{__("Others")}
+            .row
+              .form-group.clearfix.col-md-2
+                label.display-block #{__("Remarks")}
+                input.form-control.update-remarks(type='text', placeholder='Remarks')
+              .form-group.clearfix.col-md-6
+              .form-group.clearfix.col-md-2
+                button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-left: 25px; width: 100%; margin-top: 30px;') #{__("Update Out")}
+              .form-group.clearfix.col-md-2
+                .btn.btn-sm.btn-success.pull-right.remove-data(style="width: 100%; margin-top: 30px;") #{__("Delete Out")}
       .panel.panel-default      
         .panel-heading
           a.btn.btn-sm.btn-success.new-button
@@ -91,6 +110,7 @@ block content
                   th #{__("ReceivePlace")}                
                   th #{__("RcvdDate")}
                   th #{__("Remarks")}
+                  th #{__("OutType")}
                   th #{__("Detail")}
               tbody
 block script
@@ -113,6 +133,24 @@ block script
       }
       return '';
     }
+    var l_outtype = [
+      {value: 'T', name: 'Fabric'},
+      {value: 'F', name: 'Garment'},
+      {value: 'O', name: 'Others'}
+    ]
+    var getOutTypeName = function(val) {
+      switch(val) {
+        case 'T':
+          return 'Fabric';
+          break;
+        case 'F':
+          return 'Garment';
+          break;
+        case 'O':
+          return 'Others';
+          break;
+      }
+    }
 
     var loadOut = function() {
       $('.lds-spinner').fadeIn();
@@ -128,8 +166,8 @@ block script
             for(var i = 0; i < res.list.length; i++) {
               tableData.push([
                 res.list[i].Idx, res.list[i].OutDate.split('T')[0], getOutPlaceName(res.list[i].OutPlace), res.list[i].Delivered,
-                getReceivePlaceName(res.list[i].ReceivePlace), res.list[i].RcvdDate.split('T')[0], res.list[i].Remark,
-                `<a href="/dashboard/output/manage/detail?id=`+res.list[i].Idx+`">Detail</a>`
+                getReceivePlaceName(res.list[i].ReceivePlace), res.list[i].RcvdDate.split('T')[0], res.list[i].Remark, getOutTypeName(res.list[i].OutType),
+                `<a href="/dashboard/output/manage/detail?id=`+res.list[i].Idx+`&type=`+res.list[i].OutType+`">Detail</a>`
               ])
             }
             $('.out-table').dataTable().fnClearTable();
@@ -177,6 +215,8 @@ block script
       $('.new-receiveplace').select2();
       $('.update-outplace').select2();
       $('.new-outplace').select2();
+      $('.new-outtype').select2();
+      $('.update-outtype').select2();
 
       $(".new-outdate").datetimepicker({
         format: 'YYYY-MM-DD',
@@ -211,6 +251,7 @@ block script
             $('.update-receiveplace').val(list[i].ReceivePlace).trigger('change');
             $('.update-rcvddate').val(list[i].RcvdDate.split('T')[0]);
             $('.update-remarks').val(list[i].Remark);
+            $('.update-outtype').val(list[i].OutType).trigger('change');
             break;
           }
         }
@@ -230,7 +271,8 @@ block script
           Delivered: $('.update-delivered').val(),
           ReceivePlace: $('.update-receiveplace').val(),          
           RcvdDate: $('.update-rcvddate').val(),
-          Remarks: $('.update-remarks').val()          
+          Remarks: $('.update-remarks').val(),
+          OutType: $('.update-outtype').val()
         },
         success: function(res) {
           $('.lds-spinner').fadeOut();
@@ -256,7 +298,8 @@ block script
           Delivered: $('.new-delivered').val(),
           ReceivePlace: $('.new-receiveplace').val(),          
           RcvdDate: $('.new-rcvddate').val(),
-          Remarks: $('.new-remarks').val()          
+          Remarks: $('.new-remarks').val(),
+          OutType: $('.new-outtype').val()
         },
         success: function(res) {
           $('.lds-spinner').fadeOut();

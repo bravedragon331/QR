@@ -179,7 +179,7 @@ block script
                 res.list[i].Idx, getFactoryName(res.list[i].FactoryIdx), res.list[i].WorkOrderIdx, getOutPlaceName(res.list[i].OutPlace), res.list[i].Delivered,
                 getReceivePlaceName(res.list[i].ReceivePlace), res.list[i].OutDate.split('T')[0], res.list[i].RcvdDate.split('T')[0], res.list[i].Remarks,
                 res.list[i].OutType, res.list[i].Location, res.list[i].RefNo,
-                `<a href="/dashboard/input/manage/detail?id=`+res.list[i].RefNo+`&type=`+res.list[i].OutType+`">Detail</a>`
+                `<a href="/dashboard/input/manage/detail?id=`+res.list[i].Idx+`&type=`+res.list[i].OutType+`">Detail</a>`
               ])
             }
             $('.qr-table').dataTable().fnClearTable();
