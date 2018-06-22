@@ -71,7 +71,7 @@ label:hover:before {
 
 .signin-form-area, .signup-form-area{
   margin: auto;
-  padding-top: 175px !important;
+  padding-top: 20vh !important;
 }
 
 .pr-0{
