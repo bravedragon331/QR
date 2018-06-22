@@ -378,6 +378,7 @@ block script
     $('.clear').on('click', function() {
       tabledata = [];
       read_qrs = [];
+      $('#cam-qr-count').html(read_qrs.length);
       $('.qr-table').dataTable().fnClearTable();
     })
     $('.send-output').on('click', function() {
