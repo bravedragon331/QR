@@ -122,6 +122,7 @@ block content
           table.table.table-striped.table-hover.js-exportable.dataTable.qr-table
             thead
               tr
+                th #{__("Detail")}
                 th #{__("idx")}
                 th #{__("Factoryidx")}
                 th #{__("WorkOrderidx#")}
@@ -133,8 +134,7 @@ block content
                 th #{__("Remarks")}
                 th #{__("OutType")}
                 th #{__("Location")}
-                th #{__("RefNo")}
-                th #{__("Detail")}
+                th #{__("RefNo")}                
             tbody            
 block script
   script(src='/assets/plugins/moment/moment.js')
@@ -176,10 +176,10 @@ block script
             list = res.list;
             for(var i = 0; i < res.list.length; i++) {
               tableData.push([
+                `<a class="btn btn-success btn-sm" href="/dashboard/input/manage/detail?id=`+res.list[i].Idx+`&type=`+res.list[i].OutType+`">Detail</a>`,
                 res.list[i].Idx, getFactoryName(res.list[i].FactoryIdx), res.list[i].WorkOrderIdx, getOutPlaceName(res.list[i].OutPlace), res.list[i].Delivered,
                 getReceivePlaceName(res.list[i].ReceivePlace), res.list[i].OutDate.split('T')[0], res.list[i].RcvdDate.split('T')[0], res.list[i].Remarks,
-                res.list[i].OutType, res.list[i].Location, res.list[i].RefNo,
-                `<a href="/dashboard/input/manage/detail?id=`+res.list[i].Idx+`&type=`+res.list[i].OutType+`">Detail</a>`
+                res.list[i].OutType, res.list[i].Location, res.list[i].RefNo                
               ])
             }
             $('.qr-table').dataTable().fnClearTable();
@@ -241,7 +241,7 @@ block script
         $('.add-qr-panel').fadeOut();
         $('.update-qr-panel').fadeIn();
         for(var i = 0; i < list.length; i++) {
-          if(list[i].Idx == $($(this).find('td')[0]).html()) {
+          if(list[i].Idx == $($(this).find('td')[1]).html()) {
             $('.update-idx').val(list[i].Idx);
             $('.update-factoryidx').val(list[i].FactoryIdx).trigger('change');
             $('.update-workorderidx').val(list[i].WorkOrderIdx);
@@ -301,12 +301,11 @@ block script
         }
       }
       $.ajax({
-        url: '/dashboard/input/manage/input/delete_warehouse',
+        url: '/dashboard/input/manage/delete_warehouse',
         type: 'POST',
         data: {
           idx: tmp.Idx,
           type: tmp.OutType,
-          refno: tmp.RefNo
         },
         success: function(res) {
           $('.lds-spinner').fadeOut();

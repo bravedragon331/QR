@@ -117,6 +117,9 @@ block content
                   th #{__("InIdx")}
                   th #{__("QtyYds")}
                   th #{__("QtyRoll")}
+                  th #{__("OutType")}
+                  th #{__("WorkOrderIdx")}
+                  th #{__("RefNo")}
                   th #{__("MoveStatus")}                
                   th #{__("FabricType")}
                   th #{__("FabricIdx")}
@@ -142,6 +145,9 @@ block content
                   th #{__("OutPidx")}
                   th #{__("InIdx")}
                   th #{__("Qty")}
+                  th #{__("OutType")}
+                  th #{__("WorkOrderIdx")}
+                  th #{__("RefNo")}
                   th #{__("MoveStatus")}
                   th #{__("Buyer")}
                   th #{__("Fileno")}
@@ -164,6 +170,9 @@ block content
                   th #{__("OutPidx")}
                   th #{__("InIdx")}
                   th #{__("Qty")}
+                  th #{__("OutType")}
+                  th #{__("WorkOrderIdx")}
+                  th #{__("RefNo")}
                   th #{__("MoveStatus")}
                   th #{__("ItemType")}
                   th #{__("Description")}
@@ -404,15 +413,16 @@ block script
         success: function(res) {
           $('.lds-spinner').fadeOut();
           if(res.status) {
+            console.log(res.data);
             if(data.OutType == 'T') {
               $('.detail-table-wrapper-1').fadeIn();
               $('.detail-table-wrapper-3').fadeOut();
               $('.detail-table-wrapper-2').fadeOut();
               detailData = [];
-              console.log(res.data);
               for(var i = 0; i < res.data.length; i++) {
                 detailData.push([
                   res.data[i].idx, res.data[i].outPidx, res.data[i].inIdx, res.data[i].Qty1, res.data[i].Qty2,
+                  res.data[i].OutType, res.data[i].WorkOrderIdx, res.data[i].RefNo,
                   res.data[i].moveStatus, res.data[i].FabricType, res.data[i].FabricIdx, res.data[i].Buyer, res.data[i].Color,
                   res.data[i].Lote, res.data[i].Rack, res.data[i].Width, res.data[i].Weight, res.data[i].Fileno, res.data[i].Remarks
                 ])
@@ -430,6 +440,7 @@ block script
               for(var i = 0; i < res.data.length; i++) {
                 detailData.push([
                   res.data[i].idx, res.data[i].outPidx, res.data[i].inIdx, res.data[i].Qty1,
+                  res.data[i].OutType, res.data[i].WorkOrderIdx, res.data[i].RefNo,
                   res.data[i].moveStatus, res.data[i].Buyer, res.data[i].Fileno, res.data[i].Styleno, res.data[i].Pono,
                   res.data[i].Color, res.data[i].Size, res.data[i].Status
                 ])
@@ -447,6 +458,7 @@ block script
               for(var i = 0; i < res.data.length; i++) {
                 detailData.push([
                   res.data[i].idx, res.data[i].outPidx, res.data[i].inIdx, res.data[i].Qty1,
+                  res.data[i].OutType, res.data[i].WorkOrderIdx, res.data[i].RefNo,
                   res.data[i].moveStatus, res.data[i].ItemType, res.data[i].Description, res.data[i].Status
                 ])
               }

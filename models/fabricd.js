@@ -37,7 +37,7 @@ var getAll = function(callback) {
 
 var remove = function(id, callback) {
   db.query(
-    `DELETE FROM whfabricd WHERE Idx = ?`, [id], function(err) {
+    `DELETE FROM whfabricd WHERE Pidx = ?`, [id], function(err) {
       callback(err);
     }
   )

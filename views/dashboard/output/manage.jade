@@ -104,6 +104,7 @@ block content
             table.table.table-striped.table-hover.js-exportable.dataTable.out-table
               thead
                 tr
+                  th #{__("Detail")}
                   th #{__("idx")}
                   th #{__("OutDate")}
                   th #{__("OutPlace")}
@@ -111,8 +112,7 @@ block content
                   th #{__("ReceivePlace")}                
                   th #{__("RcvdDate")}
                   th #{__("Remarks")}
-                  th #{__("OutType")}
-                  th #{__("Detail")}
+                  th #{__("OutType")}                  
               tbody
 block script
   script(src='/assets/plugins/moment/moment.js')
@@ -166,9 +166,9 @@ block script
             list = res.list;
             for(var i = 0; i < res.list.length; i++) {
               tableData.push([
+                `<a class="btn btn-success btn-sm" href="/dashboard/output/manage/detail?id=`+res.list[i].Idx+`&type=`+res.list[i].OutType+`">Detail</a>`,
                 res.list[i].Idx, res.list[i].OutDate.split('T')[0], getOutPlaceName(res.list[i].OutPlace), res.list[i].Delivered,
-                getReceivePlaceName(res.list[i].ReceivePlace), res.list[i].RcvdDate.split('T')[0], res.list[i].Remark, getOutTypeName(res.list[i].OutType),
-                `<a href="/dashboard/output/manage/detail?id=`+res.list[i].Idx+`&type=`+res.list[i].OutType+`">Detail</a>`
+                getReceivePlaceName(res.list[i].ReceivePlace), res.list[i].RcvdDate.split('T')[0], res.list[i].Remark, getOutTypeName(res.list[i].OutType)                
               ])
             }
             $('.out-table').dataTable().fnClearTable();
@@ -244,7 +244,7 @@ block script
         $('.add-out-panel').fadeOut();
         $('.update-out-panel').fadeIn();
         for(var i = 0; i < list.length; i++) {
-          if(list[i].Idx == $($(this).find('td')[0]).html()) {
+          if(list[i].Idx == $($(this).find('td')[1]).html()) {
             $('.update-idx').val(list[i].Idx);
             $('.update-outdate').val(list[i].OutDate.split('T')[0]);
             $('.update-outplace').val(list[i].OutPlace).trigger('change');

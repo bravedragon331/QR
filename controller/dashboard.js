@@ -96,7 +96,7 @@ exports.delete_warehouse = function(req, res) {
     } else {
       switch(req.body.type) {
         case 'T':
-          FabricD.remove(req.body.refno, function(err) {
+          FabricD.remove(req.body.idx, function(err) {
             if(err) {
               res.json({status: 2})
             } else {
@@ -105,7 +105,7 @@ exports.delete_warehouse = function(req, res) {
           })
           break;
         case 'F':
-          FinishD.remove(req.body.refno, function(err) {
+          FinishD.remove(req.body.idx, function(err) {
             if(err) {
               res.json({status: 2});
             } else {
@@ -114,7 +114,7 @@ exports.delete_warehouse = function(req, res) {
           })
           break;
         case 'O':
-          OtherD.remove(req.body.refno, function(err) {
+          OtherD.remove(req.body.idx, function(err) {
             if(err) {
               res.json({status: 2});
             } else {

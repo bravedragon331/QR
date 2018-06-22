@@ -19,12 +19,13 @@ var addDetail = function(body, callback) {
 
 var getDetails1 = function(id, callback) {
   db.query(`
-    SELECT outdetail.*, whfabricd.*, buyer.Name as Buyer, fabrictype.Name as FabricType
+    SELECT outdetail.*, whfabricd.*, buyer.Name as Buyer, fabrictype.Name as FabricType, whwarehouse.WorkOrderIdx, whwarehouse.RefNo,whwarehouse.OutType
     FROM outdetail as outdetail
     JOIN outhouse as outhouse ON outhouse.Idx = outdetail.outPidx
     JOIN whfabricd as whfabricd ON outhouse.OutType = "T" AND outdetail.inIdx = whfabricd.Idx
     JOIN buyer as buyer ON buyer.id = whfabricd.Buyer
     JOIN fabrictype as fabrictype ON fabrictype.id = whfabricd.FabricType
+    JOIN whwarehouse as whwarehouse ON whwarehouse.Idx = whfabricd.Pidx
     WHERE outdetail.outPidx = ?`, [id], function(err, rows) {
     if(err) {
       console.log(err);
@@ -36,11 +37,12 @@ var getDetails1 = function(id, callback) {
 }
 var getDetails2 = function(id, callback) {
   db.query(`
-    SELECT outdetail.*, whfinishd.*, buyer.Name as Buyer
+    SELECT outdetail.*, whfinishd.*, buyer.Name as Buyer, whwarehouse.WorkOrderIdx, whwarehouse.RefNo,whwarehouse.OutType
     FROM outdetail as outdetail
     JOIN outhouse as outhouse ON outhouse.Idx = outdetail.outPidx
     JOIN whfinishd as whfinishd ON outhouse.OutType = "F" AND outdetail.inIdx = whfinishd.Idx
     JOIN buyer as buyer ON buyer.id = whfinishd.Buyer
+    JOIN whwarehouse as whwarehouse ON whwarehouse.Idx = whfinishd.Pidx
     WHERE outdetail.outPidx = ?`, [id], function(err, rows) {
     if(err) {
       console.log(err);
@@ -52,10 +54,11 @@ var getDetails2 = function(id, callback) {
 }
 var getDetails3 = function(id, callback) {
   db.query(`
-    SELECT outdetail.*, whotherd.*
+    SELECT outdetail.*, whotherd.*, whwarehouse.WorkOrderIdx, whwarehouse.RefNo,whwarehouse.OutType
     FROM outdetail as outdetail
     JOIN outhouse as outhouse ON outhouse.Idx = outdetail.outPidx
     JOIN whotherd as whotherd ON outhouse.OutType = "O" AND outdetail.inIdx = whotherd.Idx
+    JOIN whwarehouse as whwarehouse ON whwarehouse.Idx = whotherd.Pidx
     WHERE outdetail.outPidx = ?`, [id], function(err, rows) {
     if(err) {
       callback(err);

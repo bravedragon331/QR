@@ -25,7 +25,7 @@ var update = function(body, callback) {
 
 var remove = function(id, callback) {
   db.query(
-    `DELETE FROM whotherd WHERE Idx = ?`, [id], function(err) {
+    `DELETE FROM whotherd WHERE Pidx = ?`, [id], function(err) {
       callback(err);
     }
   )
