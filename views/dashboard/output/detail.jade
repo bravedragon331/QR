@@ -27,22 +27,30 @@ block link
     .content {
       padding: 15px;
     }
+    .html5buttons {
+      display:none;
+    }
 block content
   section.content
     .row
       .col-md-3(style='text-align: center;')
         video#qr-video(muted='', autoplay='', playsinline='')
-      .col-md-3(style='text-align: center;')
-        canvas#debug-canvas
-      .col-md-6(style='text-align: center;')
-        h2(style='display:inline-block;') #{__('Scan from File')}
-        button.btn.btn-sm.btn-success(onclick="$('#file-selector').click();", style='display:block; margin-top:-10px; margin: auto;') #{__('Choose File')}
-        input#file-selector.hide(type='file')
+      .col-md-3(style='text-align: center; display: none;')
+        canvas#debug-canvas      
+      input#file-selector.hide(type='file')
     .row(style='text-align: center;')
       b Detected QR code: 
       span#cam-qr-result None
+    .panel.panel-default.add-qr-panel(style='display:none; max-width: 500px;')
+      .panel-heading #{__("Add QR")}
+      .panel-body
+        .form-group.clearfix.col-md-6
+          label.display-block #{__("InIdx")}
+          input.form-control.add-idx(type='text', placeholder='Idx')
+        .form-group.clearfix.col-md-6
+          button.btn.btn-sm.btn-success.pull-right.add-qr-btn(type='submit', style='width: 100%; margin-top: 28px;') #{__("Add QR")}
     .panel.panel-default.update-qr-panel-1(style='display: none;')
-      .panel-heading #{__("Update OUT")}
+      .panel-heading #{__("Update QR")}
       .panel-body
         .form-group.clearfix.col-md-2
           label.display-block #{__("Qty 1")}
@@ -54,7 +62,7 @@ block content
         .form-group.clearfix.col-md-1
           .btn.btn-sm.btn-success.pull-right.remove-qty-btn(style="width: 100%; margin-top: 30px;") #{__("Delete Out")}
         .form-group.clearfix.col-md-1
-          button.btn.btn-sm.btn-success.pull-right.update-qty-btn(type='submit', style='margin-left: 25px; width: 100%; margin-top: 30px;') #{__("Update Out")}        
+          button.btn.btn-sm.btn-success.pull-right.update-qty-btn(type='submit', style='margin-left: 25px; width: 100%; margin-top: 30px;') #{__("Update Out")}
     .panel.panel-default
       .panel-heading
         | #{__("QR LIST")}
@@ -62,6 +70,8 @@ block content
         .row
           button.btn.btn-sm.btn-success.pull-right.send-output  #{__("Send Output")}
           button.btn.btn-sm.btn-success.pull-right.clear(style='margin-right: 15px;')  #{__("Clear List")}
+          button.btn.btn-sm.btn-success.pull-right.clear(onclick="$('#file-selector').click();", style='margin-right: 15px;') #{__('Choose File')}
+          button.btn.btn-sm.btn-success.pull-right.add-qr(style='margin-right: 15px;')  #{__("Add Code")}
         .row
           div(style="overflow:auto")
             table.table.table-striped.table-hover.js-exportable.dataTable.qr-table
@@ -75,69 +85,88 @@ block content
                   th #{__("Qty 1")}
                   th #{__("Qty 2")}
               tbody
+    
+    .panel.panel-default.update-detail-panel(style='display: none;')
+      .panel-heading #{__("Update Detail")}
+      .panel-body
+        input(type="hidden").update-detail-idx
+        .form-group.clearfix.col-md-2
+          label.display-block #{__("Qty 1")}
+          input.form-control.update-detail-1(type='text', placeholder='Qty')
+        .form-group.clearfix.col-md-2
+          label.display-block #{__("Qty 2")}
+          input.form-control.update-detail-2(type='text', placeholder='Qty')
+        .form-group.clearfix.col-md-6
+        .form-group.clearfix.col-md-1
+          .btn.btn-sm.btn-success.pull-right.remove-detail-btn(style="width: 100%; margin-top: 30px;") #{__("Delete Detail")}
+        .form-group.clearfix.col-md-1
+          button.btn.btn-sm.btn-success.pull-right.update-detail-btn(type='submit', style='margin-left: 25px; width: 100%; margin-top: 30px;') #{__("Update Detail")}
     .panel.panel-default.detail-table-wrapper-1
       .panel-heading
         | #{__("Out Detail")}
       .panel-body
-        div(style="overflow:auto")
-          table.table.table-striped.table-hover.js-exportable.dataTable.detail-table-1
-            thead
-              tr                
-                th #{__("Idx")}
-                th #{__("OutPidx")}
-                th #{__("InIdx")}
-                th #{__("QtyYds")}
-                th #{__("QtyRoll")}
-                th #{__("MoveStatus")}                
-                th #{__("FabricType")}
-                th #{__("FabricIdx")}
-                th #{__("Buyer")}                
-                th #{__("Color")}
-                th #{__("Lote")}
-                th #{__("Rack")}
-                th #{__("Width")}
-                th #{__("Weight")}
-                th #{__("Fileno")}
-                th #{__("Remarks")}
-            tbody
+        .row
+          div(style="overflow:auto")
+            table.table.table-striped.table-hover.js-exportable.dataTable.detail-table-1
+              thead
+                tr                
+                  th #{__("Idx")}
+                  th #{__("OutPidx")}
+                  th #{__("InIdx")}
+                  th #{__("QtyYds")}
+                  th #{__("QtyRoll")}
+                  th #{__("MoveStatus")}                
+                  th #{__("FabricType")}
+                  th #{__("FabricIdx")}
+                  th #{__("Buyer")}                
+                  th #{__("Color")}
+                  th #{__("Lote")}
+                  th #{__("Rack")}
+                  th #{__("Width")}
+                  th #{__("Weight")}
+                  th #{__("Fileno")}
+                  th #{__("Remarks")}
+              tbody
     .panel.panel-default.detail-table-wrapper-2
       .panel-heading
         | #{__("Out Detail")}
       .panel-body
-        div(style="overflow:auto")
-          table.table.table-striped.table-hover.js-exportable.dataTable.detail-table-2
-            thead
-              tr                
-                th #{__("Idx")}
-                th #{__("OutPidx")}
-                th #{__("InIdx")}
-                th #{__("Qty")}
-                th #{__("MoveStatus")}
-                th #{__("Buyer")}
-                th #{__("Fileno")}
-                th #{__("Styleno")}
-                th #{__("Pono")}
-                th #{__("Color")}
-                th #{__("Size")}
-                th #{__("Status")}
-            tbody
+        .row
+          div(style="overflow:auto")
+            table.table.table-striped.table-hover.js-exportable.dataTable.detail-table-2
+              thead
+                tr                
+                  th #{__("Idx")}
+                  th #{__("OutPidx")}
+                  th #{__("InIdx")}
+                  th #{__("Qty")}
+                  th #{__("MoveStatus")}
+                  th #{__("Buyer")}
+                  th #{__("Fileno")}
+                  th #{__("Styleno")}
+                  th #{__("Pono")}
+                  th #{__("Color")}
+                  th #{__("Size")}
+                  th #{__("Status")}
+              tbody
     .panel.panel-default.detail-table-wrapper-3
       .panel-heading
         | #{__("Out Detail")}
       .panel-body
-        div(style="overflow:auto")
-          table.table.table-striped.table-hover.js-exportable.dataTable.detail-table-3
-            thead
-              tr                
-                th #{__("Idx")}
-                th #{__("OutPidx")}
-                th #{__("InIdx")}
-                th #{__("Qty")}
-                th #{__("MoveStatus")}
-                th #{__("ItemType")}
-                th #{__("Description")}
-                th #{__("Status")}
-            tbody   
+        .row
+          div(style="overflow:auto")
+            table.table.table-striped.table-hover.js-exportable.dataTable.detail-table-3
+              thead
+                tr                
+                  th #{__("Idx")}
+                  th #{__("OutPidx")}
+                  th #{__("InIdx")}
+                  th #{__("Qty")}
+                  th #{__("MoveStatus")}
+                  th #{__("ItemType")}
+                  th #{__("Description")}
+                  th #{__("Status")}
+              tbody   
 block script
   script(type='module').
     import QrScanner from "/qr-scanner.min.js";  
@@ -204,8 +233,8 @@ block script
   script.
     var data = (!{JSON.stringify(data)});
     var init = function() {
-      $('.qr-table').DataTable({
-        "pageLength": 25,
+      $('.dataTable').DataTable({
+        "pageLength": 50,
         responsive: true,
         dom: '<"html5buttons"B>lTfgtip',
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
@@ -213,38 +242,45 @@ block script
       $('.update-qr-panel-1').on('click', 'a.panel-close', function () {
         $(this).parents('.update-qr-panel-1').fadeOut();
       });
+      $('.add-qr-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.add-qr-panel').fadeOut();
+      });
+      $('.update-detail-panel').on('click', 'a.panel-close', function () {
+        $(this).parents('.update-detail-panel').fadeOut();
+      });
     }
     init();
     var tabledata = [];
     var pre_data = '';
-    var addTable = function(data) {
-      if(pre_data == data) return;
-      pre_data = data;
+    var addTable = function(data1) {
+      if(pre_data == data1) return;
+      pre_data = data1;
+      if(data1.split('|')[0] != data.OutType) return;
       $.ajax({
         url: '/dashboard/input/manage/detail_read',
         type: 'POST',
         data: {
-          type: data.split('|')[0],
-          idx: data.split('|')[3]
+          type: data1.split('|')[0],
+          idx: data1.split('|')[3]
         },
         success: function(res) {
           if(res.status) {
             tabledata = [];
             for(var i = 0; i < res.list.length; i++) {
-              if(data.split('|')[0] == 'T') {
+              if(data1.split('|')[0] == 'T') {
                 tabledata.push([
                   '<input type="checkbox" class="c_box" data-id="'+res.list[i].Idx+'"',
                   data.split('|')[0], data.split('|')[1], data.split('|')[2], res.list[i].Idx, res.list[i].QtyYds, res.list[i].QtyRoll
                 ])
-              } else if(data.split('|')[0] == 'F') {
+              } else if(data1.split('|')[0] == 'F') {
                 tabledata.push([
                   '<input type="checkbox" class="c_box" data-id="'+res.list[i].Idx+'">',
-                  data.split('|')[0], data.split('|')[1], data.split('|')[2], res.list[i].Idx, res.list[i].Qty, ''
+                  data1.split('|')[0], data1.split('|')[1], data1.split('|')[2], res.list[i].Idx, res.list[i].Qty, ''
                 ])
-              } else if(data.split('|')[0] == 'O'){
+              } else if(data1.split('|')[0] == 'O'){
                 tabledata.push([
                   '<input type="checkbox" class="c_box" data-id="'+res.list[i].Idx+'">',
-                  data.split('|')[0], data.split('|')[1], data.split('|')[2], res.list[i].Idx, res.list[i].Qty, ''
+                  data1.split('|')[0], data1.split('|')[1], data1.split('|')[2], res.list[i].Idx, res.list[i].Qty, ''
                 ])
               }
             }
@@ -264,6 +300,7 @@ block script
       $('.qr-table').off();
       $('.qr-table tbody tr').on('dblclick', function() {
         $('.update-qr-panel-1').fadeIn();
+        $('.add-qr-panel').fadeOut();
         $('.update-qty-1').val($($(this).find('td')[5]).html());
         $('.update-qty-2').val($($(this).find('td')[6]).html());
         s_row = $(".qr-table").DataTable().row($(this));
@@ -307,11 +344,10 @@ block script
     })
     $('.send-output').on('click', function() {
       tabledata = [];
-      var tmp = $('.qr-table').DataTable().rows().data();
-      for(var i = 0; i < tmp.length; tmp++) {
-        tabledata.push(tmp[i]);
+      var tmp = $('.qr-table').DataTable().rows().data();      
+      for(var i = 0; i < tmp.length; i++) {
+        tabledata.push(tmp[i]);                
       }
-      console.log(tabledata);
       tabledata = tabledata.filter(v => {
         var checklist = $("body").find('.c_box');
         for(var i = 0; i < checklist.length; i++) {
@@ -365,6 +401,7 @@ block script
               $('.detail-table-wrapper-3').fadeOut();
               $('.detail-table-wrapper-2').fadeOut();
               detailData = [];
+              console.log(res.data);
               for(var i = 0; i < res.data.length; i++) {
                 detailData.push([
                   res.data[i].idx, res.data[i].outPidx, res.data[i].inIdx, res.data[i].Qty1, res.data[i].Qty2,
@@ -410,7 +447,8 @@ block script
                 $('.detail-table-3').dataTable().fnAddData(detailData);
                 $('.detail-table-3').dataTable().fnDraw();
               }
-            }            
+            }
+            refreshEvent2();
           } else {
             alert('Cannot load details. Please contact support team.');
           }
@@ -418,3 +456,107 @@ block script
       })
     }
     loadDetail();
+    var refreshEvent2 = function() {
+      $('.detail-table-2').off();
+      $('.detail-table-2 tbody tr').on('dblclick', function() {
+        $('.update-detail-1').val($($(this).find('td')[3]).html());
+        $('.update-detail-2').val('');
+        $('.update-detail-idx').val($($(this).find('td')[0]).html());
+        $('.update-detail-panel').fadeIn();
+      });
+      $('.detail-table-1').off();
+      $('.detail-table-1 tbody tr').on('dblclick', function() {
+        $('.update-detail-1').val($($(this).find('td')[3]).html());
+        $('.update-detail-2').val($($(this).find('td')[4]).html());
+        $('.update-detail-idx').val($($(this).find('td')[0]).html());
+        $('.update-detail-panel').fadeIn();
+      });
+      $('.detail-table-3').off();
+      $('.detail-table-3 tbody tr').on('dblclick', function() {
+        $('.update-detail-1').val($($(this).find('td')[3]).html());
+        $('.update-detail-1').val('');
+        $('.update-detail-idx').val($($(this).find('td')[0]).html());
+        $('.update-detail-panel').fadeIn();
+      });
+    }
+    $('.update-detail-btn').on('click', function() {
+      $.ajax({
+        url: '/dashboard/output/manage/detail_update',
+        type: 'POST',
+        data: {
+          qty1: $('.update-detail-1').val(),
+          qty2: $('.update-detail-2').val(),
+          idx: $('.update-detail-idx').val()
+        },
+        success: function(res) {
+          $('.update-detail-panel').fadeOut();
+          if(res.status) {
+            loadDetail();
+          } else {
+            alert('Cannot update detail. Please contact support team.');
+          }
+        }
+      })
+    })
+    $('.remove-detail-btn').on('click', function() {
+      $.ajax({
+        url: '/dashboard/output/manage/detail_remove',
+        type: 'POST',
+        data: {
+          idx: $('.update-detail-idx').val()
+        },
+        success: function(res) {
+          $('.update-detail-panel').fadeOut();
+          if(res.status) {
+            loadDetail();
+          } else {
+            alert('Cannot remove detail. Please contact support team.');
+          }
+        }
+      })
+    })
+
+    $('.add-qr').on('click', function() {
+      $('.add-qr-panel').fadeIn();
+      $('.update-qr-panel-1').fadeOut();
+    })
+    $('.add-qr-btn').on('click', function() {
+      $.ajax({
+        url: '/dashboard/input/manage/detail_read',
+        type: 'POST',
+        data: {
+          type: data.OutType,
+          idx: $('.add-idx').val()
+        },
+        success: function(res) {
+          if(res.status) {
+            tabledata = [];
+            for(var i = 0; i < res.list.length; i++) {
+              if(data.OutType == 'T') {
+                tabledata.push([
+                  '<input type="checkbox" class="c_box" data-id="'+res.list[i].Idx+'">',
+                  data.OutType, '', '', res.list[i].Idx, res.list[i].QtyYds, res.list[i].QtyRoll
+                ])
+              } else if(data.OutType == 'F') {
+                tabledata.push([
+                  '<input type="checkbox" class="c_box" data-id="'+res.list[i].Idx+'">',
+                  data.OutType, '', '', res.list[i].Idx, res.list[i].Qty, ''
+                ])
+              } else if(data.OutType == 'O'){
+                tabledata.push([
+                  '<input type="checkbox" class="c_box" data-id="'+res.list[i].Idx+'">',
+                  data.OutType, '', '', res.list[i].Idx, res.list[i].Qty, ''
+                ])
+              }
+            }
+            if(tabledata.length > 0) {
+              $('.qr-table').dataTable().fnAddData(tabledata);
+              $('.qr-table').dataTable().fnDraw();
+            }            
+            refreshEvent();
+          } else {
+            alert('Warehouse data of this QR code is not exist.');
+          }
+        }
+      })
+    })

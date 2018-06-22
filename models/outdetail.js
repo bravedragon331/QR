@@ -38,11 +38,12 @@ var getDetails2 = function(id, callback) {
   db.query(`
     SELECT outdetail.*, whfinishd.*, buyer.Name as Buyer
     FROM outdetail as outdetail
-    LEFT JOIN outhouse as outhouse ON outhouse.Idx = outdetail.outPidx
-    LEFT JOIN whfinishd as whfinishd ON outhouse.OutType = "F" AND outdetail.inIdx = whfinishd.Idx
+    JOIN outhouse as outhouse ON outhouse.Idx = outdetail.outPidx
+    JOIN whfinishd as whfinishd ON outhouse.OutType = "F" AND outdetail.inIdx = whfinishd.Idx
     JOIN buyer as buyer ON buyer.id = whfinishd.Buyer
     WHERE outdetail.outPidx = ?`, [id], function(err, rows) {
     if(err) {
+      console.log(err);
       callback(err);
     } else {
       callback(null, rows);
@@ -53,8 +54,8 @@ var getDetails3 = function(id, callback) {
   db.query(`
     SELECT outdetail.*, whotherd.*
     FROM outdetail as outdetail
-    LEFT JOIN outhouse as outhouse ON outhouse.Idx = outdetail.outPidx
-    LEFT JOIN whotherd as whotherd ON outhouse.OutType = "O" AND outdetail.inIdx = whotherd.Idx
+    JOIN outhouse as outhouse ON outhouse.Idx = outdetail.outPidx
+    JOIN whotherd as whotherd ON outhouse.OutType = "O" AND outdetail.inIdx = whotherd.Idx
     WHERE outdetail.outPidx = ?`, [id], function(err, rows) {
     if(err) {
       callback(err);
@@ -63,7 +64,26 @@ var getDetails3 = function(id, callback) {
     }
   })
 }
+var updateDetail = function(body, callback) {
+  db.query(`
+    UPDATE outdetail SET ? WHERE idx = ?`, [{
+      Qty1: body.qty1, Qty2: body.qty2
+    }, body.idx], function(err) {
+      callback(err);
+    }
+  )
+}
+var removeDetail = function(body, callback) {
+  db.query(
+    `DELETE FROM outdetail WHERE idx = ?`, [body.idx], function(err) {
+      callback(err);
+    }
+  )
+}
+
 exports.addDetail = addDetail;
 exports.getDetails1 = getDetails1;
 exports.getDetails2 = getDetails2;
 exports.getDetails3 = getDetails3;
+exports.updateDetail = updateDetail;
+exports.removeDetail = removeDetail;

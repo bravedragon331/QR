@@ -89,5 +89,10 @@
 	"FabricIdx": "FabricIdx",
 	"Qty 1": "Qty 1",
 	"Qty 2": "Qty 2",
-	"Check": "Check"
+	"Check": "Check",
+	"Add Detail": "Add Detail",
+	"Update Detail": "Update Detail",
+	"Delete Detail": "Delete Detail",
+	"Add detail": "Add detail",
+	"Add Code": "Add Code"
 }

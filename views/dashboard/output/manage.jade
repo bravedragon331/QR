@@ -285,6 +285,26 @@ block script
         }
       })
     })
+    $('.remove-data').on('click', function(e) {
+      $('.lds-spinner').fadeIn();
+      e.preventDefault();
+      $.ajax({
+        url: '/dashboard/output/manage/remove_output',
+        type: 'POST',
+        data: {
+          Idx: $('.update-idx').val()
+        },
+        success: function(res) {
+          $('.lds-spinner').fadeOut();
+          if(res.status == 1) {
+            $('.update-out-panel').fadeOut();
+            loadOut();
+          } else {
+            alert('Cannot remove data. Please contact support team.');
+          }
+        }
+      })
+    })
 
     $('.add-form').submit(function(e) {
       $('.lds-spinner').fadeIn();

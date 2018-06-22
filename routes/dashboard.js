@@ -22,12 +22,15 @@ router.get('/output/manage', dashboard.output);
 router.post('/output/manage/load_output', dashboard.load_output);
 router.post('/output/manage/update_output', dashboard.update_output);
 router.post('/output/manage/add_output', dashboard.add_output);
+router.post('/output/manage/remove_output', dashboard.remove_output);
 
 router.get('/output/manage/detail', dashboard.detail_output);
 router.post('/output/manage/add_detail', dashboard.add_output_detail);
 router.post('/output/manage/load_detail1', dashboard.load_output_detail1);
 router.post('/output/manage/load_detail2', dashboard.load_output_detail2);
 router.post('/output/manage/load_detail3', dashboard.load_output_detail3);
+router.post('/output/manage/detail_update', dashboard.load_detail_update);
+router.post('/output/manage/detail_remove', dashboard.load_detail_remove);
 
 router.get('/read', dashboard.read_qr);
 module.exports = router;

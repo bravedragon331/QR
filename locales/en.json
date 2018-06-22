@@ -299,5 +299,7 @@
 	"Qty 2": "Qty 2",
 	"Check": "Check",
 	"FabricType": "FabricType",
-	"FabricIdx": "FabricIdx"
+	"FabricIdx": "FabricIdx",
+	"Delete Detail": "Delete Detail",
+	"Add detail": "Add detail"
 }

@@ -59,8 +59,16 @@ var getOutput = function(id, callback) {
     return callback(null, rows);
   })
 }
+var removeOutput = function(body, callback) {
+  db.query(
+    `DELETE FROM outhouse WHERE Idx = ?`, [body.Idx], function(err) {
+      callback(err);
+    }
+  )
+}
 
 exports.allout = allout;
 exports.updateOutPut = updateOutPut;
 exports.addOutput = addOutput;
 exports.getOutput = getOutput;
+exports.removeOutput = removeOutput;

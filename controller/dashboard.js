@@ -336,6 +336,15 @@ exports.add_output = function(req, res) {
     }
   })
 }
+exports.remove_output = function(req, res) {
+  Outhouse.removeOutput(req.body, function(err) {
+    if(err) {
+      res.json({status: 0});
+    } else {
+      res.json({status: 1});
+    }
+  })
+}
 
 exports.detail_output = function(req, res) {
   var id = req.query.id;
@@ -399,6 +408,24 @@ exports.load_output_detail3 = function(req, res) {
       res.json({status: 0});
     } else {
       res.json({status: 1, data: rows});
+    }
+  })
+}
+exports.load_detail_update = function(req, res) {
+  Outdetail.updateDetail(req.body, function(err) {
+    if(err) {
+      res.json({status: 0});
+    } else {
+      res.json({status: 1});
+    }
+  })
+}
+exports.load_detail_remove = function(req, res) {
+  Outdetail.removeDetail(req.body, function(err) {
+    if(err) {
+      res.json({status: 0});
+    } else {
+      res.json({status: 1});
     }
   })
 }
