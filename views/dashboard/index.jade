@@ -9,7 +9,7 @@ block content
   section.content
     .page-body
       .panel.panel-default
-        .panel-body
+        .panel-body(style="overflow: auto;")
           form.form-horizontal.search-form
             .form-group.col-md-2
               label.display-block #{__('Out Type')}
@@ -26,7 +26,7 @@ block content
       .panel.panel-default.panel-wrapper
         .panel-heading
           | #{__("WAREHOUSE")}
-        .panel-body.fabric-body
+        .panel-body.fabric-body(style="overflow: auto;")
           .align-justify
             table.table.table-bordered.fabric-table
               thead
@@ -47,7 +47,7 @@ block content
                   th #{__("Remarks")}
                   th #{__("MoveStatus")}
               tbody      
-        .panel-body.finish-body
+        .panel-body.finish-body(style="overflow: auto;")
           .align-justify
             table.table.table-bordered.finish-table
               thead
@@ -64,7 +64,7 @@ block content
                   td #{__("Status")}
                   td #{__("Move Status")}
               tbody
-        .panel-body.other-body
+        .panel-body.other-body(style="overflow: auto;")
           .align-justify
             table.table.table-bordered.other-table
               thead
