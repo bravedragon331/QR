@@ -375,11 +375,13 @@ exports.add_output_detail = function(req, res) {
           }
         })
       })
-    )
-    Promise.all(all_promises).then(() => {
-      res.json({status: 1, fail: errors});
-    })
+    )    
   }
+  Promise.all(all_promises).then((data) => {
+    res.json({status: 1, fail: errors});
+  }).catch(e => {
+    res.json({status: 0});
+  })
 }
 exports.load_output_detail1 = function(req, res) {
   var outPidx = req.body.outPidx;
