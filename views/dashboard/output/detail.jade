@@ -491,8 +491,8 @@ block script
         url: '/dashboard/output/manage/detail_update',
         type: 'POST',
         data: {
-          qty1: $('.update-detail-1').val(),
-          qty2: $('.update-detail-2').val(),
+          qty1: $('.update-detail-1').val()==''?0:$('.update-detail-1').val(),
+          qty2: $('.update-detail-2').val()==''?0:$('.update-detail-2').val(),
           idx: $('.update-detail-idx').val()
         },
         success: function(res) {
