@@ -98,5 +98,12 @@
 	"MANAGE STOCK": "MANAGE STOCK",
 	"Out Type": "Out Type",
 	"Search": "Search",
-	"NONE": "NONE"
+	"NONE": "NONE",
+	"Send": "Send",
+	"Clear": "Clear",
+	"Choose": "Choose",
+	"Add": "Add",
+	"INVENTARIO": "INVENTARIO",
+	"ENTRADA": "ENTRADA",
+	"SALIDA": "SALIDA"
 }

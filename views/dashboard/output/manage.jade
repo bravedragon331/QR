@@ -1,7 +1,15 @@
 extends ../layout
 block link
   style.
-  
+    .dataTables_length {
+      display:none;
+    }
+    .dataTables_filter {
+      display:none;
+    }
+    .html5buttons {
+      display:none;
+    }  
 block content
   section.content.dashboard
     .page-heading
@@ -106,13 +114,13 @@ block content
                 tr
                   th #{__("Detail")}
                   th #{__("idx")}
+                  th #{__("OutType")}
                   th #{__("OutDate")}
                   th #{__("OutPlace")}
                   th #{__("Delivered")}
                   th #{__("ReceivePlace")}                
                   th #{__("RcvdDate")}
-                  th #{__("Remarks")}
-                  th #{__("OutType")}                  
+                  th #{__("Remarks")}                  
               tbody
 block script
   script(src='/assets/plugins/moment/moment.js')
@@ -167,8 +175,8 @@ block script
             for(var i = 0; i < res.list.length; i++) {
               tableData.push([
                 `<a class="btn btn-success btn-sm" href="/dashboard/output/manage/detail?id=`+res.list[i].Idx+`&type=`+res.list[i].OutType+`">Detail</a>`,
-                res.list[i].Idx, res.list[i].OutDate.split('T')[0], getOutPlaceName(res.list[i].OutPlace), res.list[i].Delivered,
-                getReceivePlaceName(res.list[i].ReceivePlace), res.list[i].RcvdDate.split('T')[0], res.list[i].Remark, getOutTypeName(res.list[i].OutType)                
+                res.list[i].Idx, getOutTypeName(res.list[i].OutType), res.list[i].OutDate.split('T')[0], getOutPlaceName(res.list[i].OutPlace),
+                res.list[i].Delivered, getReceivePlaceName(res.list[i].ReceivePlace), res.list[i].RcvdDate.split('T')[0], res.list[i].Remark
               ])
             }
             $('.out-table').dataTable().fnClearTable();

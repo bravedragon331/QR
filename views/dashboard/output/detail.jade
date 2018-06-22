@@ -2,15 +2,18 @@ extends ../layout
 block link
   style.
     canvas {
-      display: block;
-      width: 200px;
-      height: 200px;
+      display: inline-block !important;
+      width: 130px;
+      height: 130px;
+      margin-left: 30px !important;
       margin: auto;
     }
     video {
-      height: 200px;
-      width: 200px;
-      transform:scaleX(2) !important;
+      display: inline-block;
+      height: 130px;
+      width: 130px;
+      transform:scaleX(1.2) !important;
+      transform:scaleY(1.4) !important;
     }
     hr {
       margin-top: 32px;
@@ -32,15 +35,21 @@ block link
     .html5buttons {
       display:none;
     }
+    .dataTables_length {
+      display:none;
+    }
+    .dataTables_filter {
+      display:none;
+    }
 block content
   section.content
     .row
-      .col-md-3(style='text-align: center;')
+      div(style='margin: auto;')
         video#qr-video(muted='', autoplay='', playsinline='')
-      .col-md-3(style='text-align: center;')
-        canvas#debug-canvas      
-      input#file-selector.hide(type='file')
+        canvas#debug-canvas
+    input#file-selector.hide(type='file')  
     .row(style='text-align: center;')
+    
       b Detected QR code: 
       span#cam-qr-result None
     .panel.panel-default.add-qr-panel(style='display:none; max-width: 500px;')
@@ -70,12 +79,12 @@ block content
         | #{__("QR LIST")}
       .panel-body
         .row
-          button.btn.btn-sm.btn-success.pull-right.send-output(style='margin: 5px;')  #{__("Send Output")}
-          button.btn.btn-sm.btn-success.pull-right.clear(style='margin: 5px;')  #{__("Clear List")}
-          button.btn.btn-sm.btn-success.pull-right.clear(onclick="$('#file-selector').click();", style='margin: 5px;') #{__('Choose File')}
-          button.btn.btn-sm.btn-success.pull-right.add-qr(style='margin: 5px;')  #{__("Add Code")}
+          button.btn.btn-sm.btn-success.pull-right.send-output(style='margin: 5px; width: 80px;')  #{__("Send")}
+          button.btn.btn-sm.btn-success.pull-right.clear(style='margin: 5px; width: 80px;')  #{__("Clear")}
+          button.btn.btn-sm.btn-success.pull-right.clear(onclick="$('#file-selector').click();", style='margin: 5px; width: 80px;') #{__('Choose')}
+          button.btn.btn-sm.btn-success.pull-right.add-qr(style='margin: 5px; width: 80px;')  #{__("Add")}
         .row
-          div(style="overflow:auto")
+          div.qr-wrapper(style="overflow:auto")
             table.table.table-striped.table-hover.js-exportable.dataTable.qr-table
               thead
                 tr                
@@ -250,6 +259,7 @@ block script
         dom: '<"html5buttons"B>lTfgtip',
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
       });
+      
       $('.update-qr-panel-1').on('click', 'a.panel-close', function () {
         $(this).parents('.update-qr-panel-1').fadeOut();
       });
@@ -392,7 +402,15 @@ block script
       })
     })
     
-
+    var getOutTypeName = function(val) {
+      if(val == 'T') {
+        return 'Garment'
+      } else if(val == 'F') {
+        return 'Fabric'
+      } else if(val == 'O') {
+        return 'Other'
+      }
+    }
     var detailData = [];
     var loadDetail = function() {
       let url;
@@ -422,7 +440,7 @@ block script
               for(var i = 0; i < res.data.length; i++) {
                 detailData.push([
                   res.data[i].idx, res.data[i].outPidx, res.data[i].inIdx, res.data[i].Qty1, res.data[i].Qty2,
-                  res.data[i].OutType, res.data[i].WorkOrderIdx, res.data[i].RefNo,
+                  getOutTypeName(res.data[i].OutType), res.data[i].WorkOrderIdx, res.data[i].RefNo,
                   res.data[i].moveStatus, res.data[i].FabricType, res.data[i].FabricIdx, res.data[i].Buyer, res.data[i].Color,
                   res.data[i].Lote, res.data[i].Rack, res.data[i].Width, res.data[i].Weight, res.data[i].Fileno, res.data[i].Remarks
                 ])
@@ -440,7 +458,7 @@ block script
               for(var i = 0; i < res.data.length; i++) {
                 detailData.push([
                   res.data[i].idx, res.data[i].outPidx, res.data[i].inIdx, res.data[i].Qty1,
-                  res.data[i].OutType, res.data[i].WorkOrderIdx, res.data[i].RefNo,
+                  getOutTypeName(res.data[i].OutType), res.data[i].WorkOrderIdx, res.data[i].RefNo,
                   res.data[i].moveStatus, res.data[i].Buyer, res.data[i].Fileno, res.data[i].Styleno, res.data[i].Pono,
                   res.data[i].Color, res.data[i].Size, res.data[i].Status
                 ])
@@ -458,7 +476,7 @@ block script
               for(var i = 0; i < res.data.length; i++) {
                 detailData.push([
                   res.data[i].idx, res.data[i].outPidx, res.data[i].inIdx, res.data[i].Qty1,
-                  res.data[i].OutType, res.data[i].WorkOrderIdx, res.data[i].RefNo,
+                  getOutTypeName(res.data[i].OutType), res.data[i].WorkOrderIdx, res.data[i].RefNo,
                   res.data[i].moveStatus, res.data[i].ItemType, res.data[i].Description, res.data[i].Status
                 ])
               }

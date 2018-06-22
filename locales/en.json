@@ -303,5 +303,11 @@
 	"Delete Detail": "Delete Detail",
 	"Add detail": "Add detail",
 	"MANAGE STOCK": "MANAGE STOCK",
-	"Out Type": "Out Type"
+	"Out Type": "Out Type",
+	"INVENTARIO": "INVENTARIO",
+	"ENTRADA": "ENTRADA",
+	"SALIDA": "SALIDA",
+	"Send": "Send",
+	"Clear": "Clear",
+	"Choose": "Choose"
 }
