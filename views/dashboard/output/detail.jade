@@ -42,7 +42,7 @@ block link
       display:none;
     }
 block content
-  section.content
+  section.content(style='padding: 0px !important;')
     .row.hidden-md.hidden-lg
       div(style='margin: auto;')
         canvas#debug-canvas
@@ -77,7 +77,7 @@ block content
     .panel.panel-default
       .panel-heading
         | #{__("QR LIST")}
-      .panel-body
+      .panel-body(style="padding-left: 0px !important;")
         .row
           .col-xs-3.col-sm-3(style="padding: 0px 5px;")
             button.btn.btn-sm.btn-success.pull-right.send-output(style='margin: 5px; width: 100%; max-width: 80px;')  #{__("Send")}
@@ -87,14 +87,14 @@ block content
             button.btn.btn-sm.btn-success.pull-right.clear(onclick="$('#file-selector').click();", style='margin: 5px; width: 100%; max-width: 80px;') #{__('Choose')}
           .col-xs-3.col-sm-3(style="padding: 0px 5px;")
             button.btn.btn-sm.btn-success.pull-right.add-qr(style='margin: 5px; width: 100%; max-width: 80px;')  #{__("Add")}
-        .row
+        .row(style='margin: 5px important;')
           div.qr-wrapper(style="overflow:auto")
             table.table.table-striped.table-hover.js-exportable.dataTable.qr-table
               thead
                 tr                
-                  th(style="width: 30px;") #{__("Check")}
-                  th(style="width: 30px;") #{__("OutType")}
-                  th(style="width: 100px;") #{__("WorkOrderIdx")}
+                  th #{__("Check")}
+                  th #{__("OutType")}
+                  th #{__("WorkOrderIdx")}
                   th #{__("RefNo")}
                   th #{__("InIdx")}
                   th #{__("Qty 1")}
