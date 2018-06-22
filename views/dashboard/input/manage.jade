@@ -237,7 +237,7 @@ block script
 
     var refreshEvent = function() {
       $('.qr-table').off();
-      $('.qr-table tbody tr').on('click', function() {
+      $('.qr-table tbody tr').on('dblclick', function() {
         $('.add-qr-panel').fadeOut();
         $('.update-qr-panel').fadeIn();
         for(var i = 0; i < list.length; i++) {
