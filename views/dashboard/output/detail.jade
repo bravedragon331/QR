@@ -4,11 +4,12 @@ block link
     canvas {
       display: block;
       width: 200px;
+      height: 200px;
       margin: auto;
     }
     video {
       height: 200px;
-      min-height: 200px;
+      width: 200px;
     }
     hr {
       margin-top: 32px;
@@ -33,7 +34,7 @@ block link
 block content
   section.content
     .row
-      .col-md-3(style='text-align: center; display:none;')
+      .col-md-3(style='text-align: center;')
         video#qr-video(muted='', autoplay='', playsinline='')
       .col-md-3(style='text-align: center;')
         canvas#debug-canvas      
