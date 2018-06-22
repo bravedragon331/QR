@@ -5,7 +5,7 @@ block style
       padding:15px;
     }
     .panel-wrapper {
-      overflow: auto;
+      overflow: auto !important;
     }
 block content
   section.content
@@ -14,14 +14,14 @@ block content
         .panel-body
           form.form-horizontal.search-form
             .form-group
-              .col-md-2.col-sm-6.col-xs-6
+              .col-md-2.col-sm-12.col-xs-12
                 label #{__('Out Type')}
                 select.form-control.outtype(data-placeholder='Select OutType...')
                   option(value='-1') #{__("NONE")}
                   option(value='T') #{__("Fabric")}
                   option(value='F') #{__("Garment")}
                   option(value='O') #{__("Others")}
-              .col-md-2.col-sm-6.col-xs-6
+              .col-md-2.col-sm-12.col-xs-12
                 button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 100%;')
                   i.fa.fa-search
                   |  #{__('Search')}
