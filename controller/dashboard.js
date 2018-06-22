@@ -365,7 +365,7 @@ exports.add_output_detail = function(req, res) {
   for(var i = 0; i < data.length; i++) {    
     all_promises.push(
       new Promise((resolve, reject) => {
-        Outdetail.addDetail({outPidx: outPidx, inIdx: data[i][4], Qty1: data[i][5], Qty2: data[i][6] === parseInt(data[i][6])?data[i][6]: 0}, function(err, result) {
+        Outdetail.addDetail({outPidx: parseInt(outPidx), inIdx: parseInt(data[i][4]), Qty1: parseInt(data[i][5]), Qty2: data[i][6] === parseInt(data[i][6])?data[i][6]: 0}, function(err, result) {
           if(err) {
             console.log(err);
             errors.push(i);
