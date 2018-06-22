@@ -240,7 +240,7 @@ block script
     init();
     var refreshEvent = function() {
       $('.out-table').off();
-      $('.out-table tbody tr').on('click', function() {
+      $('.out-table tbody tr').on('dblclick', function() {
         $('.add-out-panel').fadeOut();
         $('.update-out-panel').fadeIn();
         for(var i = 0; i < list.length; i++) {
