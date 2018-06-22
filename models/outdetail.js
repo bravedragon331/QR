@@ -69,6 +69,7 @@ var updateDetail = function(body, callback) {
     UPDATE outdetail SET ? WHERE idx = ?`, [{
       Qty1: parseInt(body.qty1), Qty2: parseInt(body.qty2)
     }, body.idx], function(err) {
+      console.log(err);
       callback(err);
     }
   )
