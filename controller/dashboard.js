@@ -439,6 +439,7 @@ exports.stock_load = function(req, res) {
       new Promise((resolve, reject) => {
         FabricD.getAll(function(err, list) {
           if(err) {
+            console.log(err);
             reject();
           } else {
             resolve(list);
@@ -447,6 +448,7 @@ exports.stock_load = function(req, res) {
       }).then(list1 => {
         Outdetail.getByType(type, function(err, list) {
           if(err) {
+            console.log(err);
             res.json({status: 0});
           } else {
             res.json({ status: 1, list1: list1, list2: list })
