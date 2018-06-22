@@ -26,7 +26,7 @@ var update = function(body, callback) {
 
 var getAll = function(callback) {
   db.query(
-    `SELECT whfabricd.* , fabrictype.Name as FabricType, Buyer.Name as Buyer
+    `SELECT whfabricd.* , fabrictype.Name as FabricType, buyer.Name as Buyer
       FROM whfabricd as whfabricd
       JOIN fabrictype as fabrictype ON fabrictype.id = whfabricd.FabricType
       JOIN buyer as buyer ON buyer.id = whfabricd.Buyer      

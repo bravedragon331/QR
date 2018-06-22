@@ -33,7 +33,7 @@ var remove = function(id, callback) {
 
 var getAll = function(callback) {
   db.query(
-    `SELECT whfinishd.*, Buyer.Name as Buyer
+    `SELECT whfinishd.*, buyer.Name as Buyer
       FROM whfinishd as whfinishd
       JOIN buyer as buyer ON buyer.id = whfinishd.Buyer      
     `, [], function(err, rows) {
