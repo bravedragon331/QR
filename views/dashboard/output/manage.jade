@@ -90,9 +90,10 @@ block content
                 input.form-control.update-remarks(type='text', placeholder='Remarks')
               .form-group.clearfix.col-md-6
               .form-group.clearfix.col-md-2
-                button.btn.btn-sm.btn-success.pull-right(type='submit', style='margin-left: 25px; width: 100%; margin-top: 30px;') #{__("Update Out")}
+                .btn.btn-sm.btn-success.pull-right.remove-data(style="width: 100%; margin-left: 25px;  margin-top: 30px;") #{__("Delete Out")}
               .form-group.clearfix.col-md-2
-                .btn.btn-sm.btn-success.pull-right.remove-data(style="width: 100%; margin-top: 30px;") #{__("Delete Out")}
+                button.btn.btn-sm.btn-success.pull-right(type='submit', style='width: 100%; margin-top: 30px;') #{__("Update Out")}
+                
       .panel.panel-default      
         .panel-heading
           a.btn.btn-sm.btn-success.new-button
