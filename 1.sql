@@ -164,11 +164,11 @@ DROP TABLE IF EXISTS `outhouse`;
 
 CREATE TABLE `outhouse` (
   `Idx` int(10) NOT NULL AUTO_INCREMENT,
-  `OutDate` datetime DEFAULT NULL,
+  `OutDate` varchar(30) DEFAULT NULL,
   `OutPlace` int(11) DEFAULT NULL,
   `Delivered` varchar(30) DEFAULT NULL,
   `ReceivePlace` int(11) DEFAULT NULL,
-  `RcvdDate` datetime DEFAULT NULL,
+  `RcvdDate` varchar(30) DEFAULT NULL,
   `Remark` varchar(30) DEFAULT NULL,
   `OutType` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`Idx`)
