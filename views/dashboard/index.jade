@@ -95,6 +95,7 @@ block script
     $('.search-form').submit(function(e) {
       e.preventDefault();
       if($('.outtype').val() == '-1') return;
+      $('.lds-spinner').fadeIn();
       $.ajax({
         url: '/dashboard/stock_load',
         type: 'POST',
@@ -102,6 +103,7 @@ block script
           type: $('.outtype').val()
         },
         success: function(res) {
+          $('.lds-spinner').fadeOut();
           if(res.status) {
             $('.panel-wrapper').fadeIn();
             switch($('.outtype').val()) {
