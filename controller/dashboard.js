@@ -368,6 +368,7 @@ exports.add_output_detail = function(req, res) {
       new Promise((resolve, reject) => {
         Outdetail.addDetail({outPidx: outPidx, inIdx: data[i][4], Qty1: data[i][5], Qty2: data[i][6]}, function(err, result) {
           if(err) {
+            console.log(err);
             errors.push(i);
             resolve();
           } else {
