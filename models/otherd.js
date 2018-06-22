@@ -31,6 +31,16 @@ var remove = function(id, callback) {
   )
 }
 
+var getAll = function(callback) {
+  db.query(
+    `SELECT whotherd.*
+      FROM whotherd as whotherd
+    `, [], function(err, rows) {
+      callback(err, rows);
+    })
+}
+
 exports.get = get;
 exports.update = update;
 exports.remove = remove;
+exports.getAll = getAll;

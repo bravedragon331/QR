@@ -24,6 +24,17 @@ var update = function(body, callback) {
   })
 }
 
+var getAll = function(callback) {
+  db.query(
+    `SELECT whfabricd.* , fabrictype.Name as FabricType, Buyer.Name as Buyer
+      FROM whfabricd as whfabricd
+      JOIN fabrictype as fabrictype ON fabrictype.id = whfabricd.FabricType
+      JOIN buyer as buyer ON buyer.id = whfabricd.Buyer      
+    `, [], function(err, rows) {
+      callback(err, rows);
+    })
+}
+
 var remove = function(id, callback) {
   db.query(
     `DELETE FROM whfabricd WHERE Idx = ?`, [id], function(err) {
@@ -35,3 +46,4 @@ var remove = function(id, callback) {
 exports.get = get;
 exports.update = update;
 exports.remove = remove;
+exports.getAll = getAll;

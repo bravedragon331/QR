@@ -301,5 +301,7 @@
 	"FabricType": "FabricType",
 	"FabricIdx": "FabricIdx",
 	"Delete Detail": "Delete Detail",
-	"Add detail": "Add detail"
+	"Add detail": "Add detail",
+	"MANAGE STOCK": "MANAGE STOCK",
+	"Out Type": "Out Type"
 }

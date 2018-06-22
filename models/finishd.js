@@ -31,6 +31,17 @@ var remove = function(id, callback) {
   )
 }
 
+var getAll = function(callback) {
+  db.query(
+    `SELECT whfinishd.*, Buyer.Name as Buyer
+      FROM whfinishd as whfinishd
+      JOIN buyer as buyer ON buyer.id = whfinishd.Buyer      
+    `, [], function(err, rows) {
+      callback(err, rows);
+    })
+}
+
 exports.get = get;
 exports.update = update;
 exports.remove = remove;
+exports.getAll = getAll;

@@ -1,3 +1,181 @@
 extends layout
+block style
+  style.
+    .panel-body{
+      padding:15px;
+    }
 block content
+  section.content
+    .page-body
+      .panel.panel-default
+        .panel-body
+          form.form-horizontal.search-form
+            .form-group
+              .col-md-2
+                label #{__('Out Type')}
+                select.form-control.outtype(data-placeholder='Select OutType...')
+                  option(value='-1') #{__("NONE")}
+                  option(value='T') #{__("Fabric")}
+                  option(value='F') #{__("Garment")}
+                  option(value='O') #{__("Others")}
+              .col-md-2
+                button.btn.btn-success.pull-right(type='submit', style='margin-top: 28px; width: 100%;')
+                  i.fa.fa-search
+                  |  #{__('Search')}
+      .panel.panel-default.panel-wrapper
+        .panel-heading
+          | #{__("WAREHOUSE")}
+        .panel-body.fabric-body
+          .align-justify
+            table.table.table-bordered.fabric-table
+              thead
+                tr
+                  th #{__("Idx")}
+                  th #{__("Pidx")}
+                  th #{__("Fabric Type")}
+                  th #{__("Fabric Idx")}
+                  th #{__("Buyer")}
+                  th #{__("Color")}
+                  th #{__("Lote")}
+                  th #{__("Rack")}
+                  th #{__("QtyYds")}
+                  th #{__("QtyRoll")}
+                  th #{__("Width")}
+                  th #{__("Weight")}
+                  th #{__("Fileno")}
+                  th #{__("Remarks")}
+                  th #{__("MoveStatus")}
+              tbody      
+        .panel-body.finish-body
+          .align-justify
+            table.table.table-bordered.finish-table
+              thead
+                tr
+                  th #{__("Idx")}
+                  td #{__("Pidx")}
+                  td #{__("Buyer")}
+                  td #{__("Fileno")}
+                  td #{__("Styleno")}
+                  td #{__("Pono")}
+                  td #{__("Color")}
+                  td #{__("Size")}
+                  td #{__("Qty")}
+                  td #{__("Status")}
+                  td #{__("Move Status")}
+              tbody
+        .panel-body.other-body
+          .align-justify
+            table.table.table-bordered.other-table
+              thead
+                tr
+                  th #{__("Idx")}
+                  td #{__("Pidx")}
+                  td #{__("ItemType")}
+                  td #{__("Description")}
+                  td #{__("Qty")}
+                  td #{__("Status")}
+                  td #{__("Move Status")}
+              tbody
 block script  
+  script.
+    var init = function() {
+      $('.outtype').select2();
+      $('.fabric-table').DataTable({
+        "pageLength": 50
+      });
+      $('.finish-table').DataTable({
+        "pageLength": 50
+      });
+      $('.other-table').DataTable({
+        "pageLength": 50
+      });
+      $('.panel-wrapper').css('display', 'none');
+    }
+    init();
+    $('.search-form').submit(function(e) {
+      e.preventDefault();
+      if($('.outtype').val() == '-1') return;
+      $.ajax({
+        url: '/dashboard/stock_load',
+        type: 'POST',
+        data: {
+          type: $('.outtype').val()
+        },
+        success: function(res) {
+          if(res.status) {
+            $('.panel-wrapper').fadeIn();
+            switch($('.outtype').val()) {
+              case 'T':
+                var tabledata = [];
+                for(var i = 0; i < res.list1.length; i++) {
+                  for(var j = 0; j < res.list2.length; j++) {
+                    if(res.list2[j].inIdx == res.list1[i].Idx) {
+                      res.list1[i].QtyYds -= res.list2[j].Qty1;
+                      res.list1[i].QtyRoll -= res.list2[j].Qty2;
+                    }
+                  }
+                  tabledata.push([
+                    res.list1[i].Idx, res.list1[i].Pidx, res.list1[i].FabricType, res.list1[i].FabricIdx, res.list1[i].Buyer,
+                    res.list1[i].Color, res.list1[i].Lote, res.list1[i].Rack, res.list1[i].QtyYds, res.list1[i].QtyRoll,
+                    res.list1[i].Width, res.list1[i].Weight, res.list1[i].Fileno, res.list1[i].Remarks, res.list1[i].MoveStatus
+                  ]);                  
+                }
+                $('.fabric-table').dataTable().fnClearTable();
+                if(tabledata.length > 0){
+                  $('.fabric-table').dataTable().fnAddData(tabledata);
+                  $('.fabric-table').dataTable().fnDraw();
+                }
+                $('.other-body').css('display', 'none');
+                $('.fabric-body').css('display', 'block');
+                $('.finish-body').css('display', 'none');
+                break;
+              case 'F':
+                var tabledata = [];
+                for(var i = 0; i < res.list1.length; i++) {
+                  for(var j = 0; j < res.list2.length; j++) {
+                    if(res.list2[j].inIdx == res.list1[i].Idx) {
+                      res.list1[i].Qty -= res.list2[j].Qty1;
+                    }
+                  }
+                  tabledata.push([
+                    res.list1[i].Idx, res.list1[i].Pidx, res.list1[i].Buyer, res.list1[i].Fileno, res.list1[i].Styleno, res.list1[i].Pono,
+                    res.list1[i].Color, res.list1[i].Size, res.list1[i].Qty, res.list1[i].Status, res.list1[i].MoveStatus
+                  ]);
+                }
+                $('.finish-table').dataTable().fnClearTable();
+                if(tabledata.length > 0){
+                  $('.finish-table').dataTable().fnAddData(tabledata);
+                  $('.finish-table').dataTable().fnDraw();
+                }
+                $('.other-body').css('display', 'none');
+                $('.fabric-body').css('display', 'none');
+                $('.finish-body').css('display', 'block');
+                break;
+              case 'O':
+                var tabledata = [];
+                for(var i = 0; i < res.list1.length; i++) {
+                  for(var j = 0; j < res.list2.length; j++) {
+                    if(res.list2[j].inIdx == res.list1[i].Idx) {
+                      res.list1[i].Qty -= res.list2[j].Qty1;
+                    }
+                  }
+                  tabledata.push([
+                    res.list1[i].Idx, res.list1[i].Pidx, res.list1[i].ItemType, res.list1[i].Description, res.list1[i].Qty, res.list1[i].Status, res.list1[i].MoveStatus
+                  ]);                  
+                }
+                $('.other-table').dataTable().fnClearTable();
+                if(tabledata.length > 0){
+                  $('.other-table').dataTable().fnAddData(tabledata);
+                  $('.other-table').dataTable().fnDraw();
+                }
+                $('.other-body').css('display', 'block');
+                $('.fabric-body').css('display', 'none');
+                $('.finish-body').css('display', 'none');
+                break;
+            }
+          } else {
+            alert('Cannot load stock data. Please contact support team.')
+          }
+        }
+      })
+    })

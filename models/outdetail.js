@@ -81,9 +81,21 @@ var removeDetail = function(body, callback) {
   )
 }
 
+var getByType = function(type, callback) {
+  db.query(`
+    SELECT outdetail.*
+    FROM outdetail as outdetail
+    JOIN outhouse as outhouse ON outhouse.OutType = ? AND outhouse.Idx = outdetail.outPidx
+    `, [type], function(err, list) {
+      callback(err, list);
+    }
+  )
+}
+
 exports.addDetail = addDetail;
 exports.getDetails1 = getDetails1;
 exports.getDetails2 = getDetails2;
 exports.getDetails3 = getDetails3;
 exports.updateDetail = updateDetail;
 exports.removeDetail = removeDetail;
+exports.getByType = getByType;

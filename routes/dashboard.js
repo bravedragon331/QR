@@ -32,5 +32,5 @@ router.post('/output/manage/load_detail3', dashboard.load_output_detail3);
 router.post('/output/manage/detail_update', dashboard.load_detail_update);
 router.post('/output/manage/detail_remove', dashboard.load_detail_remove);
 
-router.get('/read', dashboard.read_qr);
+router.post('/stock_load', dashboard.stock_load);
 module.exports = router;

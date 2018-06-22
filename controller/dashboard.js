@@ -431,3 +431,66 @@ exports.load_detail_remove = function(req, res) {
     }
   })
 }
+
+exports.stock_load = function(req, res) {
+  var type = req.body.type;
+  switch(type) {
+    case 'T':
+      new Promise((resolve, reject) => {
+        FabricD.getAll(function(err, list) {
+          if(err) {
+            reject();
+          } else {
+            resolve(list);
+          }
+        })
+      }).then(list1 => {
+        Outdetail.getByType(type, function(err, list) {
+          if(err) {
+            res.json({status: 0});
+          } else {
+            res.json({ status: 1, list1: list1, list2: list })
+          }
+        })
+      })      
+      break;
+    case 'F':
+      new Promise((resolve, reject) => {
+        FinishD.getAll(function(err, list) {
+          if(err) {
+            reject();
+          } else {
+            resolve(list);
+          }
+        })
+      }).then(list1 => {
+        Outdetail.getByType(type, function(err, list) {
+          if(err) {
+            res.json({status: 0});
+          } else {
+            res.json({ status: 1, list1: list1, list2: list })
+          }
+        })
+      })
+      break;
+    case 'O':
+      new Promise((resolve, reject) => {
+        OtherD.getAll(function(err, list) {
+          if(err) {
+            reject();
+          } else {
+            resolve(list);
+          }
+        })
+      }).then(list1 => {
+        Outdetail.getByType(type, function(err, list) {
+          if(err) {
+            res.json({status: 0});
+          } else {
+            res.json({ status: 1, list1: list1, list2: list })
+          }
+        })
+      })
+      break;
+  }
+}
