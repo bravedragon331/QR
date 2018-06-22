@@ -68,10 +68,10 @@ block content
         | #{__("QR LIST")}
       .panel-body
         .row
-          button.btn.btn-sm.btn-success.pull-right.send-output  #{__("Send Output")}
-          button.btn.btn-sm.btn-success.pull-right.clear(style='margin-right: 15px;')  #{__("Clear List")}
-          button.btn.btn-sm.btn-success.pull-right.clear(onclick="$('#file-selector').click();", style='margin-right: 15px;') #{__('Choose File')}
-          button.btn.btn-sm.btn-success.pull-right.add-qr(style='margin-right: 15px;')  #{__("Add Code")}
+          button.btn.btn-sm.btn-success.pull-right.send-output(style='padding: 5px;')  #{__("Send Output")}
+          button.btn.btn-sm.btn-success.pull-right.clear(style='padding: 5px;')  #{__("Clear List")}
+          button.btn.btn-sm.btn-success.pull-right.clear(onclick="$('#file-selector').click();", style='padding: 5px;') #{__('Choose File')}
+          button.btn.btn-sm.btn-success.pull-right.add-qr(style='padding: 5px;')  #{__("Add Code")}
         .row
           div(style="overflow:auto")
             table.table.table-striped.table-hover.js-exportable.dataTable.qr-table
