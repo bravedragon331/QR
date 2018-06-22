@@ -262,7 +262,7 @@ block script
         type: 'POST',
         data: {
           type: data1.split('|')[0],
-          idx: data1.split('|')[3]
+          idx: parseInt(data1.split('|')[3])
         },
         success: function(res) {
           $('.lds-spinner').fadeOut();
@@ -397,7 +397,7 @@ block script
         url: url,
         type: 'POST',
         data: {
-          outPidx: data.Idx
+          outPidx: parseInt(data.Idx)
         },
         success: function(res) {
           $('.lds-spinner').fadeOut();
@@ -491,9 +491,9 @@ block script
         url: '/dashboard/output/manage/detail_update',
         type: 'POST',
         data: {
-          qty1: $('.update-detail-1').val(),
-          qty2: $('.update-detail-2').val(),
-          idx: $('.update-detail-idx').val()
+          qty1: parseInt($('.update-detail-1').val()),
+          qty2: parseInt($('.update-detail-2').val()),
+          idx: parseInt($('.update-detail-idx').val())
         },
         success: function(res) {
           $('.update-detail-panel').fadeOut();
@@ -511,7 +511,7 @@ block script
         url: '/dashboard/output/manage/detail_remove',
         type: 'POST',
         data: {
-          idx: $('.update-detail-idx').val()
+          idx: parseInt($('.update-detail-idx').val())
         },
         success: function(res) {
           $('.lds-spinner').fadeOut();
@@ -536,7 +536,7 @@ block script
         type: 'POST',
         data: {
           type: data.OutType,
-          idx: $('.add-idx').val()
+          idx: parseInt($('.add-idx').val())
         },
         success: function(res) {
           $('.lds-spinner').fadeOut();
