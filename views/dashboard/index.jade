@@ -3,8 +3,6 @@ block style
   style.
     .panel-body{
       padding:15px;
-    }
-    .panel-wrapper {
       overflow: auto !important;
     }
 block content
@@ -21,7 +19,7 @@ block content
                 option(value='F') #{__("Garment")}
                 option(value='O') #{__("Others")}
             .form-group.col-md-2
-              button.btn.btn-success.pull-right(type='submit', style='width: 100%;')
+              button.btn.btn-success.pull-right(type='submit', style='margin-top: 25px; width: 100%;')
                 i.fa.fa-search
                 |  #{__('Search')}
       .panel.panel-default.panel-wrapper
