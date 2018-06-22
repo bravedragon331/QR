@@ -256,6 +256,7 @@ block script
       if(pre_data == data1) return;
       pre_data = data1;
       if(data1.split('|')[0] != data.OutType) return;
+      $('.lds-spinner').fadeIn();
       $.ajax({
         url: '/dashboard/input/manage/detail_read',
         type: 'POST',
@@ -264,6 +265,7 @@ block script
           idx: data1.split('|')[3]
         },
         success: function(res) {
+          $('.lds-spinner').fadeOut();
           if(res.status) {
             tabledata = [];
             for(var i = 0; i < res.list.length; i++) {
@@ -359,6 +361,7 @@ block script
       })
       if(tabledata.length == 0) return;
 
+      $('.lds-spinner').fadeIn();
       $.ajax({
         url: '/dashboard/output/manage/add_detail',
         type: 'POST',
@@ -367,6 +370,7 @@ block script
           data: JSON.stringify(tabledata)
         },
         success: function(res) {
+          $('.lds-spinner').fadeOut();
           if(res.status) {
             loadDetail();
             $('.clear').click();
@@ -388,6 +392,7 @@ block script
       } else {
         url = '/dashboard/output/manage/load_detail3';
       }
+      $('.lds-spinner').fadeIn();
       $.ajax({
         url: url,
         type: 'POST',
@@ -395,6 +400,7 @@ block script
           outPidx: data.Idx
         },
         success: function(res) {
+          $('.lds-spinner').fadeOut();
           if(res.status) {
             if(data.OutType == 'T') {
               $('.detail-table-wrapper-1').fadeIn();
@@ -480,6 +486,7 @@ block script
       });
     }
     $('.update-detail-btn').on('click', function() {
+      $('.lds-spinner').fadeIn();
       $.ajax({
         url: '/dashboard/output/manage/detail_update',
         type: 'POST',
@@ -499,6 +506,7 @@ block script
       })
     })
     $('.remove-detail-btn').on('click', function() {
+      $('.lds-spinner').fadeIn();
       $.ajax({
         url: '/dashboard/output/manage/detail_remove',
         type: 'POST',
@@ -506,6 +514,7 @@ block script
           idx: $('.update-detail-idx').val()
         },
         success: function(res) {
+          $('.lds-spinner').fadeOut();
           $('.update-detail-panel').fadeOut();
           if(res.status) {
             loadDetail();
@@ -521,6 +530,7 @@ block script
       $('.update-qr-panel-1').fadeOut();
     })
     $('.add-qr-btn').on('click', function() {
+      $('.lds-spinner').fadeIn();
       $.ajax({
         url: '/dashboard/input/manage/detail_read',
         type: 'POST',
@@ -529,6 +539,7 @@ block script
           idx: $('.add-idx').val()
         },
         success: function(res) {
+          $('.lds-spinner').fadeOut();
           if(res.status) {
             tabledata = [];
             for(var i = 0; i < res.list.length; i++) {

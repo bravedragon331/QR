@@ -142,9 +142,21 @@ CREATE TABLE `outdetail` (
   `Qty2` int(11) DEFAULT NULL,
   `moveStatus` int(11) DEFAULT NULL,
   PRIMARY KEY (`idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 /*Data for the table `outdetail` */
+
+insert  into `outdetail`(`idx`,`outPidx`,`inIdx`,`Qty1`,`Qty2`,`moveStatus`) values 
+(16,5,20,18,0,NULL),
+(18,5,20,18,0,NULL),
+(20,5,21,8,0,NULL),
+(21,5,23,18,0,NULL),
+(22,5,23,18,0,NULL),
+(23,5,21,8,0,NULL),
+(24,5,22,12,0,NULL),
+(25,5,24,2,0,NULL),
+(26,5,25,3,0,NULL),
+(29,6,1,2,1,NULL);
 
 /*Table structure for table `outhouse` */
 
@@ -160,9 +172,13 @@ CREATE TABLE `outhouse` (
   `Remark` varchar(30) DEFAULT NULL,
   `OutType` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`Idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 /*Data for the table `outhouse` */
+
+insert  into `outhouse`(`Idx`,`OutDate`,`OutPlace`,`Delivered`,`ReceivePlace`,`RcvdDate`,`Remark`,`OutType`) values 
+(5,'2018-06-20 00:00:00',1,'1',1,'2018-06-20 00:00:00','1','F'),
+(6,'2018-06-22 00:00:00',1,'1',1,'2018-06-22 00:00:00','','T');
 
 /*Table structure for table `outplace` */
 
@@ -269,7 +285,7 @@ CREATE TABLE `whfabricd` (
 /*Data for the table `whfabricd` */
 
 insert  into `whfabricd`(`Idx`,`Pidx`,`FabricType`,`FabricIdx`,`Buyer`,`Color`,`Lote`,`Rack`,`QtyYds`,`QtyRoll`,`Width`,`Weight`,`Fileno`,`Remarks`,`MoveStatus`) values 
-(1,1,2,'1',2,'1','1','2',2.000,1.000,'1','1','1','1',0);
+(1,1,117,'1',2,'1','1','2',2.000,1.000,'1','1','1','1',0);
 
 /*Table structure for table `whfinishd` */
 
