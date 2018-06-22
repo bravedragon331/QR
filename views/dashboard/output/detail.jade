@@ -280,12 +280,14 @@ block script
     var tabledata = [];
     var pre_data = '';
     var count = 0;
+    var read_qrs = [];
     var addTable = function(data1) {
       if(pre_data == data1) return;
       pre_data = data1;
       if(data1.split('|')[0] != data.OutType) return;
-      count++;
-      $('#cam-qr-count').html(count);
+      if(read_qrs.includes(data1)) return;
+      read_qrs.push(data1);
+      $('#cam-qr-count').html(read_qrs.length);
       $('.lds-spinner').fadeIn();
       $.ajax({
         url: '/dashboard/input/manage/detail_read',
@@ -372,7 +374,7 @@ block script
     })
     $('.clear').on('click', function() {
       tabledata = [];
-      count = 0;
+      read_qrs = [];
       $('.qr-table').dataTable().fnClearTable();
     })
     $('.send-output').on('click', function() {
