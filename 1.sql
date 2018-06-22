@@ -135,28 +135,28 @@ insert  into `factoryidx`(`Idx`,`Name`) values
 DROP TABLE IF EXISTS `outdetail`;
 
 CREATE TABLE `outdetail` (
-  `idx` varchar(10) NOT NULL,
-  `outPidx` varchar(11) DEFAULT NULL,
-  `inIdx` varchar(11) DEFAULT NULL,
-  `Qty1` varchar(11) DEFAULT NULL,
-  `Qty2` varchar(11) DEFAULT NULL,
-  `moveStatus` varchar(11) DEFAULT NULL,
+  `idx` int(10) NOT NULL AUTO_INCREMENT,
+  `outPidx` int(11) DEFAULT NULL,
+  `inIdx` int(11) DEFAULT NULL,
+  `Qty1` int(11) DEFAULT NULL,
+  `Qty2` int(11) DEFAULT NULL,
+  `moveStatus` int(11) DEFAULT NULL,
   PRIMARY KEY (`idx`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 
 /*Data for the table `outdetail` */
 
 insert  into `outdetail`(`idx`,`outPidx`,`inIdx`,`Qty1`,`Qty2`,`moveStatus`) values 
-('29','6','1','2','1',NULL),
-('37','5','22','12','0',NULL),
-('38','5','21','8','0',NULL),
-('39','5','20','18','0',NULL),
-('40','5','22','12','0',NULL),
-('41','5','21','8','0',NULL),
-('42','5','20','18','0',NULL),
-('43','5','22','12','0',NULL),
-('44','5','21','8','0',NULL),
-('45','5','20','18','0',NULL);
+(29,6,1,2,1,NULL),
+(37,5,22,12,0,NULL),
+(38,5,21,8,0,NULL),
+(39,5,20,18,0,NULL),
+(40,5,22,12,0,NULL),
+(41,5,21,8,0,NULL),
+(42,5,20,18,0,NULL),
+(43,5,22,12,0,NULL),
+(44,5,21,8,0,NULL),
+(45,5,20,18,0,NULL);
 
 /*Table structure for table `outhouse` */
 
