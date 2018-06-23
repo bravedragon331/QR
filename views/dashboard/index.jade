@@ -31,7 +31,7 @@ block content
               thead
                 tr
                   th #{__("Idx")}
-                  th #{__("Pidx")}
+                  //- th #{__("Pidx")}
                   th #{__("Fabric Type")}
                   th #{__("Fabric Idx")}
                   th #{__("Buyer")}
@@ -52,7 +52,7 @@ block content
               thead
                 tr
                   th #{__("Idx")}
-                  td #{__("Pidx")}
+                  //- td #{__("Pidx")}
                   td #{__("Buyer")}
                   td #{__("Fileno")}
                   td #{__("Styleno")}
@@ -69,7 +69,7 @@ block content
               thead
                 tr
                   th #{__("Idx")}
-                  td #{__("Pidx")}
+                  //- td #{__("Pidx")}
                   td #{__("ItemType")}
                   td #{__("Description")}
                   td #{__("Qty")}
@@ -81,17 +81,31 @@ block script
     var init = function() {
       $('.outtype').select2();
       $('.fabric-table').DataTable({
-        "pageLength": 50
+        "pageLength": 50,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
       });
       $('.finish-table').DataTable({
-        "pageLength": 50
+        "pageLength": 50,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
       });
       $('.other-table').DataTable({
-        "pageLength": 50
+        "pageLength": 50,
+        responsive: true,
+        dom: '<"html5buttons"B>lTfgtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
       });
       $('.panel-wrapper').css('display', 'none');
     }
     init();
+    var getStatusText = function(status) {
+      if(status == '1') return 'Primary';
+      else if(status == '2') return 'Second';
+      else return status;
+    }
     $('.search-form').submit(function(e) {
       e.preventDefault();
       if($('.outtype').val() == '-1') return;
@@ -117,7 +131,7 @@ block script
                     }
                   }
                   tabledata.push([
-                    res.list1[i].Idx, res.list1[i].Pidx, res.list1[i].FabricType, res.list1[i].FabricIdx, res.list1[i].Buyer,
+                    res.list1[i].Idx, /* res.list1[i].Pidx, */ res.list1[i].FabricType, res.list1[i].FabricIdx, res.list1[i].Buyer,
                     res.list1[i].Color, res.list1[i].Lote, res.list1[i].Rack, res.list1[i].QtyYds, res.list1[i].QtyRoll,
                     res.list1[i].Width, res.list1[i].Weight, res.list1[i].Fileno, res.list1[i].Remarks, res.list1[i].MoveStatus
                   ]);                  
@@ -140,8 +154,8 @@ block script
                     }
                   }
                   tabledata.push([
-                    res.list1[i].Idx, res.list1[i].Pidx, res.list1[i].Buyer, res.list1[i].Fileno, res.list1[i].Styleno, res.list1[i].Pono,
-                    res.list1[i].Color, res.list1[i].Size, res.list1[i].Qty, res.list1[i].Status, res.list1[i].MoveStatus
+                    res.list1[i].Idx, /* res.list1[i].Pidx, */ res.list1[i].Buyer, res.list1[i].Fileno, res.list1[i].Styleno, res.list1[i].Pono,
+                    res.list1[i].Color, res.list1[i].Size, res.list1[i].Qty, getStatusText(res.list1[i].Status), res.list1[i].MoveStatus
                   ]);
                 }
                 $('.finish-table').dataTable().fnClearTable();
@@ -162,7 +176,7 @@ block script
                     }
                   }
                   tabledata.push([
-                    res.list1[i].Idx, res.list1[i].Pidx, res.list1[i].ItemType, res.list1[i].Description, res.list1[i].Qty, res.list1[i].Status, res.list1[i].MoveStatus
+                    res.list1[i].Idx, /* res.list1[i].Pidx,*/ res.list1[i].ItemType, res.list1[i].Description, res.list1[i].Qty, getStatusText(res.list1[i].Status), res.list1[i].MoveStatus
                   ]);                  
                 }
                 $('.other-table').dataTable().fnClearTable();
