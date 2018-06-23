@@ -105,5 +105,8 @@
 	"Add": "Add",
 	"INVENTARIO": "INVENTARIO",
 	"ENTRADA": "ENTRADA",
-	"SALIDA": "SALIDA"
+	"SALIDA": "SALIDA",
+	"Total": "Total",
+	"Total QTY1": "Total QTY1",
+	"Total QTY2": "Total QTY2"
 }

@@ -309,5 +309,8 @@
 	"SALIDA": "SALIDA",
 	"Send": "Send",
 	"Clear": "Clear",
-	"Choose": "Choose"
+	"Choose": "Choose",
+	"NONE": "NONE",
+	"Total QTY1": "Total QTY1",
+	"Total QTY2": "Total QTY2"
 }

@@ -76,6 +76,13 @@ block content
                   td #{__("Status")}
                   td #{__("Move Status")}
               tbody
+        .row.text-center
+          label #{__("Total QTY1")} :
+          span.total-span-1
+          &nbsp&nbsp&nbsp&nbsp
+          label #{__("Total QTY2")} :
+          span.total-span-2
+
 block script  
   script.
     var init = function() {
@@ -120,6 +127,7 @@ block script
           $('.lds-spinner').fadeOut();
           if(res.status) {
             $('.panel-wrapper').fadeIn();
+            var total1 = 0; total2 = 0;
             switch($('.outtype').val()) {
               case 'T':
                 var tabledata = [];
@@ -134,7 +142,9 @@ block script
                     res.list1[i].Idx, /* res.list1[i].Pidx, */ res.list1[i].FabricType, res.list1[i].FabricIdx, res.list1[i].Buyer,
                     res.list1[i].Color, res.list1[i].Lote, res.list1[i].Rack, res.list1[i].QtyYds, res.list1[i].QtyRoll,
                     res.list1[i].Width, res.list1[i].Weight, res.list1[i].Fileno, res.list1[i].Remarks, res.list1[i].MoveStatus
-                  ]);                  
+                  ]);
+                  total1 += Number(res.list1[i].QtyYds);
+                  total2 += Number(res.list1[i].QtyRoll);
                 }
                 $('.fabric-table').dataTable().fnClearTable();
                 if(tabledata.length > 0){
@@ -144,6 +154,8 @@ block script
                 $('.other-body').css('display', 'none');
                 $('.fabric-body').css('display', 'block');
                 $('.finish-body').css('display', 'none');
+                $('.total-span-1').html(total1);
+                $('.total-span-2').html(total2);
                 break;
               case 'F':
                 var tabledata = [];
@@ -157,6 +169,7 @@ block script
                     res.list1[i].Idx, /* res.list1[i].Pidx, */ res.list1[i].Buyer, res.list1[i].Fileno, res.list1[i].Styleno, res.list1[i].Pono,
                     res.list1[i].Color, res.list1[i].Size, res.list1[i].Qty, getStatusText(res.list1[i].Status), res.list1[i].MoveStatus
                   ]);
+                  total1 += Number(res.list1[i].Qty);
                 }
                 $('.finish-table').dataTable().fnClearTable();
                 if(tabledata.length > 0){
@@ -166,6 +179,8 @@ block script
                 $('.other-body').css('display', 'none');
                 $('.fabric-body').css('display', 'none');
                 $('.finish-body').css('display', 'block');
+                $('.total-span-1').html(total1);
+                $('.total-span-2').html(0);
                 break;
               case 'O':
                 var tabledata = [];
@@ -177,7 +192,8 @@ block script
                   }
                   tabledata.push([
                     res.list1[i].Idx, /* res.list1[i].Pidx,*/ res.list1[i].ItemType, res.list1[i].Description, res.list1[i].Qty, getStatusText(res.list1[i].Status), res.list1[i].MoveStatus
-                  ]);                  
+                  ]);
+                  total1 += Number(res.list1[i].Qty);
                 }
                 $('.other-table').dataTable().fnClearTable();
                 if(tabledata.length > 0){
@@ -187,6 +203,8 @@ block script
                 $('.other-body').css('display', 'block');
                 $('.fabric-body').css('display', 'none');
                 $('.finish-body').css('display', 'none');
+                $('.total-span-1').html(total1);
+                $('.total-span-2').html(0);
                 break;
             }
           } else {
