@@ -234,12 +234,14 @@ CREATE TABLE `token` (
   `userid` varchar(300) DEFAULT NULL,
   `token` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `token` */
 
 insert  into `token`(`id`,`userid`,`token`) values 
-(1,'7','$2a$08$0mVcrpvgHHXL3Xex9FnrtuM5czw3uepy5DnLe5IQRn9At3Ns3lbnS');
+(1,'7','$2a$08$0mVcrpvgHHXL3Xex9FnrtuM5czw3uepy5DnLe5IQRn9At3Ns3lbnS'),
+(2,'2','$2a$08$Ir9fCxR92Kftjv8BNBfKLekzv2SAGoBozLp.yZYEHZWQ6uKBtg742'),
+(3,'4','$2a$08$zpqLw4sq7fHaayFko31t3.viml9D.OaTCpCpVWpPi27WN8NJ7rq2u');
 
 /*Table structure for table `users` */
 
@@ -252,12 +254,16 @@ CREATE TABLE `users` (
   `status` tinyint(1) DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`,`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Data for the table `users` */
 
 insert  into `users`(`id`,`email`,`password`,`status`,`created_at`) values 
-(7,'monitor@admin.com','$2a$08$Xy/.qTnjObx2f83PpvkXtOD4BINjchN4xeBu7/5b0uT.7h2NuccCK',1,'2018-06-15 16:43:20');
+(2,'int@intsa.net','$2a$08$7pL26hZa5IPsgQJ8K6pqqeGmxyJUWoZwBSEMZ0Y98WXrKjX9Sg7Se',1,'2018-06-26 13:13:13'),
+(4,'bodega@intsa.net','$2a$08$EWDHX6P6Ij7i6TSqGwPBYeBYroOE6CeshAFG1.k.81TFJdpW4GkOG',1,'2018-06-26 13:14:37'),
+(7,'monitor@admin.com','$2a$08$Xy/.qTnjObx2f83PpvkXtOD4BINjchN4xeBu7/5b0uT.7h2NuccCK',1,'2018-06-15 16:43:20'),
+(8,'mng@intsa.net','$2a$08$aCSfOwnBPnFyhQMSHH1f1.YJZRwSUI1s7jVn7fmuyZMvHjzxXhp3W',1,'2018-06-26 13:13:27'),
+(9,'chris.lee@intsa.net','$2a$08$VAcL1VIqTIFUHrfYuw0UMea7BF6/IPdvKxAI2YgUSMoBMpHuoWP2O',1,'2018-06-26 13:14:08');
 
 /*Table structure for table `whfabricd` */
 
